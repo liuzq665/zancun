@@ -42,17 +42,34 @@
                 <el-icon><Phone /></el-icon>
                 <span>{{ restaurant.phone }}</span>
               </div>
-              <div class="meta-item location-action" v-if="restaurant.latitude && restaurant.longitude">
-                <el-button type="primary" @click="fetchUserLocation" :loading="!showUserLocation && userLocation !== null" size="small">
+            </div>
+
+            <!-- 地理位置和地图 -->
+            <div class="restaurant-location" v-if="restaurant.latitude && restaurant.longitude">
+              <h4>
+                <el-icon><MapLocation /></el-icon>
+                位置导航
+                <span v-if="distance" class="distance-badge">
+                  距您 {{ formatDistance(distance) }}
+                </span>
+              </h4>
+              <MapView
+                :height="'280px'"
+                :markers="locationMarkers"
+                :zoom="15"
+                :clickable="false"
+                :userLocation="userLocation"
+              />
+              <div class="location-actions">
+                <el-button type="primary" @click="fetchUserLocation" :loading="!showUserLocation && userLocation !== null">
                   <el-icon><Position /></el-icon>
                   {{ showUserLocation ? '已定位' : '显示我的位置' }}
                 </el-button>
-                <span v-if="distance" class="distance-badge">距您 {{ formatDistance(distance) }}</span>
-                <el-button type="success" @click="navigateToRestaurant" size="small">
+                <el-button type="success" @click="navigateToRestaurant">
                   <el-icon><MapLocation /></el-icon>
-                  导航
+                  导航到这里
                 </el-button>
-                <el-button @click="startNavigation" size="small">
+                <el-button @click="startNavigation">
                   <el-icon><Position /></el-icon>
                   一键导航
                 </el-button>
@@ -247,6 +264,7 @@ import { sanitizePhone, validatePhone } from '@/utils/validate'
 import { ElMessage } from 'element-plus'
 import { updateSeo, generateBusinessSchema, injectSchemaScript } from '@/composables/useSeo'
 import { getUserLocation, calculateDistance, formatDistance as formatDistanceUtil, getNavigationUrl } from '@/utils/geo'
+import MapView from '@/components/MapView.vue'
 
 const route = useRoute()
 
@@ -267,6 +285,20 @@ const distance = computed(() => {
     parseFloat(restaurant.value.latitude),
     parseFloat(restaurant.value.longitude)
   )
+})
+
+// 地图标记点
+const locationMarkers = computed(() => {
+  const markers = []
+  if (restaurant.value.latitude && restaurant.value.longitude) {
+    markers.push({
+      lat: parseFloat(restaurant.value.latitude),
+      lng: parseFloat(restaurant.value.longitude),
+      title: restaurant.value.name,
+      content: restaurant.value.address,
+    })
+  }
+  return markers
 })
 
 const bookingForm = reactive({
@@ -547,23 +579,55 @@ onMounted(() => {
           color: var(--chinese-red);
         }
       }
+    }
 
-      .location-action {
-        flex-wrap: wrap;
+    .restaurant-location {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px dashed var(--border-color);
+
+      h4 {
+        display: flex;
+        align-items: center;
         gap: 8px;
-        padding: 12px;
-        background: rgba(22, 101, 52, 0.05);
-        border-radius: 8px;
-        margin-top: 8px;
+        font-size: 16px;
+        color: var(--text-color);
+        margin-bottom: 16px;
+        font-weight: 600;
 
-        .el-button {
-          margin: 0;
+        .el-icon {
+          color: var(--chinese-red);
         }
 
         .distance-badge {
+          font-size: 13px;
           color: var(--nature-green);
-          font-weight: 600;
-          font-size: 14px;
+          font-weight: 500;
+          background: rgba(212, 175, 55, 0.1);
+          padding: 2px 10px;
+          border-radius: 12px;
+          margin-left: 8px;
+        }
+      }
+
+      :deep(.map-view) {
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 12px;
+      }
+
+      .location-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+
+        .el-button {
+          flex: 1;
+          min-width: 120px;
+
+          .el-icon {
+            margin-right: 4px;
+          }
         }
       }
     }
