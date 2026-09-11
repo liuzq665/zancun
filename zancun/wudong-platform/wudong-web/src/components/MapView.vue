@@ -280,6 +280,15 @@ const addUserMarker = (lat, lng) => {
   } else {
     userMarker = L.marker([lat, lng], { icon: userIcon }).addTo(mapInstance)
     userMarker.bindPopup('您的位置')
+
+    // 如果当前只有一个商家标记，调整视图以同时显示两个位置
+    if (props.markers && props.markers.length === 1) {
+      const bounds = L.latLngBounds([
+        [props.markers[0].lat, props.markers[0].lng],
+        [lat, lng]
+      ])
+      mapInstance.fitBounds(bounds, { padding: [80, 80] })
+    }
   }
 }
 
