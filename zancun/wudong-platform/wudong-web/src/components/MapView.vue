@@ -306,9 +306,20 @@ watch(
 watch(
   () => props.userLocation,
   (newLocation) => {
-    if (!mapInstance) return
     if (newLocation && newLocation.latitude && newLocation.longitude) {
-      addUserMarker(newLocation.latitude, newLocation.longitude)
+      // 地图可能还没初始化，等待一下再添加
+      if (!mapInstance) {
+        const checkAndAdd = () => {
+          if (mapInstance) {
+            addUserMarker(newLocation.latitude, newLocation.longitude)
+          } else {
+            setTimeout(checkAndAdd, 100)
+          }
+        }
+        checkAndAdd()
+      } else {
+        addUserMarker(newLocation.latitude, newLocation.longitude)
+      }
     }
   }
 )
