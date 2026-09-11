@@ -1,0 +1,64 @@
+{
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^wd-(.*)": "@/components/wd-$1/wd-$1.vue",
+      "^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
+    }
+  },
+  "pages": [
+    { "path": "pages/index/index", "style": { "navigationBarTitleText": "乌东文旅" } },
+    { "path": "pages/login/login", "style": { "navigationBarTitleText": "登录" } },
+    { "path": "pages/category/category", "style": { "navigationBarTitleText": "分类" } },
+    { "path": "pages/search/search", "style": { "navigationBarTitleText": "搜索" } },
+
+    { "path": "pages/goods/list", "style": { "navigationBarTitleText": "商品列表" } },
+    { "path": "pages/goods/detail", "style": { "navigationBarTitleText": "商品详情" } },
+    { "path": "pages/cart/cart", "style": { "navigationBarTitleText": "购物车" } },
+    { "path": "pages/order/confirm", "style": { "navigationBarTitleText": "订单确认" } },
+    { "path": "pages/order/list", "style": { "navigationBarTitleText": "我的订单" } },
+
+    { "path": "pages/food/list", "style": { "navigationBarTitleText": "餐厅列表" } },
+    { "path": "pages/food/restaurant", "style": { "navigationBarTitleText": "餐厅详情" } },
+    { "path": "pages/food/reserve", "style": { "navigationBarTitleText": "餐位预订" } },
+    { "path": "pages/food/product", "style": { "navigationBarTitleText": "农产品详情" } },
+
+    { "path": "pages/hotel/list", "style": { "navigationBarTitleText": "民宿列表" } },
+    { "path": "pages/hotel/detail", "style": { "navigationBarTitleText": "民宿详情" } },
+    { "path": "pages/hotel/calendar", "style": { "navigationBarTitleText": "房态日历" } },
+    { "path": "pages/hotel/reserve", "style": { "navigationBarTitleText": "民宿预订" } },
+
+    { "path": "pages/travel/ticket", "style": { "navigationBarTitleText": "门票购买" } },
+    { "path": "pages/travel/route", "style": { "navigationBarTitleText": "路线详情" } },
+    { "path": "pages/travel/eticket", "style": { "navigationBarTitleText": "电子票" } },
+
+    { "path": "pages/community/feed", "style": { "navigationBarTitleText": "社区" } },
+    { "path": "pages/community/publish", "style": { "navigationBarTitleText": "发布游记" } },
+    { "path": "pages/community/detail", "style": { "navigationBarTitleText": "游记详情" } },
+    { "path": "pages/community/topic", "style": { "navigationBarTitleText": "话题" } },
+    { "path": "pages/community/user", "style": { "navigationBarTitleText": "个人主页" } },
+
+    { "path": "pages/mine/mine", "style": { "navigationBarTitleText": "我的" } },
+    { "path": "pages/mine/collect", "style": { "navigationBarTitleText": "我的收藏" } },
+    { "path": "pages/mine/address", "style": { "navigationBarTitleText": "收货地址" } },
+    { "path": "pages/mine/message", "style": { "navigationBarTitleText": "消息" } }
+  ],
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#e54d42",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      { "pagePath": "pages/index/index", "text": "首页" },
+      { "pagePath": "pages/category/category", "text": "分类" },
+      { "pagePath": "pages/community/feed", "text": "社区" },
+      { "pagePath": "pages/mine/mine", "text": "我的" }
+    ]
+  },
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "乌东文旅",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F5F5F5"
+  }
+}

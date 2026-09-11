@@ -1,0 +1,434 @@
+/* 乌东文旅平台 - 全局样式 V2.0 */
+/* 苗族民俗风格主题 - 磅礴大气 · 和谐高级 */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+:root {
+  /* 主色调 - 苗族靛蓝与紫 */
+  --primary-color: #1a365d;
+  --primary-light: #2c5282;
+  --primary-dark: #0f2440;
+  --secondary-color: #6b21a8;
+  --secondary-light: #9333ea;
+
+  /* 强调色 - 苗银与蜡金 */
+  --accent-color: #d4af37;
+  --accent-light: #e6c65c;
+  --accent-dark: #b8860b;
+
+  /* 自然色 */
+  --nature-green: #166534;
+  --nature-green-light: #22c55e;
+  --chinese-red: #991b1b;
+  --chinese-red-light: #dc2626;
+  --warm-wood: #8b4513;
+
+  /* 背景色 */
+  --bg-color: #faf5f0;
+  --bg-light: #faf8f4;
+  --bg-dark: #f0ebe3;
+  --bg-gradient: linear-gradient(135deg, #faf5f0 0%, #f5efe8 100%);
+
+  /* 文字色 */
+  --text-color: #1f2937;
+  --text-light: #6b7280;
+  --text-muted: #9ca3af;
+
+  /* 边框色 */
+  --border-color: #e8e0d8;
+  --border-light: #f0ebe3;
+
+  /* 阴影 */
+  --shadow-sm: 0 2px 8px rgba(26, 54, 93, 0.06);
+  --shadow-md: 0 4px 16px rgba(26, 54, 93, 0.08);
+  --shadow-lg: 0 8px 32px rgba(26, 54, 93, 0.12);
+  --shadow-xl: 0 16px 48px rgba(26, 54, 93, 0.16);
+
+  /* 圆角 */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* 过渡 */
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* 全局重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-gradient);
+  color: var(--text-color);
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+/* 链接 */
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--accent-color);
+}
+
+/* 图片 */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 标题字体 */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* 通用容器 */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* 页面标题 */
+.page-header {
+  padding: 40px 0;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.page-title {
+  font-size: 32px;
+  color: var(--primary-color);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.page-title::before {
+  content: '';
+  width: 4px;
+  height: 32px;
+  background: linear-gradient(180deg, var(--accent-color), var(--accent-dark));
+  border-radius: 2px;
+}
+
+/* 卡片样式 - 通用 */
+.card {
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+/* 悬停卡片 - 需要悬停效果时使用此类 */
+.card-hover {
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* 苗族风格装饰线 */
+.miao-decoration {
+  height: 3px;
+  background: linear-gradient(90deg,
+    var(--primary-color) 0%,
+    var(--accent-color) 50%,
+    var(--primary-color) 100%
+  );
+  border-radius: 2px;
+}
+
+/* 苗族风格分隔线 */
+.miao-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 40px 0;
+}
+
+.miao-divider::before,
+.miao-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-color);
+}
+
+.miao-divider span {
+  color: var(--accent-color);
+  font-size: 18px;
+}
+
+/* 间距工具类 */
+.mt-10 { margin-top: 10px; }
+.mt-20 { margin-top: 20px; }
+.mt-30 { margin-top: 30px; }
+.mt-40 { margin-top: 40px; }
+.mb-10 { margin-bottom: 10px; }
+.mb-20 { margin-bottom: 20px; }
+.mb-30 { margin-bottom: 30px; }
+.mb-40 { margin-bottom: 40px; }
+
+/* Flex工具类 */
+.flex { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-1 { flex: 1; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.gap-10 { gap: 10px; }
+.gap-20 { gap: 20px; }
+.gap-30 { gap: 30px; }
+
+/* Grid工具类 */
+.grid { display: grid; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.grid-3 { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.grid-4 { grid-template-columns: repeat(4, 1fr); gap: 24px; }
+
+/* 文字工具类 */
+.text-center { text-align: center; }
+.text-primary { color: var(--primary-color); }
+.text-accent { color: var(--accent-color); }
+.text-light { color: var(--text-light); }
+.text-muted { color: var(--text-muted); }
+.font-bold { font-weight: 700; }
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-light);
+}
+
+.empty-state .icon {
+  font-size: 80px;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: var(--text-color);
+}
+
+.empty-state p {
+  font-size: 15px;
+}
+
+/* 加载状态 */
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+/* 标签样式 */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.tag-primary {
+  background: rgba(26, 54, 93, 0.1);
+  color: var(--primary-color);
+}
+
+.tag-accent {
+  background: rgba(212, 175, 55, 0.15);
+  color: var(--accent-dark);
+}
+
+.tag-success {
+  background: rgba(22, 101, 52, 0.1);
+  color: var(--nature-green);
+}
+
+/* Element Plus 主题覆盖 */
+.el-button--primary {
+  --el-button-bg-color: var(--primary-color);
+  --el-button-border-color: var(--primary-color);
+  --el-button-hover-bg-color: var(--primary-light);
+  --el-button-hover-border-color: var(--primary-light);
+  --el-button-active-bg-color: var(--primary-dark);
+  --el-button-active-border-color: var(--primary-dark);
+}
+
+.el-button--warning {
+  --el-button-bg-color: var(--accent-color);
+  --el-button-border-color: var(--accent-color);
+  --el-button-hover-bg-color: var(--accent-light);
+  --el-button-hover-border-color: var(--accent-light);
+}
+
+.el-button--danger {
+  --el-button-bg-color: var(--chinese-red);
+  --el-button-border-color: var(--chinese-red);
+}
+
+.el-rate__icon {
+  font-size: 18px;
+}
+
+/* 输入框样式 */
+.el-input__wrapper {
+  border-radius: var(--radius-md) !important;
+  transition: all var(--transition-fast);
+}
+
+.el-input__wrapper:hover {
+  box-shadow: 0 0 0 1px var(--accent-color) !important;
+}
+
+.el-input__wrapper.is-focus {
+  box-shadow: 0 0 0 2px var(--accent-color) !important;
+}
+
+/* 卡片组件覆盖 */
+.el-card {
+  border-radius: var(--radius-lg) !important;
+  border: none !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+/* 标签组件覆盖 */
+.el-tag {
+  border-radius: var(--radius-full) !important;
+  border: none !important;
+}
+
+/* 分页组件覆盖 */
+.el-pagination {
+  --el-pagination-button-bg-color: white;
+  --el-pagination-button-color: var(--text-color);
+  --el-pagination-hover-color: var(--accent-color);
+}
+
+/* 骨架屏 */
+.skeleton {
+  background: linear-gradient(90deg,
+    var(--bg-light) 25%,
+    var(--bg-color) 50%,
+    var(--bg-light) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: var(--radius-md);
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* 响应式 */
+@media (max-width: 1200px) {
+  .container {
+    padding: 0 30px;
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .container {
+    padding: 0 24px;
+  }
+
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .page-title {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .page-header {
+    padding: 24px 0;
+    margin-bottom: 24px;
+  }
+
+  .page-title {
+    font-size: 22px;
+  }
+
+  .page-title::before {
+    height: 24px;
+  }
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* 选中文本颜色 */
+::selection {
+  background: var(--accent-color);
+  color: white;
+}
