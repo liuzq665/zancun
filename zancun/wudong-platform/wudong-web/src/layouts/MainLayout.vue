@@ -82,6 +82,20 @@
             </span>
             <span class="nav-text">人文纪行</span>
           </router-link>
+
+          <a
+            class="nav-item nav-item-external"
+            :href="guideUrl"
+            target="_blank"
+            rel="noopener"
+            title="在新标签页打开 AI 向导"
+            @click="openGuide"
+          >
+            <span class="nav-icon">
+              <el-icon :size="20"><MagicStick /></el-icon>
+            </span>
+            <span class="nav-text">AI 向导</span>
+          </a>
         </nav>
 
         <div class="header-actions">
@@ -288,7 +302,7 @@ import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import {
   Search, Bell, User, List, ShoppingCart, Setting, SwitchButton,
-  ChatDotRound, Message, Share, Phone, Location
+  ChatDotRound, Message, Share, Phone, Location, MagicStick
 } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { getMessageList, getUnreadCount, readMessage, readAllMessages } from '@/api/message'
@@ -297,6 +311,27 @@ import { ElMessage } from 'element-plus'
 const router = useRouter()
 const userStore = useUserStore()
 const searchKeyword = ref('')
+
+// AI 向导是独立部署的 DSH 页面（见 wudong-guide/），不在本站的路由里，
+// 所以用普通 <a> 新标签页打开，而不是 router-link。
+const guideUrl = import.meta.env.VITE_GUIDE_URL || 'http://127.0.0.1:3080'
+
+// DSH 的会话 Cookie 是 SameSite=Strict，跨站点击不会被浏览器带上；
+// 又因为 SameSite 只比较「站点」、不比较端口，所以只要 host 相同（端口不同没关系）
+// 就能正常打开但 localhost 与 127.0.0.1 在浏览器眼里是两个站点。
+// 这里提前拦下来给出明确指引，免得用户撞到一句英文的 401。
+const openGuide = (event) => {
+  let guideHost
+  try {
+    guideHost = new URL(guideUrl).hostname
+  } catch {
+    return
+  }
+  if (location.hostname !== guideHost) {
+    event.preventDefault()
+    ElMessage.warning(`AI 向导需要与本站同 host 访问，请改用 http://${guideHost}:${location.port} 打开本站后再点击`)
+  }
+}
 
 // 未登录时搜索也应能跳转（逛商品不需要登录）
 const handleSearch = () => {
@@ -550,6 +585,16 @@ const handleLogout = () => {
     // 导航文字必须单行排列
     .nav-text {
       white-space: nowrap;
+    }
+
+    // AI 向导是本站之外的独立页面，给一点强调色以便与新功能区分。
+    // 放在 &:hover 之前，让悬停时的背景色能覆盖它。
+    &.nav-item-external {
+      background: rgba(212, 175, 55, 0.12);
+
+      .nav-icon {
+        color: var(--accent-color);
+      }
     }
 
     &::before {

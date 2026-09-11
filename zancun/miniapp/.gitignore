@@ -26,3 +26,4 @@ tests/shot-*.png
 *.njsproj
 *.sln
 *.sw?
+.vite/

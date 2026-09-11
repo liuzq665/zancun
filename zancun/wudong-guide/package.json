@@ -15,6 +15,7 @@
     "README.md"
   ],
   "dependencies": {
+    "@deepseek-ai/cordis-plugin-loader": "^1.0.3",
     "@deepseek-ai/dsh-tools": "^0.1.5-rc.1"
   }
 }

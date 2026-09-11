@@ -1,3 +1,9 @@
 node_modules/
 .env
 *.log
+dsh-err.txt
+dsh-out.txt
+run-dsh*.mjs
+run-dsh.ps1
+test-dsh*
+test-node*
