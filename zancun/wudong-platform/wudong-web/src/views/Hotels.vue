@@ -10,6 +10,35 @@
     </div>
 
     <div class="container">
+      <!-- 定位和距离筛选 -->
+      <div class="location-bar">
+        <el-button
+          type="primary"
+          :icon="LocationInformation"
+          @click="handleGetLocation"
+          :loading="locating"
+          class="location-btn"
+        >
+          {{ userLocation ? '已定位' : '获取位置' }}
+        </el-button>
+        <span v-if="userLocation" class="location-info">
+          您的位置：{{ userLocation.address || `(${userLocation.latitude.toFixed(4)}, ${userLocation.longitude.toFixed(4)})` }}
+        </span>
+        <el-select
+          v-if="userLocation"
+          v-model="maxDistance"
+          placeholder="筛选距离"
+          size="default"
+          class="distance-select"
+        >
+          <el-option :value="0" label="不限距离" />
+          <el-option :value="1" label="1公里内" />
+          <el-option :value="3" label="3公里内" />
+          <el-option :value="5" label="5公里内" />
+          <el-option :value="10" label="10公里内" />
+        </el-select>
+      </div>
+
       <!-- 民宿类型筛选 -->
       <div class="filter-section">
         <div class="filter-header">
@@ -63,17 +92,39 @@
       <div class="hotel-section">
         <div class="section-header">
           <h2>精选民宿</h2>
-          <span class="hotel-count">共 {{ pagination.total }} 家</span>
+          <span class="hotel-count">共 {{ filteredHotels.length }} 家</span>
+          <el-button
+            v-if="sortByDistance"
+            type="warning"
+            size="small"
+            plain
+            @click="sortByDistance = false"
+            class="sort-btn"
+          >
+            <el-icon><Sort /></el-icon>
+            距离排序
+          </el-button>
+          <el-button
+            v-else
+            size="small"
+            plain
+            @click="sortByDistance = true"
+            class="sort-btn"
+          >
+            <el-icon><Sort /></el-icon>
+            距离排序
+          </el-button>
         </div>
 
         <div class="hotel-list" v-loading="loading">
-          <div v-if="hotels.length === 0 && !loading" class="empty-state">
+          <div v-if="filteredHotels.length === 0 && !loading" class="empty-state">
             <div class="empty-icon">🏡</div>
-            <p>暂无民宿</p>
+            <p v-if="userLocation && maxDistance > 0">当前范围内暂无民宿</p>
+            <p v-else>暂无民宿</p>
           </div>
 
           <div
-            v-for="hotel in hotels"
+            v-for="hotel in filteredHotels"
             :key="hotel.id"
             class="hotel-card card"
             @click="$router.push(`/hotels/${hotel.id}`)"
@@ -113,6 +164,10 @@
                   <span class="unit">/晚</span>
                 </div>
               </div>
+              <div class="hotel-distance" v-if="hotel.distance !== undefined">
+                <el-icon><MapLocation /></el-icon>
+                <span>距您 {{ formatDistance(hotel.distance) }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -133,18 +188,83 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
-import { Location, View } from '@element-plus/icons-vue'
+import { ref, reactive, computed, onMounted } from 'vue'
+import { Location, View, LocationInformation, MapLocation, Sort } from '@element-plus/icons-vue'
 import { getHotelList } from '@/api/hotel'
+import { getUserLocation, calculateDistance, formatDistance as formatDistanceUtil } from '@/utils/geo'
+import { updateSeo } from '@/composables/useSeo'
+import { ElMessage } from 'element-plus'
 
 const loading = ref(false)
+const locating = ref(false)
 const selectedType = ref(null)
 const hotels = ref([])
+const userLocation = ref(null)
+const maxDistance = ref(0)
+const sortByDistance = ref(false)
 const pagination = reactive({
   page: 1,
-  pageSize: 8,
+  pageSize: 100,
   total: 0,
 })
+
+// 计算每个民宿的距离并过滤
+const filteredHotels = computed(() => {
+  let result = [...hotels.value]
+
+  // 如果有用户位置且选择了距离范围，进行过滤
+  if (userLocation.value && maxDistance.value > 0) {
+    result = result.filter(h => {
+      if (!h.latitude || !h.longitude) return false
+      const dist = calculateDistance(
+        userLocation.value.latitude,
+        userLocation.value.longitude,
+        parseFloat(h.latitude),
+        parseFloat(h.longitude)
+      )
+      h.distance = dist
+      return dist <= maxDistance.value
+    })
+  } else if (userLocation.value) {
+    // 计算距离但不过滤
+    result = result.map(h => {
+      if (h.latitude && h.longitude) {
+        h.distance = calculateDistance(
+          userLocation.value.latitude,
+          userLocation.value.longitude,
+          parseFloat(h.latitude),
+          parseFloat(h.longitude)
+        )
+      }
+      return h
+    })
+  }
+
+  // 如果选择了按距离排序
+  if (sortByDistance.value && userLocation.value) {
+    result.sort((a, b) => (a.distance || Infinity) - (b.distance || Infinity))
+  }
+
+  return result
+})
+
+const formatDistance = (dist) => {
+  return formatDistanceUtil(dist)
+}
+
+// 获取用户位置
+const handleGetLocation = async () => {
+  locating.value = true
+  try {
+    const pos = await getUserLocation()
+    userLocation.value = pos
+    ElMessage.success('已获取您的位置')
+  } catch (error) {
+    ElMessage.warning(error.message || '获取位置失败，请检查定位权限')
+  } finally {
+    locating.value = false
+  }
+}
 
 const loadHotels = async () => {
   loading.value = true
@@ -170,6 +290,13 @@ const handleTypeChange = (type) => {
   pagination.page = 1
   loadHotels()
 }
+
+// 页面SEO
+updateSeo({
+  title: '特色住宿 - 乌东村民宿推荐',
+  description: '乌东村特色住宿推荐，体验苗族吊脚楼、侗家木楼等特色民宿。支持按距离筛选，查找附近的特色住宿。',
+  keywords: '乌东村住宿,苗族吊脚楼,侗族木楼,特色民宿,农家乐住宿',
+})
 
 onMounted(() => {
   loadHotels()
@@ -227,10 +354,48 @@ onMounted(() => {
   padding: 0 20px;
 }
 
-.filter-section {
+.location-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   margin-top: -50px;
   position: relative;
   z-index: 10;
+  margin-bottom: 24px;
+  padding: 12px 16px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(22, 101, 52, 0.08);
+
+  .location-btn {
+    background: linear-gradient(135deg, var(--nature-green), #166534);
+    border: none;
+    flex-shrink: 0;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  .location-info {
+    font-size: 14px;
+    color: var(--text-light);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .distance-select {
+    width: 140px;
+
+    :deep(.el-input__wrapper) {
+      border-radius: 8px;
+    }
+  }
+}
+
+.filter-section {
   margin-bottom: 40px;
 
   .filter-header {
@@ -320,6 +485,9 @@ onMounted(() => {
     .hotel-count {
       color: var(--text-light);
       font-size: 14px;
+    }
+
+    .sort-btn {
       margin-left: auto;
     }
   }
@@ -487,6 +655,22 @@ onMounted(() => {
           color: var(--text-light);
           font-size: 13px;
         }
+      }
+    }
+
+    .hotel-distance {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border-color);
+      font-size: 13px;
+      color: var(--nature-green);
+      font-weight: 500;
+
+      .el-icon {
+        font-size: 16px;
       }
     }
   }

@@ -42,6 +42,21 @@
                 <el-icon><Phone /></el-icon>
                 <span>{{ restaurant.phone }}</span>
               </div>
+              <div class="meta-item location-action" v-if="restaurant.latitude && restaurant.longitude">
+                <el-button type="primary" @click="fetchUserLocation" :loading="!showUserLocation && userLocation !== null" size="small">
+                  <el-icon><Position /></el-icon>
+                  {{ showUserLocation ? '已定位' : '显示我的位置' }}
+                </el-button>
+                <span v-if="distance" class="distance-badge">距您 {{ formatDistance(distance) }}</span>
+                <el-button type="success" @click="navigateToRestaurant" size="small">
+                  <el-icon><MapLocation /></el-icon>
+                  导航
+                </el-button>
+                <el-button @click="startNavigation" size="small">
+                  <el-icon><Position /></el-icon>
+                  一键导航
+                </el-button>
+              </div>
             </div>
           </div>
           <div class="header-image">
@@ -224,13 +239,14 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { Location, Clock, Phone, Calendar, ShoppingCart } from '@element-plus/icons-vue'
+import { Location, Clock, Phone, Calendar, ShoppingCart, MapLocation, Position } from '@element-plus/icons-vue'
 import { getRestaurantDetail, getDishList, getReviewList } from '@/api/restaurant'
 import { createOrder } from '@/api/ticket'
 import { useUserStore } from '@/stores/user'
 import { sanitizePhone, validatePhone } from '@/utils/validate'
 import { ElMessage } from 'element-plus'
 import { updateSeo, generateBusinessSchema, injectSchemaScript } from '@/composables/useSeo'
+import { getUserLocation, calculateDistance, formatDistance as formatDistanceUtil, getNavigationUrl } from '@/utils/geo'
 
 const route = useRoute()
 
@@ -241,6 +257,17 @@ const userStore = useUserStore()
 const restaurant = ref({})
 const dishes = ref([])
 const reviews = ref([])
+const userLocation = ref(null)
+const showUserLocation = ref(false)
+const distance = computed(() => {
+  if (!userLocation.value || !restaurant.value.latitude || !restaurant.value.longitude) return null
+  return calculateDistance(
+    userLocation.value.latitude,
+    userLocation.value.longitude,
+    parseFloat(restaurant.value.latitude),
+    parseFloat(restaurant.value.longitude)
+  )
+})
 
 const bookingForm = reactive({
   date: '',
@@ -251,6 +278,44 @@ const bookingForm = reactive({
   remark: '',
 })
 
+// 获取用户位置
+const fetchUserLocation = async () => {
+  try {
+    userLocation.value = await getUserLocation()
+    showUserLocation.value = true
+  } catch (error) {
+    ElMessage.warning('无法获取您的位置，请开启定位权限')
+  }
+}
+
+// 导航到餐厅
+const navigateToRestaurant = () => {
+  if (!restaurant.value.latitude || !restaurant.value.longitude) return
+  const destLat = parseFloat(restaurant.value.latitude)
+  const destLng = parseFloat(restaurant.value.longitude)
+  const url = getNavigationUrl(destLat, destLng, restaurant.value.name)
+  window.open(url, '_blank')
+}
+
+// 一键导航
+const startNavigation = async () => {
+  if (!restaurant.value.latitude || !restaurant.value.longitude) return
+  try {
+    const loc = await getUserLocation()
+    const destLat = parseFloat(restaurant.value.latitude)
+    const destLng = parseFloat(restaurant.value.longitude)
+    const url = getNavigationUrl(destLat, destLng, restaurant.value.name, loc.latitude, loc.longitude)
+    window.open(url, '_blank')
+  } catch (error) {
+    navigateToRestaurant()
+  }
+}
+
+// 格式化距离
+const formatDistance = (dist) => {
+  return formatDistanceUtil(dist)
+}
+
 const loadRestaurant = async () => {
   loading.value = true
   try {
@@ -260,8 +325,9 @@ const loadRestaurant = async () => {
 
       // 更新页面 SEO
       updateSeo({
-        title: restaurant.value.name,
-        description: restaurant.value.description,
+        title: `${restaurant.value.name} - 乌东村特色美食`,
+        description: `${restaurant.value.description || restaurant.value.name}。人均¥${(restaurant.value.avgPrice / 100).toFixed(0)}，地址：${restaurant.value.address}。乌东文旅平台提供在线预订服务。`,
+        keywords: `${restaurant.value.name},乌东村美食,${(restaurant.value.tags || []).join(',')}`,
         image: restaurant.value.coverImage,
         url: `https://wudong.travel/restaurants/${restaurant.value.id}`,
         type: 'restaurant',
@@ -479,6 +545,25 @@ onMounted(() => {
         .el-icon {
           font-size: 18px;
           color: var(--chinese-red);
+        }
+      }
+
+      .location-action {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 12px;
+        background: rgba(22, 101, 52, 0.05);
+        border-radius: 8px;
+        margin-top: 8px;
+
+        .el-button {
+          margin: 0;
+        }
+
+        .distance-badge {
+          color: var(--nature-green);
+          font-weight: 600;
+          font-size: 14px;
         }
       }
     }
