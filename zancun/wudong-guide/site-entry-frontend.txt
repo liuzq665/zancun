@@ -1,0 +1,137 @@
+================================================================================
+「AI 向导」入口 —— 站点侧前端代码
+================================================================================
+
+用途：
+  在 wudong-web 的顶栏加一个入口，点击后在新标签页打开 DSH 向导
+  （wudong-guide/，默认地址 http://127.0.0.1:3080）。
+
+落地位置：
+  wudong-platform/wudong-web/src/layouts/MainLayout.vue
+
+  全站**只有这一个文件**被改过。下面四段按「放在哪儿」分好了：
+  ① 图标导入  ② 脚本  ③ 模板  ④ 样式。
+
+  除这四段外，站点其余代码零改动 —— 向导本体全部在 wudong-guide/ 里，
+  与站点通过「一个链接」解耦。
+
+
+================================================================================
+①  图标导入
+================================================================================
+位置：<script setup> 顶部的 import 区
+
+
+import {
+  Search, Bell, User, List, ShoppingCart, Setting, SwitchButton,
+  ChatDotRound, Message, Share, Phone, Location, MagicStick
+} from '@element-plus/icons-vue'
+                                            ^^^^^^^^^^ 新增
+
+
+注意：
+  MagicStick 必须真实存在于 @element-plus/icons-vue（2.3.2 里有，共 293 个图标）。
+  图标名写错的后果不是「图标不显示」，而是**整页模块级报错、页面完全打不开** ——
+  改完一定要真的打开页面看一眼。
+
+
+================================================================================
+②  脚本：向导地址 + 同 host 守卫
+================================================================================
+位置：<script setup> 里，`const searchKeyword = ref('')` 之后
+
+
+// AI 向导是独立部署的 DSH 页面（见 wudong-guide/），不在本站的路由里，
+// 所以用普通 <a> 新标签页打开，而不是 router-link。
+const guideUrl = import.meta.env.VITE_GUIDE_URL || 'http://127.0.0.1:3080'
+
+// DSH 的会话 Cookie 是 SameSite=Strict，跨站点击不会被浏览器带上；
+// 又因为 SameSite 只比较「站点」、不比较端口，所以只要 host 相同（端口不同没关系）
+// 就能正常打开但 localhost 与 127.0.0.1 在浏览器眼里是两个站点。
+// 这里提前拦下来给出明确指引，免得用户撞到一句英文的 401。
+const openGuide = (event) => {
+  let guideHost
+  try {
+    guideHost = new URL(guideUrl).hostname
+  } catch {
+    return
+  }
+  if (location.hostname !== guideHost) {
+    event.preventDefault()
+    ElMessage.warning(`AI 向导需要与本站同 host 访问，请改用 http://${guideHost}:${location.port} 打开本站后再点击`)
+  }
+}
+
+
+说明：
+  · `ElMessage` 在这个文件里本来就已经 import 了，不用额外加。
+  · 地址可用环境变量 VITE_GUIDE_URL 覆盖（默认 http://127.0.0.1:3080）。
+  · 守卫是必需的，不是可选装饰：DSH 下发的会话 Cookie 是 SameSite=Strict，
+    而浏览器把 localhost 和 127.0.0.1 当作**两个不同的站点**，所以从
+    localhost:3000 跳到 127.0.0.1:3080 属于跨站导航，Cookie 不会被带上，
+    向导会回一句英文的 "dsh web authentication required"。
+    实测：任何真实用户发起的跳转（点击 / window.location / 新标签页）都会失败，
+    只有程序化导航能过 —— 所以这里提前拦下并说清该用哪个地址。
+    （SameSite 只比较站点、不比较端口，所以 127.0.0.1:3000 → 127.0.0.1:3080 是正常的。）
+
+
+================================================================================
+③  模板：导航项
+================================================================================
+位置：<template> 里 <nav class="nav"> 的**最后一项之后、</nav> 之前**
+      （也就是「人文纪行」那个 router-link 的后面）
+
+
+          <a
+            class="nav-item nav-item-external"
+            :href="guideUrl"
+            target="_blank"
+            rel="noopener"
+            title="在新标签页打开 AI 向导"
+            @click="openGuide"
+          >
+            <span class="nav-icon">
+              <el-icon :size="20"><MagicStick /></el-icon>
+            </span>
+            <span class="nav-text">AI 向导</span>
+          </a>
+
+
+说明：
+  · 用普通 <a> 而**不是** router-link —— 向导不在本站的路由表里，是外部页面。
+  · target="_blank" + rel="noopener"：新标签页打开，并断开 opener 引用（安全习惯）。
+  · 结构照抄旁边的导航项（span.nav-icon + span.nav-text），所以天然继承了
+    导航的 hover / 选中态样式；窄屏时 .nav-text 会被已有断点（max-width: 1279.98px）
+    隐藏，只剩图标。
+  · :size="20" 是为了和旁边手写 SVG 的 20×20 对齐。
+
+
+================================================================================
+④  样式：区分色
+================================================================================
+位置：<style scoped> 里 `.nav { .nav-item { ... } }` 内部，**放在 &::before 之前**
+
+
+    // AI 向导是本站之外的独立页面，给一点强调色以便与新功能区分。
+    // 放在 &:hover 之前，让悬停时的背景色能覆盖它。
+    &.nav-item-external {
+      background: rgba(212, 175, 55, 0.12);
+
+      .nav-icon {
+        color: var(--accent-color);
+      }
+    }
+
+
+说明：
+  放在 `&:hover` 之前是**刻意的**：`.nav-item.nav-item-external` 与
+  `.nav-item:hover` 的优先级相同（都是 0,2,0），后写的生效 ——
+  放前面，悬停时才能盖掉这层底色。
+
+
+================================================================================
+要撤掉这个入口
+================================================================================
+删掉上面 ②③④ 三段即可（② 的 openGuide 和 ③ 一起删，否则模板会引用不存在的变量）。
+① 里的 MagicStick 如果不再被别处用到也一并删掉。
+站点其它功能不受影响 —— 向导本身（wudong-guide/）也不受任何影响，只是站点上没了入口。

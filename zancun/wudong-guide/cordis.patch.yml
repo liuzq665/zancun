@@ -1,0 +1,94 @@
+# 乌东游客向导：DSH web profile 的叠加层。
+#
+# 用法（launch.ps1 已封装）：
+#   npx @deepseek-ai/dsh@0.1.5-rc.1 --profile web --patch <本文件的绝对路径>
+#
+# DSH 的配置是分层叠加的，内置行按 id 覆盖。注意两个坑：
+#   1. patch 里写 `config` 是**整行替换**，不是深合并 —— 所以下面改 system-prompt 时
+#      把它的 personaSuffix 一并重述了。改完务必用 `--dump-config` 复核。
+#   2. shell 栈（tool-pwsh / pwsh-sandbox 注册同一个 bash 服务）的配方必须完整。
+#      web profile 默认已把工具类行全部 disabled 且未挂载任何替换执行器，
+#      所以本文件**不碰**这些行，保持配方原样。
+
+# 挂载本插件：注册 11 个只读业务工具 + 一段行为准则；
+# 以及浏览器端皮肤包（配色 / 品牌 / 界面裁剪）。
+# 前提是先装进 profile：
+#   dsh plugin --profile web add <本目录>
+#   dsh plugin --profile web add <本目录>\ui
+- insert:
+    - id: wudong-guide
+      name: 'wudong-guide'
+    - id: wudong-guide-ui
+      name: 'wudong-guide-ui'
+
+# 把默认人格从「编程助手」换成导游。
+- id: system-prompt
+  config:
+    personaPrefix: >-
+      你是「乌东文旅」的在线行程向导，服务来贵州乌东苗寨及周边旅游的游客。
+      用中文回答，口吻亲切、简洁、口语化，面向普通游客，不要出现技术术语、字段名或代码。
+      你的职责是：帮游客排行程、按需求找民宿/餐厅/路线/非遗商品，以及回答苗寨文化相关问题。
+    personaSuffix: Your working directory is {{cwd}}.
+
+# ── 界面裁剪 ─────────────────────────────────────────────────────────────────
+# 只停用「叶子行」：纯增量、没有任何其它行 inject 它们。
+#
+# 绝不能停用（是服务提供者或槽位声明者，停用会让外壳停在启动屏）：
+#   ui-renderer、ui-layout、ui-theme、locale、ui-session、ui-workspace、ui-sidebar、
+#   ui-sidebar-right、ui-settings、resources、ui-conversation、ui-chat，
+#   以及宿主行 agent-presets（web bundle 把工具行移到了 preset 里按会话供给，
+#   停用它会直接让 agent 没有工具）。
+# 另外三个反直觉的：ui-sidebar-right 被 ui-chat **必需**注入、
+#   ui-workspace 被 ui-conversation 与 ui-sidebar **必需**注入。
+
+# /cordis 命令与 cordis 工具渲染
+- id: ui-cordis
+  disabled: true
+# 工作流运行节点
+- id: ui-workflow-run
+  disabled: true
+# 会话头的后台作业列表
+- id: ui-jobs
+  disabled: true
+# 目标条（GoalBar）
+- id: ui-goal
+  disabled: true
+# 额外的「轨迹」会话视图页签
+- id: ui-trajectory
+  disabled: true
+# 子代理接管界面与血缘
+- id: ui-subagent
+  disabled: true
+# @文件 / @会话 引用
+- id: ui-reference
+  disabled: true
+# 计划模式 chip
+- id: ui-plan
+  disabled: true
+# /skill 触发器
+- id: ui-skill
+  disabled: true
+# 消息点赞/点踩与反馈弹窗
+- id: ui-message-feedback
+  disabled: true
+# 输入框的访问模式选择器（只读向导用不上）
+- id: ui-permission
+  disabled: true
+# 模型选择器（游客不该切换模型）
+- id: ui-model-selection
+  disabled: true
+# 「标准模式」agent preset chip
+- id: ui-agent-preset
+  disabled: true
+# 右侧栏的「文件」页签
+- id: ui-sidebar-files
+  disabled: true
+# 右侧栏的文档预览
+- id: ui-sidebar-documentpreview
+  disabled: true
+# 设置里的「插件清单」页签
+- id: ui-settings-plugin-inventory
+  disabled: true
+# 设置里的「模型」页与 API Key 引导（key 由环境变量注入，游客不需要看到）
+- id: ui-settings-models
+  disabled: true
