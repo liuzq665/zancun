@@ -241,30 +241,48 @@ const handleCheckout = async () => {
     ElMessage.warning('请选择要结算的商品')
     return
   }
-  if (selectedItems.length > 1) {
-    // 后端没有订单明细表，一次只能对一件商品下单（与小程序端一致的限制）
-    ElMessage.warning('暂不支持多件商品合并结算，请只勾选一件')
-    return
-  }
 
-  const item = selectedItems[0]
   checkout.value = true
+  const successfulItems = []
+  const failedItems = []
   try {
-    const res = await createOrder({
-      orderType: 'product',
-      relatedId: item.productId,
-      quantity: item.quantity,
-    })
-    if (res.code === 0) {
-      // 下单成功后把该商品移出购物车
-      await removeCartItem(item.id)
-      ElMessage.success('下单成功，请前往订单中心支付')
+    // 现有订单接口一次只接收一个 relatedId，因此批量结算拆成多笔原子订单，
+    // 不改变订单接口参数，也避免把多个商品错误地合并成一条订单。
+    for (const item of selectedItems) {
+      try {
+        const res = await createOrder({
+          orderType: 'product',
+          relatedId: item.productId,
+          quantity: item.quantity,
+        })
+        if (res.code === 0) {
+          successfulItems.push(item)
+          await removeCartItem(item.id)
+        } else {
+          failedItems.push({ item, message: res.message || '下单失败' })
+        }
+      } catch (error) {
+        failedItems.push({ item, message: error.message || '下单失败' })
+      }
+    }
+
+    if (successfulItems.length) {
+      const successIds = new Set(successfulItems.map((item) => item.id))
+      cartItems.value = cartItems.value.filter((item) => !successIds.has(item.id))
+    }
+
+    if (!failedItems.length) {
+      ElMessage.success(`已成功提交 ${successfulItems.length} 笔订单，请前往订单中心支付`)
+      router.push('/orders')
+    } else if (successfulItems.length) {
+      ElMessage.warning(`已提交 ${successfulItems.length} 笔订单，${failedItems.length} 件商品下单失败，仍保留在购物车中`)
       router.push('/orders')
     } else {
-      ElMessage.error(res.message || '下单失败')
+      ElMessage.error('所选商品均下单失败，请检查库存后重试')
     }
   } catch (error) {
     console.error('Checkout failed:', error)
+    ElMessage.error('批量结算失败，请稍后重试')
   } finally {
     checkout.value = false
   }
@@ -283,7 +301,7 @@ onMounted(() => {
 }
 
 .page-header {
-  background: linear-gradient(135deg, #1a365d 0%, #6b21a8 50%, #1a365d 100%);
+  background: linear-gradient(135deg, #1a365d 0%, #2d5a87 50%, #1a365d 100%);
   padding: 40px 0;
   color: white;
   text-align: center;

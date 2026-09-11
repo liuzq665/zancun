@@ -29,11 +29,14 @@
         <el-option label="已支付" value="paid" />
         <el-option label="已完成" value="completed" />
         <el-option label="已取消" value="cancelled" />
+        <el-option label="已退款" value="refunded" />
       </el-select>
       <el-select v-model="orderType" placeholder="订单类型" clearable style="width: 140px" @change="loadOrders">
+        <el-option label="商品" value="product" />
         <el-option label="路线" value="route" />
         <el-option label="民宿" value="hotel" />
-        <el-option label="餐饮" value="restaurant" />
+        <!-- 后端真实订单类型为 food_seat，保持接口值不变 -->
+        <el-option label="餐饮" value="food_seat" />
       </el-select>
       <el-button type="primary" @click="loadOrders" class="search-btn">
         <el-icon><Search /></el-icon>
@@ -106,17 +109,18 @@ const orderType = ref('')
 
 const pagination = reactive({ page: 1, pageSize: 10, total: 0 })
 
-const getTypeText = (type) => ({ route: '路线', hotel: '民宿', restaurant: '餐饮' }[type] || type)
+const getTypeText = (type) => ({ product: '商品', route: '路线', hotel: '民宿', food_seat: '餐饮' }[type] || type)
 const getTypeStyle = (type) => {
   const map = {
+    product: { background: 'rgba(180, 83, 9, 0.1)', color: '#b45309' },
     route: { background: 'rgba(26, 54, 93, 0.1)', color: '#1a365d' },
     hotel: { background: 'rgba(22, 101, 52, 0.1)', color: '#166534' },
-    restaurant: { background: 'rgba(153, 27, 27, 0.1)', color: '#991b1b' },
+    food_seat: { background: 'rgba(153, 27, 27, 0.1)', color: '#991b1b' },
   }
   return map[type] || {}
 }
-const getStatusText = (status) => ({ pending: '待支付', paid: '已支付', completed: '已完成', cancelled: '已取消' }[status] || status)
-const getStatusType = (status) => ({ pending: 'warning', paid: 'success', completed: '', cancelled: 'info' }[status] || '')
+const getStatusText = (status) => ({ pending: '待支付', paid: '已支付', completed: '已完成', cancelled: '已取消', refunded: '已退款' }[status] || status)
+const getStatusType = (status) => ({ pending: 'warning', paid: 'success', completed: '', cancelled: 'info', refunded: 'danger' }[status] || '')
 
 const loadOrders = async () => {
   loading.value = true
@@ -145,7 +149,6 @@ const viewDetail = (order) => {
 const nextAction = (status) => {
   if (status === 'pending') return { action: 'cancel', label: '取消订单' }
   if (status === 'paid') return { action: 'complete', label: '完成订单' }
-  if (status === 'completed') return { action: 'refund', label: '退款' }
   return null
 }
 

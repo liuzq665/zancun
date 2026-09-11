@@ -106,14 +106,14 @@
                 <div class="pie-segment" style="--percent: 40%; --color: #1a365d">路线</div>
                 <div class="pie-segment" style="--percent: 30%; --color: #166534">民宿</div>
                 <div class="pie-segment" style="--percent: 20%; --color: #991b1b">餐饮</div>
-                <div class="pie-segment" style="--percent: 10%; --color: #6b21a8">其他</div>
+                <div class="pie-segment" style="--percent: 10%; --color: #2d5a87">其他</div>
               </div>
             </div>
             <div class="legend">
               <div class="legend-item"><span class="dot" style="background: #1a365d"></span>路线订单 40%</div>
               <div class="legend-item"><span class="dot" style="background: #166534"></span>民宿订单 30%</div>
               <div class="legend-item"><span class="dot" style="background: #991b1b"></span>餐饮订单 20%</div>
-              <div class="legend-item"><span class="dot" style="background: #6b21a8"></span>其他 10%</div>
+              <div class="legend-item"><span class="dot" style="background: #2d5a87"></span>其他 10%</div>
             </div>
           </div>
         </div>
@@ -237,7 +237,7 @@ onMounted(() => {
 })
 
 const getTypeText = (type) => {
-  const map = { route: '路线', hotel: '民宿', restaurant: '餐饮' }
+  const map = { product: '商品', route: '路线', hotel: '民宿', food_seat: '餐饮' }
   return map[type] || type
 }
 
@@ -245,18 +245,18 @@ const getTypeStyle = (type) => {
   const map = {
     route: { background: 'rgba(26, 54, 93, 0.1)', color: '#1a365d' },
     hotel: { background: 'rgba(22, 101, 52, 0.1)', color: '#166534' },
-    restaurant: { background: 'rgba(153, 27, 27, 0.1)', color: '#991b1b' },
+    food_seat: { background: 'rgba(153, 27, 27, 0.1)', color: '#991b1b' },
   }
   return map[type] || {}
 }
 
 const getStatusText = (status) => {
-  const map = { pending: '待支付', paid: '已支付', completed: '已完成', cancelled: '已取消' }
+  const map = { pending: '待支付', paid: '已支付', completed: '已完成', cancelled: '已取消', refunded: '已退款' }
   return map[status] || status
 }
 
 const getStatusType = (status) => {
-  const map = { pending: 'warning', paid: 'success', completed: '', cancelled: 'info' }
+  const map = { pending: 'warning', paid: 'success', completed: '', cancelled: 'info', refunded: 'danger' }
   return map[status] || ''
 }
 </script>
@@ -434,7 +434,7 @@ const getStatusType = (status) => {
 
   .bar {
     width: 56px;
-    background: linear-gradient(to top, #1a365d, #6b21a8);
+    background: linear-gradient(to top, #1a365d, #2d5a87);
     border-radius: 8px 8px 0 0;
     position: relative;
     transition: all 0.3s;
@@ -474,7 +474,7 @@ const getStatusType = (status) => {
       #1a365d 0deg 144deg,
       #166534 144deg 252deg,
       #991b1b 252deg 324deg,
-      #6b21a8 324deg 360deg
+      #2d5a87 324deg 360deg
     );
     position: relative;
   }

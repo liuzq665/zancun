@@ -147,7 +147,7 @@ const handleLogin = async () => {
     position: absolute;
     inset: 0;
     background: radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(107, 33, 168, 0.2) 0%, transparent 50%);
+                radial-gradient(circle at 80% 20%, rgba(45, 90, 135, 0.2) 0%, transparent 50%);
   }
 
   .bg-overlay {

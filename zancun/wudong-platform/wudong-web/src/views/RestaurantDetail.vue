@@ -43,37 +43,6 @@
                 <span>{{ restaurant.phone }}</span>
               </div>
             </div>
-            <!-- 地理位置展示 -->
-            <div class="restaurant-location" v-if="restaurant.latitude && restaurant.longitude">
-              <h4>
-                <el-icon><Position /></el-icon>
-                位置导航
-                <span v-if="distance" class="distance-badge">
-                  距您 {{ formatDistance(distance) }}
-                </span>
-              </h4>
-              <MapView
-                :height="'280px'"
-                :markers="locationMarkers"
-                :zoom="15"
-                :clickable="false"
-                :userLocation="userLocation"
-              />
-              <div class="location-actions">
-                <el-button type="primary" @click="fetchUserLocation">
-                  <el-icon><Position /></el-icon>
-                  显示我的位置
-                </el-button>
-                <el-button type="success" @click="navigateToRestaurant">
-                  <el-icon><Location /></el-icon>
-                  导航到这里
-                </el-button>
-                <el-button @click="startNavigation">
-                  <el-icon><MapLocation /></el-icon>
-                  一键导航
-                </el-button>
-              </div>
-            </div>
           </div>
           <div class="header-image">
             <el-image
@@ -255,15 +224,13 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { Location, Clock, Phone, Calendar, ShoppingCart, Position, MapLocation } from '@element-plus/icons-vue'
+import { Location, Clock, Phone, Calendar, ShoppingCart } from '@element-plus/icons-vue'
 import { getRestaurantDetail, getDishList, getReviewList } from '@/api/restaurant'
 import { createOrder } from '@/api/ticket'
 import { useUserStore } from '@/stores/user'
 import { sanitizePhone, validatePhone } from '@/utils/validate'
 import { ElMessage } from 'element-plus'
 import { updateSeo, generateBusinessSchema, injectSchemaScript } from '@/composables/useSeo'
-import { calculateDistance, formatDistance, getNavigationUrl, getUserLocation } from '@/utils/geo'
-import MapView from '@/components/MapView.vue'
 
 const route = useRoute()
 
@@ -274,8 +241,6 @@ const userStore = useUserStore()
 const restaurant = ref({})
 const dishes = ref([])
 const reviews = ref([])
-const userLocation = ref(null)
-const showUserLocation = ref(false)
 
 const bookingForm = reactive({
   date: '',
@@ -329,71 +294,6 @@ const dishesTotal = computed(() => {
   const fen = selectedDishes.value.reduce((sum, d) => sum + (d.price || 0), 0)
   return (fen / 100).toFixed(2)
 })
-
-// 计算距离
-const distance = computed(() => {
-  if (!userLocation.value || !restaurant.value.latitude || !restaurant.value.longitude) {
-    return null
-  }
-  return calculateDistance(
-    userLocation.value.latitude,
-    userLocation.value.longitude,
-    restaurant.value.latitude,
-    restaurant.value.longitude
-  )
-})
-
-// 地图标记
-const locationMarkers = computed(() => {
-  const markers = [{
-    lat: restaurant.value.latitude,
-    lng: restaurant.value.longitude,
-    title: restaurant.value.name,
-    content: restaurant.value.address
-  }]
-  if (showUserLocation.value && userLocation.value) {
-    markers.push({
-      lat: userLocation.value.latitude,
-      lng: userLocation.value.longitude,
-      title: '我的位置',
-      content: '当前位置',
-      isUserLocation: true
-    })
-  }
-  return markers
-})
-
-// 获取用户位置
-const fetchUserLocation = async () => {
-  try {
-    userLocation.value = await getUserLocation()
-    showUserLocation.value = true
-    ElMessage.success('已定位到您的位置')
-  } catch (error) {
-    ElMessage.error(error.message || '获取位置失败，请检查浏览器定位权限')
-  }
-}
-
-// 导航到这里
-const navigateToRestaurant = () => {
-  if (!restaurant.value.latitude || !restaurant.value.longitude) {
-    ElMessage.warning('暂无位置信息')
-    return
-  }
-  const url = getNavigationUrl(
-    restaurant.value.latitude,
-    restaurant.value.longitude,
-    restaurant.value.name,
-    userLocation.value?.latitude,
-    userLocation.value?.longitude
-  )
-  window.open(url, '_blank')
-}
-
-// 一键导航（直接打开地图导航）
-const startNavigation = () => {
-  navigateToRestaurant()
-}
 
 const handleOrderDish = (dish) => {
   const exist = selectedDishes.value.find((d) => d.id === dish.id)
@@ -579,57 +479,6 @@ onMounted(() => {
         .el-icon {
           font-size: 18px;
           color: var(--chinese-red);
-        }
-      }
-    }
-
-    .restaurant-location {
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px dashed var(--border-color);
-
-      h4 {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        color: var(--text-color);
-        margin-bottom: 16px;
-        font-weight: 600;
-
-        .el-icon {
-          color: var(--chinese-red);
-        }
-
-        .distance-badge {
-          font-size: 13px;
-          color: var(--accent-color);
-          font-weight: 500;
-          background: rgba(212, 175, 55, 0.1);
-          padding: 2px 10px;
-          border-radius: 12px;
-          margin-left: 8px;
-        }
-      }
-
-      :deep(.map-view) {
-        border-radius: var(--radius-md);
-        overflow: hidden;
-        margin-bottom: 12px;
-      }
-
-      .location-actions {
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-
-        .el-button {
-          flex: 1;
-          min-width: 120px;
-
-          .el-icon {
-            margin-right: 4px;
-          }
         }
       }
     }

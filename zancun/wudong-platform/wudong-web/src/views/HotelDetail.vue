@@ -20,7 +20,14 @@
         <div class="hotel-header">
           <div class="hotel-gallery">
             <div class="main-image-wrap">
-              <el-image :src="currentImage" fit="cover" class="main-image" :preview-src-list="previewImages" />
+              <el-image
+                :src="currentImage"
+                fit="cover"
+                class="main-image"
+                :preview-src-list="previewImages"
+                :initial-index="Math.max(0, previewImages.indexOf(currentImage))"
+                preview-teleported
+              />
               <div class="gallery-badges">
                 <el-tag v-if="hotel.isRecommend" type="danger" effect="dark" size="large">
                   <el-icon><Star /></el-icon> 推荐民宿
@@ -31,15 +38,23 @@
               </div>
             </div>
             <div class="thumbnail-list" v-if="hotel.images && hotel.images.length > 1">
-              <div
+              <button
                 v-for="(img, idx) in hotel.images"
                 :key="idx"
+                type="button"
                 class="thumbnail"
                 :class="{ active: currentImage === img }"
+                :aria-label="`查看第 ${idx + 1} 张图片`"
                 @click="currentImage = img"
               >
-                <el-image :src="img" fit="cover" />
-              </div>
+                <el-image
+                  :src="img"
+                  fit="cover"
+                  :preview-src-list="previewImages"
+                  :initial-index="idx"
+                  preview-teleported
+                />
+              </button>
             </div>
           </div>
 
@@ -346,20 +361,6 @@ const startNavigation = async () => {
   }
 }
 
-const currentImage = computed(() => {
-  if (hotel.value.images && hotel.value.images.length > 0) {
-    return hotel.value.images[0]
-  }
-  return hotel.value.coverImage || '/placeholder.svg'
-})
-
-const previewImages = computed(() => {
-  if (hotel.value.images && hotel.value.images.length > 0) {
-    return hotel.value.images
-  }
-  return [hotel.value.coverImage || '/placeholder.svg']
-})
-
 // 地图标记点
 const locationMarkers = computed(() => {
   const markers = []
@@ -372,6 +373,16 @@ const locationMarkers = computed(() => {
     })
   }
   return markers
+})
+
+// 当前展示图必须是可写状态；之前使用只读 computed，点击缩略图无法切换到第二张。
+const currentImage = ref('/placeholder.svg')
+
+const previewImages = computed(() => {
+  if (hotel.value.images && hotel.value.images.length > 0) {
+    return hotel.value.images
+  }
+  return [hotel.value.coverImage || '/placeholder.svg']
 })
 
 const bookingForm = reactive({
@@ -395,6 +406,7 @@ const loadHotel = async () => {
     const res = await getHotelDetail(route.params.id)
     if (res.code === 0) {
       hotel.value = res.data
+      currentImage.value = res.data.images?.[0] || res.data.coverImage || '/placeholder.svg'
 
       // 更新页面 SEO
       updateSeo({
@@ -597,6 +609,9 @@ onMounted(() => {
       overflow: hidden;
       cursor: pointer;
       border: 2px solid transparent;
+      padding: 0;
+      background: transparent;
+      display: block;
       transition: all var(--transition-base);
 
       &:hover, &.active {
@@ -670,7 +685,6 @@ onMounted(() => {
     background: linear-gradient(135deg, rgba(153, 27, 27, 0.08) 0%, rgba(153, 27, 27, 0.04) 100%);
     border-radius: var(--radius-lg);
     border: 1px solid rgba(153, 27, 27, 0.1);
-    margin-bottom: 20px;
 
     .price-info {
       display: flex;

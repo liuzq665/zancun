@@ -392,7 +392,7 @@ onMounted(async () => {
 // 变量定义
 :root {
   --primary-color: #1a365d;
-  --secondary-color: #6b21a8;
+  --secondary-color: #2d5a87;
   --accent-color: #d4af37;
   --nature-green: #166534;
   --chinese-red: #991b1b;
@@ -427,7 +427,7 @@ onMounted(async () => {
       background: linear-gradient(
         135deg,
         rgba(26, 54, 93, 0.7) 0%,
-        rgba(107, 33, 168, 0.5) 50%,
+        rgba(45, 90, 135, 0.5) 50%,
         rgba(0, 0, 0, 0.6) 100%
       );
     }

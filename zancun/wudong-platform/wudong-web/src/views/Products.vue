@@ -213,9 +213,9 @@ onMounted(() => {
 .page-hero {
   position: relative;
   height: 280px;
-  background: linear-gradient(135deg, #6b21a8 0%, #1a365d 50%, #6b21a8 100%);
+  background: linear-gradient(135deg, #2d5a87 0%, #1a365d 50%, #2d5a87 100%);
   background-image: url('https://images.pexels.com/photos/29737163/pexels-photo-29737163.jpeg?auto=compress&cs=tinysrgb&w=800'),
-                    linear-gradient(135deg, rgba(107, 33, 168, 0.9) 0%, rgba(26, 54, 93, 0.85) 50%, rgba(107, 33, 168, 0.9) 100%);
+                    linear-gradient(135deg, rgba(45, 90, 135, 0.9) 0%, rgba(26, 54, 93, 0.85) 50%, rgba(45, 90, 135, 0.9) 100%);
   background-size: cover;
   background-position: center;
   display: flex;
@@ -225,7 +225,7 @@ onMounted(() => {
   .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(107, 33, 168, 0.8) 0%, rgba(26, 54, 93, 0.7) 100%);
+    background: linear-gradient(180deg, rgba(45, 90, 135, 0.8) 0%, rgba(26, 54, 93, 0.7) 100%);
   }
 
   .hero-content {

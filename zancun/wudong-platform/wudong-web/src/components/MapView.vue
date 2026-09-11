@@ -14,8 +14,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue'
 import L from 'leaflet'
-// Leaflet CSS 已在 index.html 中引入，这里不再重复引入
-// import 'leaflet/dist/leaflet.css'
 import { Loading, Warning } from '@element-plus/icons-vue'
 import { WUDONG_CENTER } from '@/utils/geo'
 

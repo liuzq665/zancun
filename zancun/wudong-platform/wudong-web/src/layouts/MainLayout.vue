@@ -34,7 +34,7 @@
         </router-link>
 
         <nav class="nav">
-          <router-link to="/" class="nav-item" :class="{ active: $route.path === '/' }">
+          <router-link to="/" class="nav-item" :class="{ active: $route.path === '/' || $route.path === '/home' }">
             <span class="nav-icon">
               <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
                 <path d="M12 2L2 12h3v9h6v-6h2v6h6v-9h3L12 2z"/>
@@ -158,7 +158,7 @@
               <template #dropdown>
                 <el-dropdown-menu class="miao-dropdown">
                   <div class="dropdown-user-info">
-                    <el-avatar :size="48" class="miao-avatar-lg">{{ userStore.user?.nickname?.slice(0, 1) || '游' }}</el-avatar>
+                    <el-avatar :size="48" :src="userStore.user?.avatar" class="miao-avatar-lg">{{ userStore.user?.nickname?.slice(0, 1) || '游' }}</el-avatar>
                     <div class="dropdown-user-detail">
                       <span class="dropdown-username">{{ userStore.user?.nickname || '游客' }}</span>
                       <span class="dropdown-userphone">{{ userStore.user?.phone || '' }}</span>
@@ -675,38 +675,6 @@ const handleLogout = () => {
   }
 }
 
-// 下拉菜单用户信息
-.dropdown-user-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px;
-  background: linear-gradient(135deg, var(--bg-light), #fff);
-  margin: -8px -12px 8px;
-  border-bottom: 2px solid var(--accent-color);
-
-  :deep(.miao-avatar-lg) {
-    border: 3px solid var(--accent-color);
-    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
-  }
-
-  .dropdown-user-detail {
-    display: flex;
-    flex-direction: column;
-
-    .dropdown-username {
-      font-weight: 600;
-      color: var(--primary-color);
-      font-size: 16px;
-    }
-
-    .dropdown-userphone {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-  }
-}
-
 // 苗族装饰条（兼容旧代码）
 .miao-decoration {
   height: 4px;
@@ -1011,6 +979,106 @@ const handleLogout = () => {
 
 <style lang="scss">
 /* 非 scoped：el-popover 内容会被 teleport 到 body，scoped 样式够不到 */
+.miao-dropdown {
+  min-width: 258px !important;
+  padding: 8px 0 !important;
+  overflow: hidden;
+  border: 1px solid #e7ebf0 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 18px 44px rgba(15, 23, 41, 0.16) !important;
+
+  .dropdown-user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 18px 14px;
+    margin: -8px 0 6px;
+    background: linear-gradient(135deg, #fbfaf6 0%, #fff 72%);
+    border-bottom: 2px solid var(--accent-color);
+
+    .miao-avatar-lg {
+      flex-shrink: 0;
+      border: 3px solid var(--accent-color);
+      background: linear-gradient(135deg, #b9c0ca, #d3d7dd);
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.24);
+    }
+
+    .dropdown-user-detail {
+      display: flex;
+      flex: 1;
+      min-width: 0;
+      flex-direction: column;
+      gap: 3px;
+
+      .dropdown-username {
+        overflow: hidden;
+        color: var(--primary-color);
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 1.25;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .dropdown-userphone {
+        color: #9aa3af;
+        font-size: 12px;
+        line-height: 1.3;
+      }
+    }
+  }
+
+  .el-dropdown-menu__item {
+    height: 42px;
+    margin: 2px 8px;
+    padding: 0 12px;
+    border-radius: 9px;
+    color: #4b5563;
+    font-size: 14px;
+    line-height: 42px;
+    transition: background 0.2s, color 0.2s;
+
+    .el-icon {
+      width: 22px;
+      margin-right: 9px;
+      color: #727b87;
+      font-size: 18px;
+      vertical-align: -3px;
+    }
+
+    &:hover,
+    &:focus {
+      background: rgba(212, 175, 55, 0.1);
+      color: var(--primary-color);
+
+      .el-icon {
+        color: var(--accent-color);
+      }
+    }
+
+    &.is-disabled {
+      color: #c5cad1;
+    }
+
+    &.el-dropdown-menu__item--divided {
+      margin-top: 8px;
+      border-top: 1px solid #edf0f3;
+
+      &::before {
+        display: none;
+      }
+    }
+
+    &:last-child {
+      color: #66707d;
+
+      .el-icon {
+        color: #7d8792;
+      }
+    }
+  }
+}
+
 .notice-popover {
   padding: 12px 14px !important;
 

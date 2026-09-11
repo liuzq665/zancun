@@ -140,6 +140,19 @@
                 </div>
                 <el-empty v-else description="暂无收藏的餐厅" />
               </el-tab-pane>
+              <el-tab-pane label="社区" name="community">
+                <div class="favorite-list" v-if="favoritePosts.length > 0">
+                  <div v-for="item in favoritePosts" :key="item.id" class="favorite-item community-favorite-item">
+                    <el-image :src="item.images?.[0] || '/placeholder.svg'" fit="cover" class="item-image" />
+                    <div class="item-info">
+                      <h4>{{ item.content }}</h4>
+                      <p class="item-price">{{ formatTime(item.createTime) }}</p>
+                    </div>
+                    <el-button size="small" @click="removeFavorite(item.id, 'post')" class="remove-btn">取消收藏</el-button>
+                  </div>
+                </div>
+                <el-empty v-else description="暂无收藏的社区帖子" />
+              </el-tab-pane>
             </el-tabs>
           </div>
         </main>
@@ -155,7 +168,7 @@ import { User, Lock, Star, SwitchButton } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { changePassword, getFavorites } from '@/api/user'
 import { uploadImage } from '@/api/upload'
-import { toggleFavorite } from '@/api/community'
+import { getFavoriteList, getPostList, toggleFavorite } from '@/api/community'
 import { ElMessage } from 'element-plus'
 
 const router = useRouter()
@@ -216,10 +229,16 @@ const passwordRules = {
 const favoriteProducts = ref([])
 const favoriteHotels = ref([])
 const favoriteRestaurants = ref([])
+const favoritePosts = ref([])
 
 const formatPhone = (phone) => {
   if (!phone) return '未绑定手机'
   return phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
+}
+
+const formatTime = (time) => {
+  if (!time) return ''
+  return new Date(time).toLocaleDateString()
 }
 
 const fillInfoForm = () => {
@@ -311,11 +330,23 @@ const handleChangePassword = async () => {
 
 // ===== 我的收藏 =====
 
-const favTabType = { products: 'product', hotels: 'hotel', restaurants: 'restaurant' }
+const favTabType = { products: 'product', hotels: 'hotel', restaurants: 'restaurant', community: 'post' }
 
 const loadFavorites = async () => {
   const type = favTabType[favoriteTab.value]
   try {
+    if (type === 'post') {
+      const [favoriteRes, postRes] = await Promise.all([
+        getFavoriteList(userStore.user.id, 'post', 1, 100),
+        getPostList({ page: 1, pageSize: 100 }),
+      ])
+      if (favoriteRes.code !== 0 || postRes.code !== 0) return
+      const postMap = new Map((postRes.data?.list || []).map((post) => [String(post.id), post]))
+      favoritePosts.value = (favoriteRes.data?.list || [])
+        .map((favorite) => postMap.get(String(favorite.relatedId)))
+        .filter(Boolean)
+      return
+    }
     const res = await getFavorites(type)
     if (res.code !== 0) return
     if (type === 'product') favoriteProducts.value = res.data || []
@@ -367,9 +398,9 @@ onMounted(async () => {
 .page-hero {
   position: relative;
   height: 200px;
-  background: linear-gradient(135deg, #1a365d 0%, #6b21a8 50%, #1a365d 100%);
+  background: linear-gradient(135deg, #1a365d 0%, #2d5a87 50%, #1a365d 100%);
   background-image: url('https://images.pexels.com/photos/18379991/pexels-photo-18379991.jpeg?auto=compress&cs=tinysrgb&w=800'),
-                    linear-gradient(135deg, rgba(26, 54, 93, 0.9) 0%, rgba(107, 33, 168, 0.85) 50%, rgba(26, 54, 93, 0.9) 100%);
+                    linear-gradient(135deg, rgba(26, 54, 93, 0.9) 0%, rgba(45, 90, 135, 0.85) 50%, rgba(26, 54, 93, 0.9) 100%);
   background-size: cover;
   background-position: center;
   display: flex;
@@ -379,7 +410,7 @@ onMounted(async () => {
   .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(26, 54, 93, 0.8) 0%, rgba(107, 33, 168, 0.7) 100%);
+    background: linear-gradient(180deg, rgba(26, 54, 93, 0.8) 0%, rgba(45, 90, 135, 0.7) 100%);
   }
 
   .hero-content {

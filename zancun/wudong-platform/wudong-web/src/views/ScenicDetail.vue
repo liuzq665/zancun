@@ -104,6 +104,7 @@ import { Clock, Timer, Location, Phone } from '@element-plus/icons-vue'
 import { getScenicDetail, createOrder } from '@/api/ticket'
 import { useUserStore } from '@/stores/user'
 import { ElMessage } from 'element-plus'
+import { updateSeo, generateBusinessSchema, injectSchemaScript } from '@/composables/useSeo'
 
 const route = useRoute()
 const router = useRouter()
@@ -132,6 +133,26 @@ const loadScenic = async () => {
     const res = await getScenicDetail(route.params.id)
     if (res.code === 0) {
       scenic.value = res.data
+
+      // 更新页面 SEO
+      updateSeo({
+        title: scenic.value.name,
+        description: scenic.value.description,
+        image: scenic.value.coverImage,
+        url: `https://wudong.travel/scenic/${scenic.value.id}`,
+        type: 'article',
+      })
+
+      // 注入结构化数据
+      injectSchemaScript({
+        '@context': 'https://schema.org',
+        '@type': 'TouristAttraction',
+        name: scenic.value.name,
+        description: scenic.value.description,
+        image: scenic.value.coverImage,
+        url: `https://wudong.travel/scenic/${scenic.value.id}`,
+        address: scenic.value.address,
+      })
     } else {
       ElMessage.error(res.message || '景区加载失败')
     }

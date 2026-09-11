@@ -277,6 +277,7 @@ import { getRouteDetail, createOrder } from '@/api/ticket'
 import { useUserStore } from '@/stores/user'
 import { sanitizePhone, sanitizeIdCard, validatePhone, validateIdCard } from '@/utils/validate'
 import { ElMessage } from 'element-plus'
+import { updateSeo, generateProductSchema, injectSchemaScript } from '@/composables/useSeo'
 
 const route = useRoute()
 
@@ -311,6 +312,30 @@ const loadRoute = async () => {
     const res = await getRouteDetail(route.params.id)
     if (res.code === 0) {
       routeInfo.value = res.data
+
+      // 更新页面 SEO
+      updateSeo({
+        title: routeInfo.value.name,
+        description: routeInfo.value.description,
+        image: routeInfo.value.coverImage,
+        url: `https://wudong.travel/routes/${routeInfo.value.id}`,
+        type: 'product',
+      })
+
+      // 注入结构化数据
+      injectSchemaScript({
+        '@context': 'https://schema.org',
+        '@type': 'TouristTrip',
+        name: routeInfo.value.name,
+        description: routeInfo.value.description,
+        image: routeInfo.value.coverImage,
+        url: `https://wudong.travel/routes/${routeInfo.value.id}`,
+        offers: {
+          '@type': 'Offer',
+          price: (routeInfo.value.price / 100).toFixed(2),
+          priceCurrency: 'CNY',
+        },
+      })
     }
   } catch (error) {
     console.error('Failed to load route:', error)
@@ -401,7 +426,7 @@ onMounted(() => {
   .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(26, 54, 93, 0.4) 0%, rgba(107, 33, 168, 0.9) 100%);
+    background: linear-gradient(180deg, rgba(26, 54, 93, 0.4) 0%, rgba(45, 90, 135, 0.9) 100%);
   }
 
   .hero-content {
@@ -473,7 +498,7 @@ onMounted(() => {
         .info-icon {
           width: 44px;
           height: 44px;
-          background: linear-gradient(135deg, rgba(26, 54, 93, 0.1), rgba(107, 33, 168, 0.1));
+          background: linear-gradient(135deg, rgba(26, 54, 93, 0.1), rgba(45, 90, 135, 0.1));
           border-radius: 12px;
           display: flex;
           align-items: center;
@@ -505,7 +530,7 @@ onMounted(() => {
     }
 
     .price-section {
-      background: linear-gradient(135deg, rgba(26, 54, 93, 0.05), rgba(107, 33, 168, 0.05));
+      background: linear-gradient(135deg, rgba(26, 54, 93, 0.05), rgba(45, 90, 135, 0.05));
       padding: 20px;
       border-radius: 12px;
       margin-bottom: 24px;
@@ -694,7 +719,7 @@ onMounted(() => {
 
   &:hover {
     transform: translateY(-6px);
-    box-shadow: 0 12px 32px rgba(107, 33, 168, 0.15);
+    box-shadow: 0 12px 32px rgba(45, 90, 135, 0.15);
   }
 
   .spot-image {

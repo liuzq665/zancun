@@ -138,6 +138,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { getOrderList, cancelOrder, payOrder, refundOrder } from '@/api/ticket'
+import { getProductList } from '@/api/product'
 import { getRoomDetail } from '@/api/hotel'
 import { useUserStore } from '@/stores/user'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -165,6 +166,60 @@ const orderTypeMap = {
   restaurant: 'food_seat',
 }
 
+// 订单表只保存商品 relatedId，列表接口不会重复存储商品图片；
+// 用现有商品列表接口补齐展示数据，避免修改订单表或订单接口字段。
+const hydrateProductOrderImages = async (orderList) => {
+  const productOrders = orderList.filter((order) => order.orderType === 'product')
+  if (!productOrders.length) return orderList
+
+  try {
+    const res = await getProductList({ page: 1, pageSize: 100 })
+    if (res.code !== 0) return orderList
+    const productMap = new Map((res.data?.list || []).map((product) => [String(product.id), product]))
+    return orderList.map((order) => {
+      const product = productMap.get(String(order.relatedId))
+      if (!product) return order
+      const image = product.coverImage || product.images?.[0] || null
+      return {
+        ...order,
+        items: (order.items || []).map((item) => ({ ...item, image })),
+      }
+    })
+  } catch (error) {
+    console.error('Failed to load product images for orders:', error)
+    return orderList
+  }
+}
+
+// 民宿订单只保存房间 relatedId；通过现有房间详情接口补齐房型/民宿缩略图。
+// 不修改订单表，也不扩展订单接口字段。
+const hydrateHotelOrderImages = async (orderList) => {
+  const hotelOrders = orderList.filter((order) => order.orderType === 'hotel')
+  if (!hotelOrders.length) return orderList
+
+  const imageByOrderId = new Map()
+  await Promise.all(hotelOrders.map(async (order) => {
+    try {
+      const res = await getRoomDetail(order.relatedId)
+      if (res.code !== 0 || !res.data) return
+      const room = res.data
+      const image = room.coverImage || room.images?.[0] || room.hotel?.coverImage || room.hotel?.images?.[0] || null
+      if (image) imageByOrderId.set(String(order.id), image)
+    } catch (error) {
+      console.error(`Failed to load hotel image for order ${order.id}:`, error)
+    }
+  }))
+
+  return orderList.map((order) => {
+    const image = imageByOrderId.get(String(order.id))
+    if (!image) return order
+    return {
+      ...order,
+      items: (order.items || []).map((item) => ({ ...item, image })),
+    }
+  })
+}
+
 const loadOrders = async () => {
   if (!userStore.isLoggedIn) {
     router.push('/login')
@@ -180,7 +235,8 @@ const loadOrders = async () => {
       pagination.pageSize
     )
     if (res.code === 0) {
-      orders.value = res.data.list || []
+      const productImageOrders = await hydrateProductOrderImages(res.data.list || [])
+      orders.value = await hydrateHotelOrderImages(productImageOrders)
       pagination.total = res.data.pagination?.total || 0
     }
   } catch (error) {
@@ -328,9 +384,9 @@ onMounted(() => {
 .page-hero {
   position: relative;
   height: 220px;
-  background: linear-gradient(135deg, #1a365d 0%, #6b21a8 50%, #1a365d 100%);
+  background: linear-gradient(135deg, #1a365d 0%, #2d5a87 50%, #1a365d 100%);
   background-image: url('https://images.pexels.com/photos/8828439/pexels-photo-8828439.jpeg?auto=compress&cs=tinysrgb&w=800'),
-                    linear-gradient(135deg, rgba(26, 54, 93, 0.9) 0%, rgba(107, 33, 168, 0.85) 50%, rgba(26, 54, 93, 0.9) 100%);
+                    linear-gradient(135deg, rgba(26, 54, 93, 0.9) 0%, rgba(45, 90, 135, 0.85) 50%, rgba(26, 54, 93, 0.9) 100%);
   background-size: cover;
   background-position: center;
   display: flex;
@@ -340,7 +396,7 @@ onMounted(() => {
   .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(26, 54, 93, 0.8) 0%, rgba(107, 33, 168, 0.7) 100%);
+    background: linear-gradient(180deg, rgba(26, 54, 93, 0.8) 0%, rgba(45, 90, 135, 0.7) 100%);
   }
 
   .hero-content {
@@ -446,7 +502,7 @@ onMounted(() => {
     justify-content: space-between;
     align-items: center;
     padding: 16px 20px;
-    background: linear-gradient(135deg, rgba(26, 54, 93, 0.03), rgba(107, 33, 168, 0.03));
+    background: linear-gradient(135deg, rgba(26, 54, 93, 0.03), rgba(45, 90, 135, 0.03));
     border-bottom: 1px dashed var(--border-color);
 
     .order-meta {

@@ -19,7 +19,7 @@
         <div class="post-main card">
           <div class="post-header">
             <div class="user-info">
-              <el-avatar :size="56" class="user-avatar">{{ post.user?.nickname?.slice(0, 1) || '游' }}</el-avatar>
+              <el-avatar :size="56" :src="post.user?.avatar" class="user-avatar">{{ post.user?.nickname?.slice(0, 1) || '游' }}</el-avatar>
               <div class="user-detail">
                 <span class="username">{{ post.user?.nickname || '匿名游客' }}</span>
                 <span class="time">{{ formatTime(post.createTime) }}</span>
@@ -46,6 +46,8 @@
                 :key="idx"
                 :src="img"
                 :preview-src-list="post.images"
+                :initial-index="idx"
+                preview-teleported
                 fit="cover"
                 class="post-image"
                 :class="{ 'single': post.images.length === 1 }"
@@ -83,7 +85,7 @@
 
           <!-- 发布评论 -->
           <div class="comment-form" v-if="userStore.isLoggedIn">
-            <el-avatar :size="44" class="user-avatar">{{ userStore.user?.nickname?.slice(0, 1) || '游' }}</el-avatar>
+            <el-avatar :size="44" :src="userStore.user?.avatar" class="user-avatar">{{ userStore.user?.nickname?.slice(0, 1) || '游' }}</el-avatar>
             <div class="form-input">
               <el-input
                 v-model="commentContent"
@@ -105,7 +107,7 @@
           <!-- 评论列表 -->
           <div class="comments-list">
             <div v-for="comment in comments" :key="comment.id" class="comment-item">
-              <el-avatar :size="44" class="user-avatar">{{ comment.user?.nickname?.slice(0, 1) || '游' }}</el-avatar>
+              <el-avatar :size="44" :src="comment.user?.avatar" class="user-avatar">{{ comment.user?.nickname?.slice(0, 1) || '游' }}</el-avatar>
               <div class="comment-body">
                 <div class="comment-header">
                   <span class="comment-author">{{ comment.user?.nickname || '匿名用户' }}</span>
@@ -115,7 +117,7 @@
                 <div class="comment-actions">
                   <span class="action-btn" @click="handleReplyLike(comment)">
                     <el-icon :class="{ 'is-liked': comment.isLiked }"><Star /></el-icon>
-                    {{ comment.likeCount || 0 }}
+                    {{ comment.likeCount || 0 }} 点赞
                   </span>
                   <span class="action-btn" @click="showReplyForm(comment)">
                     <el-icon><ChatLineSquare /></el-icon>
@@ -126,7 +128,7 @@
                 <!-- 回复列表 -->
                 <div class="replies-list" v-if="comment.replies && comment.replies.length">
                   <div v-for="reply in comment.replies" :key="reply.id" class="reply-item">
-                    <el-avatar :size="32" class="user-avatar small">{{ reply.user?.nickname?.slice(0, 1) || '游' }}</el-avatar>
+                    <el-avatar :size="32" :src="reply.user?.avatar" class="user-avatar small">{{ reply.user?.nickname?.slice(0, 1) || '游' }}</el-avatar>
                     <div class="reply-body">
                       <div class="reply-header">
                         <span class="reply-author">{{ reply.user?.nickname || '匿名用户' }}</span>
@@ -371,7 +373,7 @@ onMounted(() => {
 
 .detail-hero {
   height: 120px;
-  background: linear-gradient(135deg, #1a365d 0%, #6b21a8 50%, #1a365d 100%);
+  background: linear-gradient(135deg, #1a365d 0%, #2d5a87 50%, #1a365d 100%);
   position: relative;
   overflow: hidden;
 

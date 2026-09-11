@@ -10,7 +10,7 @@
     </div>
 
     <div class="container">
-      <!-- 搜索和排序 -->
+      <!-- 搜索 -->
       <div class="search-section">
         <div class="search-bar">
           <el-input
@@ -30,22 +30,6 @@
             </template>
           </el-input>
         </div>
-        <!-- 排序选项 -->
-        <div class="sort-options">
-          <el-radio-group v-model="sortBy" size="default">
-            <el-radio-button value="default">默认排序</el-radio-button>
-            <el-radio-button value="distance" :disabled="!userLocation">
-              <span v-if="!userLocation">按距离</span>
-              <span v-else>距离最近</span>
-            </el-radio-button>
-          </el-radio-group>
-          <el-button v-if="!userLocation" text type="primary" size="small" @click="requestLocation">
-            <el-icon><Location /></el-icon> 开启定位
-          </el-button>
-          <el-tag v-else type="success" size="small">
-            <el-icon><Location /></el-icon> 已定位
-          </el-tag>
-        </div>
       </div>
 
       <!-- 餐厅列表 -->
@@ -62,7 +46,7 @@
           </div>
 
           <div
-            v-for="restaurant in sortedRestaurants"
+            v-for="restaurant in restaurants"
             :key="restaurant.id"
             class="restaurant-card card"
             @click="$router.push(`/restaurants/${restaurant.id}`)"
@@ -77,10 +61,6 @@
               <div class="image-overlay">
                 <el-icon><View /></el-icon>
                 <span>查看详情</span>
-              </div>
-              <!-- 距离标签 -->
-              <div class="distance-tag" v-if="restaurant.distance !== undefined">
-                <el-icon><Location /></el-icon> {{ formatDistance(restaurant.distance) }}
               </div>
             </div>
             <div class="restaurant-info">
@@ -127,69 +107,18 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { Search, Location, Clock, View } from '@element-plus/icons-vue'
 import { getRestaurantList } from '@/api/restaurant'
-import { getUserLocation, calculateDistance, formatDistance as formatDist } from '@/utils/geo'
-import { ElMessage } from 'element-plus'
 
 const loading = ref(false)
 const keyword = ref('')
-const sortBy = ref('default')
-const userLocation = ref(null)
 const restaurants = ref([])
 const pagination = reactive({
   page: 1,
   pageSize: 8,
   total: 0,
 })
-
-// 格式化距离
-const formatDistance = (distance) => {
-  return formatDist(distance)
-}
-
-// 计算每个餐厅的距离
-const restaurantsWithDistance = computed(() => {
-  if (!userLocation.value || !restaurants.value.length) {
-    return restaurants.value
-  }
-  return restaurants.value.map((r) => {
-    if (r.latitude && r.longitude) {
-      const distance = calculateDistance(
-        userLocation.value.latitude,
-        userLocation.value.longitude,
-        r.latitude,
-        r.longitude
-      )
-      return { ...r, distance }
-    }
-    return r
-  })
-})
-
-// 排序后的餐厅列表
-const sortedRestaurants = computed(() => {
-  const list = [...restaurantsWithDistance.value]
-  if (sortBy.value === 'distance') {
-    return list.sort((a, b) => {
-      const distA = a.distance ?? Infinity
-      const distB = b.distance ?? Infinity
-      return distA - distB
-    })
-  }
-  return list
-})
-
-// 请求用户位置
-const requestLocation = async () => {
-  try {
-    userLocation.value = await getUserLocation()
-    sortBy.value = 'distance'
-  } catch (error) {
-    ElMessage.warning('无法获取位置：' + error.message)
-  }
-}
 
 const loadRestaurants = async () => {
   loading.value = true
@@ -308,14 +237,6 @@ onMounted(() => {
       }
     }
   }
-
-  .sort-options {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 16px;
-    padding: 0 8px;
-  }
 }
 
 .restaurant-section {
@@ -406,24 +327,6 @@ onMounted(() => {
       }
 
       span {
-        font-size: 14px;
-      }
-    }
-
-    .distance-tag {
-      position: absolute;
-      bottom: 12px;
-      right: 12px;
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      padding: 6px 12px;
-      border-radius: 16px;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-
-      .el-icon {
         font-size: 14px;
       }
     }

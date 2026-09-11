@@ -20,6 +20,7 @@
     "@midwayjs/upload": "^3.20.3",
     "@midwayjs/validate": "^3.20.3",
     "bcryptjs": "^2.4.3",
+    "ioredis": "^6.0.0",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "mysql2": "^3.14.0",
@@ -47,7 +48,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=local ts-node src/bootstrap.ts",
     "build": "mwtsc --cleanOutDir",
-    "start": "NODE_ENV=production node ./bootstrap.js",
+    "start": "cross-env NODE_ENV=production node ./dist/bootstrap.js",
     "test": "cross-env NODE_ENV=unittest jest"
   }
 }

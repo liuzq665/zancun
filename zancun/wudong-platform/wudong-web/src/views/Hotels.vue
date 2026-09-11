@@ -10,44 +10,6 @@
     </div>
 
     <div class="container">
-      <!-- 搜索和排序 -->
-      <div class="search-section">
-        <div class="search-bar">
-          <el-input
-            v-model="keyword"
-            placeholder="搜索民宿名称..."
-            size="large"
-            clearable
-            @clear="loadHotels"
-            @keyup.enter="loadHotels"
-            class="search-input"
-          >
-            <template #prefix>
-              <el-icon><Search /></el-icon>
-            </template>
-            <template #append>
-              <el-button :icon="Search" @click="loadHotels">搜索</el-button>
-            </template>
-          </el-input>
-        </div>
-        <!-- 排序选项 -->
-        <div class="sort-options">
-          <el-radio-group v-model="sortBy" size="default">
-            <el-radio-button value="default">默认排序</el-radio-button>
-            <el-radio-button value="distance" :disabled="!userLocation">
-              <span v-if="!userLocation">按距离</span>
-              <span v-else>距离最近</span>
-            </el-radio-button>
-          </el-radio-group>
-          <el-button v-if="!userLocation" text type="primary" size="small" @click="requestLocation">
-            <el-icon><Location /></el-icon> 开启定位
-          </el-button>
-          <el-tag v-else type="success" size="small">
-            <el-icon><Location /></el-icon> 已定位
-          </el-tag>
-        </div>
-      </div>
-
       <!-- 民宿类型筛选 -->
       <div class="filter-section">
         <div class="filter-header">
@@ -111,7 +73,7 @@
           </div>
 
           <div
-            v-for="hotel in sortedHotels"
+            v-for="hotel in hotels"
             :key="hotel.id"
             class="hotel-card card"
             @click="$router.push(`/hotels/${hotel.id}`)"
@@ -130,10 +92,6 @@
               <div class="image-tags">
                 <span class="hotel-type-tag">{{ hotel.hotelType }}</span>
                 <span class="recommend-tag" v-if="hotel.isRecommend">推荐</span>
-              </div>
-              <!-- 距离标签 -->
-              <div class="distance-tag" v-if="hotel.distance !== undefined">
-                <el-icon><Location /></el-icon> {{ formatDistance(hotel.distance) }}
               </div>
             </div>
             <div class="hotel-info">
@@ -175,17 +133,12 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue'
-import { Location, View, Search } from '@element-plus/icons-vue'
+import { ref, reactive, onMounted } from 'vue'
+import { Location, View } from '@element-plus/icons-vue'
 import { getHotelList } from '@/api/hotel'
-import { getUserLocation, calculateDistance, formatDistance as formatDist } from '@/utils/geo'
-import { ElMessage } from 'element-plus'
 
 const loading = ref(false)
 const selectedType = ref(null)
-const sortBy = ref('default')
-const userLocation = ref(null)
-const keyword = ref('')
 const hotels = ref([])
 const pagination = reactive({
   page: 1,
@@ -193,59 +146,11 @@ const pagination = reactive({
   total: 0,
 })
 
-// 格式化距离
-const formatDistance = (distance) => {
-  return formatDist(distance)
-}
-
-// 计算每个民宿的距离
-const hotelsWithDistance = computed(() => {
-  if (!userLocation.value || !hotels.value.length) {
-    return hotels.value
-  }
-  return hotels.value.map((h) => {
-    if (h.latitude && h.longitude) {
-      const distance = calculateDistance(
-        userLocation.value.latitude,
-        userLocation.value.longitude,
-        h.latitude,
-        h.longitude
-      )
-      return { ...h, distance }
-    }
-    return h
-  })
-})
-
-// 排序后的民宿列表
-const sortedHotels = computed(() => {
-  const list = [...hotelsWithDistance.value]
-  if (sortBy.value === 'distance') {
-    return list.sort((a, b) => {
-      const distA = a.distance ?? Infinity
-      const distB = b.distance ?? Infinity
-      return distA - distB
-    })
-  }
-  return list
-})
-
-// 请求用户位置
-const requestLocation = async () => {
-  try {
-    userLocation.value = await getUserLocation()
-    sortBy.value = 'distance'
-  } catch (error) {
-    ElMessage.warning('无法获取位置：' + error.message)
-  }
-}
-
 const loadHotels = async () => {
   loading.value = true
   try {
     const res = await getHotelList({
       hotelType: selectedType.value,
-      keyword: keyword.value || undefined,
       page: pagination.page,
       pageSize: pagination.pageSize,
     })
@@ -322,40 +227,14 @@ onMounted(() => {
   padding: 0 20px;
 }
 
-.search-section {
+.filter-section {
   margin-top: -50px;
   position: relative;
   z-index: 10;
-  margin-bottom: 24px;
-
-  .search-bar {
-    margin-bottom: 16px;
-
-    :deep(.search-input) {
-      .el-input__wrapper {
-        border-radius: 12px;
-        padding: 4px 16px;
-      }
-    }
-  }
-
-  .sort-options {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-}
-
-.filter-section {
   margin-bottom: 40px;
 
   .filter-header {
     margin-bottom: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
 
     h2 {
       font-size: 20px;
@@ -527,24 +406,6 @@ onMounted(() => {
         padding: 6px 12px;
         border-radius: 20px;
         font-size: 13px;
-      }
-    }
-
-    .distance-tag {
-      position: absolute;
-      bottom: 12px;
-      right: 12px;
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      padding: 6px 12px;
-      border-radius: 16px;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-
-      .el-icon {
-        font-size: 14px;
       }
     }
   }

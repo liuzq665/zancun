@@ -176,9 +176,9 @@ onMounted(() => {
 .page-hero {
   position: relative;
   height: 280px;
-  background: linear-gradient(135deg, #1a365d 0%, #6b21a8 50%, #1a365d 100%);
+  background: linear-gradient(135deg, #1a365d 0%, #2d5a87 50%, #1a365d 100%);
   background-image: url('https://images.pexels.com/photos/39452364/pexels-photo-39452364.jpeg?auto=compress&cs=tinysrgb&w=800'),
-                    linear-gradient(135deg, rgba(26, 54, 93, 0.9) 0%, rgba(107, 33, 168, 0.85) 50%, rgba(26, 54, 93, 0.9) 100%);
+                    linear-gradient(135deg, rgba(26, 54, 93, 0.9) 0%, rgba(45, 90, 135, 0.85) 50%, rgba(26, 54, 93, 0.9) 100%);
   background-size: cover;
   background-position: center;
   display: flex;
@@ -188,7 +188,7 @@ onMounted(() => {
   .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(26, 54, 93, 0.8) 0%, rgba(107, 33, 168, 0.7) 100%);
+    background: linear-gradient(180deg, rgba(26, 54, 93, 0.8) 0%, rgba(45, 90, 135, 0.7) 100%);
   }
 
   .hero-content {
@@ -438,7 +438,7 @@ onMounted(() => {
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 16px 48px rgba(107, 33, 168, 0.18);
+    box-shadow: 0 16px 48px rgba(45, 90, 135, 0.18);
 
     .image-overlay {
       opacity: 1;
@@ -465,7 +465,7 @@ onMounted(() => {
     .image-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(107, 33, 168, 0.6);
+      background: rgba(45, 90, 135, 0.6);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -526,7 +526,7 @@ onMounted(() => {
       margin-bottom: 14px;
 
       .el-tag {
-        background: rgba(107, 33, 168, 0.08);
+        background: rgba(45, 90, 135, 0.08);
         border: none;
         color: var(--secondary-color);
       }
@@ -561,7 +561,7 @@ onMounted(() => {
     justify-content: center;
     gap: 16px;
     border-left: 1px dashed var(--border-color);
-    background: linear-gradient(180deg, rgba(107, 33, 168, 0.03), rgba(107, 33, 168, 0.08));
+    background: linear-gradient(180deg, rgba(45, 90, 135, 0.03), rgba(45, 90, 135, 0.08));
 
     .route-price {
       text-align: center;
