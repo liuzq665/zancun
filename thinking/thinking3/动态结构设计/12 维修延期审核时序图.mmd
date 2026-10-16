@@ -1,0 +1,61 @@
+sequenceDiagram
+    autonumber
+    actor Student as 学生
+    actor Manager as 宿管
+    actor Worker as 维修人员
+    participant System as 系统
+
+    Worker->>System: 提交延期原因、现场照片和预计完成时间
+    System->>System: 核对当前负责人、未完工状态、照片、预计时间及是否有未决延期
+    alt 申请不合法或负责人、工单状态已变化
+        System-->>Worker: 拒绝延期申请并说明原因，原期限不变
+    else 申请有效
+        System->>System: 建立待审核延期申请，工单变为维修延期，保留原期限和负责人
+        System-->>Worker: 申请已提交，等待宿管审核
+        System-->>Manager: 通知审核本楼栋延期申请
+        Note over Worker,System: 延期审核中暂停施工超时判定，不解除原负责人
+    end
+
+    opt 存在待审核延期申请
+        Manager->>System: 查看延期原因、现场照片和预计时间
+        System-->>Manager: 返回有效申请及工单维修情况
+        Manager->>System: 提交通过或不通过结论，不通过时填写原因
+        System->>System: 再核对楼栋权限、当前负责人、工单和申请有效性
+        alt 无权审核、参数不合法或申请已处理
+            System-->>Manager: 审核未生效，提示原因
+        else 审核前已完工或负责人合法变更
+            System->>System: 延期申请变为已失效，保留原因，不修改当前工单状态
+            System-->>Manager: 通知该延期申请已失效
+        else 审核通过且预计完成时间仍有效
+            System->>System: 延期申请变为已通过，工单仍为维修延期，采用批准的新期限
+            System-->>Manager: 审核通过
+            System-->>Worker: 通知按新的截止时间继续维修，原负责人不变
+            System-->>Student: 通知延期原因及预计完成时间
+        else 审核不通过且原因合法
+            System->>System: 延期申请变为未通过，恢复原维修期限的判定
+            alt 原期限尚未到达
+                System->>System: 工单回到已接单，原负责人继续负责
+                System-->>Worker: 通知延期不通过，原期限仍有效
+            else 原期限已经到达
+                System->>System: 记录施工超时，作废当前派单并解除原负责人
+                System->>System: 标记异常，工单变为待人工处理，只进手动派单池
+                System-->>Manager: 通知需手动重新派单
+                System-->>Worker: 通知延期不通过且原派单失效
+            end
+            System-->>Manager: 不通过结论已保存
+        end
+    end
+
+    opt 延期申请已通过，批准的新截止时间到达
+        System->>System: 再检查仍为维修延期、原负责人有效且未完工
+        alt 确实未完工且没有新的未决延期
+            System->>System: 记录施工超时，作废当前派单并解除原负责人
+            System->>System: 标记异常，工单变为待人工处理，只进手动派单池
+            System-->>Manager: 通知延期后仍超时，需人工处理
+            System-->>Worker: 通知原派单失效
+        else 已完工、已变更负责人或新延期正在审核
+            System->>System: 不重复记录施工超时或覆盖当前状态
+        end
+    end
+    Note over Worker,System: 延期后完工见 03 图；完工使未决申请失效，不把已维修工单重新改为维修延期
+    Note over Manager,System: 再次延期需新建申请历史，同一时刻最多一条未决申请；延期申请状态与工单状态分开

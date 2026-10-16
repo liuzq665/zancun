@@ -1,0 +1,59 @@
+@startuml
+' 假期留宿业务详细分图：重新审核与开放区间变更
+title 假期留宿业务详细流程：重新审核与开放区间变更
+
+skinparam shadowing false
+skinparam defaultFontSize 13
+skinparam activityFontSize 13
+skinparam activityMessageFontSize 12
+skinparam activityDiamondFontSize 12
+skinparam ArrowColor #666666
+!pragma useVerticalIf on
+
+|#LightSteelBlue|系统管理员|
+start
+:修改一个连续可留宿开放区间;
+:系统重新校验已提交和已通过申请;
+
+|#AntiqueWhite|宿管|
+:重新审核原已通过申请;
+if (申请日期完全落在新开放区间内？) then (是)
+  :申请继续保持“已通过”;
+else (否)
+  :填写驳回原因;
+  :申请变为“待修改”;
+  :取消该申请锁定;
+  :设置学生重交截止时间;
+  :通知学生重新提交;
+endif
+
+|#PaleGreen|学生|
+label L_STUDENT
+if (是否在重交截止时间前提交？) then (是)
+  :在原申请上修改留宿日期或内容;
+  :系统按新开放区间重新校验;
+  :重新提交申请;
+  :申请立即锁定并进入“审核中”;
+else (否)
+  |#LightGray|系统|
+  :待修改申请逾期归档;
+  :不产生已完成留宿记录;
+  stop
+endif
+
+|#AntiqueWhite|宿管|
+:重交截止时间到达;
+:统一审核重新提交的申请;
+if (复审通过？) then (是)
+  :申请变为“已通过”;
+else (否)
+  :填写新的不通过原因;
+  :申请再次变为“待修改”;
+  :设置下一次重交截止时间;
+  ->L_STUDENT
+endif
+
+|#LightGray|系统|
+:保留申请历史和每次审核记录;
+stop
+@enduml

@@ -1,0 +1,82 @@
+@startuml
+' 报修业务详细分图：异常派单与无可派维修人员
+title 报修业务详细流程：异常派单与无可派人员
+
+skinparam shadowing false
+skinparam defaultFontSize 13
+skinparam activityFontSize 13
+skinparam activityMessageFontSize 12
+skinparam activityDiamondFontSize 12
+skinparam ArrowColor #666666
+!pragma useVerticalIf on
+
+|#LightSteelBlue|系统管理员|
+start
+:工单进入自动派单池;
+:按工种、故障类型、负责范围和当前工单数筛选人员;
+:排除已拒绝过该工单的维修人员;
+if (存在未尝试的合适维修人员？) then (是)
+  :自动派单;
+  :工单进入“待接单”;
+else (否)
+  :工单进入“待人工处理：无可派人员”;
+  :通知宿管或管理员处理;
+  stop
+endif
+
+|#AntiqueWhite|维修人员|
+if (维修人员确认接单？) then (是)
+  :确认接单;
+  :工单进入“已接单”;
+else (拒单或超时未处理)
+  if (拒单？) then (是)
+    :记录一次拒单;
+  else (否)
+    :记录一次超时未处理;
+  endif
+endif
+
+|#LightSteelBlue|系统管理员|
+:分别累计拒单次数和超时未处理次数;
+if (拒单次数 + 超时未处理次数 > 2？) then (是)
+  :标记为“异常工单”;
+  :工单进入手动派单池;
+else (否)
+  if (仍有未尝试的合适维修人员？) then (是)
+    :工单回到自动派单池;
+  else (否)
+    :工单进入“待人工处理：无可派人员”;
+    stop
+  endif
+endif
+
+|#AntiqueWhite|宿管|
+label L1
+:查看手动派单池中的工单;
+if (存在符合资质的维修人员？) then (是)
+  :执行手动强制派单;
+  :工单进入“已接单”;
+  note right
+    异常工单、紧急工单和重修工单
+    手动派单后由系统自动确认接单。
+    后续不再回到自动派单池。
+  end note
+else (否)
+  :工单保持“待人工处理：无可派人员”;
+  :补充维修人员或调整负责范围;
+  :处理后重新进入手动派单池;
+  ->L1
+endif
+
+|#LightSteelBlue|系统管理员|
+:持续判断超时未修好;
+if (超时未修好次数 >= 1？) then (是)
+  :标记为“异常工单”;
+  :超时未修好次数继续累计;
+  :解除原维修人员负责关系;
+  :工单进入手动派单池;
+else (否)
+  :按当前派单结果继续维修;
+endif
+stop
+@enduml

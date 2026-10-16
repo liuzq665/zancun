@@ -1,0 +1,88 @@
+sequenceDiagram
+    autonumber
+    actor Student as 学生
+    actor Manager as 宿管
+    participant System as 系统
+
+    Student->>System: 填写故障位置、分类、维修工种、描述和备注
+    opt 补充故障图片
+        Student->>System: 上传故障图片
+        System-->>Student: 返回图片上传结果
+    end
+    Student->>System: 选择保存草稿或提交报修
+    System->>System: 核对本人、有效住宿、内容图片、可编辑状态和操作期限
+    alt 校验不通过或工单已发生变化
+        System-->>Student: 提示原因，不接受本次非法操作
+    else 保存草稿
+        System->>System: 保存未提交编辑，首次草稿为待编辑
+        System-->>Student: 草稿已保存，尚未提交审核
+        Note over Student,System: 退回工单保存编辑仍为待修改，原重交期限不变
+    else 正式提交或待修改期限内重交
+        System->>System: 保存新的提交版本，工单变为待审核
+        System-->>Student: 提交成功，待审核
+        System-->>Manager: 通知管辖楼栋宿管审核已提交工单
+    end
+
+    opt 工单仍为待审核，宿管进行审核
+        Manager->>System: 查看管辖楼栋的报修详情
+        System-->>Manager: 展示已提交内容、故障图片和历史审核记录
+        Manager->>System: 提交通过结论，或填写原因退回，可标记紧急
+        System->>System: 核对楼栋权限、待审核状态和当前提交内容
+        alt 越权、内容已变化、已撤回或退回原因缺失
+            System-->>Manager: 审核未生效，提示原因并要求刷新
+        else 审核通过
+            System->>System: 保存审核结论，工单变为待派单
+            alt 普通且非重修工单
+                System->>System: 纳入自动派单池
+            else 紧急或重修工单
+                System->>System: 纳入手动派单池，不进入普通自动池
+            end
+            System-->>Manager: 审核通过，待派单
+            System-->>Student: 通知审核通过及后续维修安排
+        else 审核不通过
+            System->>System: 保存不通过原因，工单变为待修改，设置重交期限
+            System-->>Manager: 审核结果已保存
+            System-->>Student: 通知修改原因及重新提交期限
+        end
+    end
+
+    opt 学生在待修改期限内重新提交
+        Student->>System: 按原因修改原工单并重新提交
+        System->>System: 再次核对本人、内容、待修改状态和期限
+        alt 仍允许重新提交且内容合法
+            System->>System: 保留旧版本和审核历史，保存新版本，变为待审核
+            System-->>Student: 重交成功，待审核
+            System-->>Manager: 通知审核新提交版本，审核步骤同上
+        else 已逾期、状态变化或内容不合法
+            System-->>Student: 拒绝重交并说明原因
+        end
+    end
+
+    opt 学生申请撤回
+        Student->>System: 撤回本人报修工单
+        System->>System: 核对可撤回状态且该工单从未正式派单
+        alt 已经正式派单或当前状态不允许
+            System-->>Student: 不允许撤回，保留当前工单
+        else 正式派单前仍可撤回
+            System->>System: 工单变为已撤销，保留原单及版本和审核历史
+            System-->>Student: 撤回成功
+            System-->>Manager: 通知该工单已撤回
+            opt 学生选择复用原工单
+                Student->>System: 继续编辑已撤销工单
+                System->>System: 核对仍可复用，工单回到待编辑，保留撤回历史
+                System-->>Student: 返回原工单供继续编辑和提交
+            end
+        end
+    end
+
+    opt 待修改工单到达重交截止时间
+        System->>System: 再检查仍为待修改且未按期重交
+        alt 确实逾期且状态未变化
+            System->>System: 工单变为已关闭，再归档，记录逾期原因
+            System-->>Student: 通知工单因逾期未重交已关闭并归档
+        else 已重交、已撤回或尚未到期
+            System->>System: 不执行逾期关闭
+        end
+    end
+    Note over Student,System: 已驳回仅是审核结论，当前状态为待修改；逾期关闭不产生维修完成、确认或评价
+    Note over Manager,System: 后续派单和维修见 03 图，学生确认、评价及重修见 17 图

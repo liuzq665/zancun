@@ -1,0 +1,33 @@
+stateDiagram-v2
+    direction LR
+
+    state "待审核" as PENDING
+    state "已通过" as APPROVED
+    state "未通过" as REJECTED
+    state "已失效" as INVALIDATED
+
+    [*] --> PENDING : 当前维修负责人提交合规延期申请
+    PENDING --> APPROVED : 宿管审核通过且预计完成时间有效
+    PENDING --> REJECTED : 宿管审核不通过并填写原因
+    PENDING --> INVALIDATED : 审核前工单完工或负责人已合法变更
+    APPROVED --> [*] : 保存审核结果，工单按新截止时间维修
+    REJECTED --> [*] : 保存审核结果，恢复原期限并重新判定超时
+    INVALIDATED --> [*] : 保留申请和失效原因，不再批准
+
+    note right of PENDING
+        描述维修延期申请实体，不是报修工单。
+        工单处于维修延期状态，审核期间暂停超时判定。
+        待审核仅代表无审核结论，不强制新增数据库字段。
+    end note
+    note right of APPROVED
+        申请审核完成不等于维修完工。
+        通过后工单保持维修延期；再次延期需新建延期申请。
+    end note
+    note right of REJECTED
+        原期限未到期，工单回到已接单；
+        若原期限已到，标记施工超时，解除负责人，进入待人工处理。
+    end note
+    note right of INVALIDATED
+        失效为终态，用于处理完工与审核并发场景，保留历史。
+        不删除申请记录，不会把已完工工单改回维修延期状态。
+    end note

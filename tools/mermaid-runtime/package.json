@@ -1,0 +1,8 @@
+{
+  "name": "dorm-dynamic-diagram-validation",
+  "private": true,
+  "description": "Local Mermaid syntax validation for dorm system design diagrams",
+  "dependencies": {
+    "mermaid": "^11.12.1"
+  }
+}

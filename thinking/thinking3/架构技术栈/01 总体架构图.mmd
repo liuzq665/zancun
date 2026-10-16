@@ -1,0 +1,77 @@
+flowchart TB
+    subgraph CLIENT[四类角色操作端]
+        student[学生端]
+        manager[宿管端]
+        worker[维修人员端]
+        admin[系统管理员端]
+    end
+
+    subgraph FRONTEND[前端应用层]
+        vue[Vue 3 + Vite]
+        router[Vue Router]
+        pinia[Pinia]
+        element[Element Plus]
+        axios[Axios]
+    end
+
+    subgraph BACKEND[后端服务层 Spring Boot]
+        security[认证授权 Spring Security + JWT]
+        api[REST API Controller]
+        service[业务服务 Service]
+        job[定时任务 Job]
+        mapper[数据访问 Mapper]
+    end
+
+    subgraph DATA[数据与存储层]
+        mysql[(MySQL)]
+        redis[(Redis 可选)]
+        files[(本地文件 / MinIO 可选)]
+    end
+
+    subgraph OPS[工程与部署]
+        git[Git]
+        maven[Maven]
+        junit[JUnit]
+        docker[Docker / Docker Compose]
+        k8s[Kubernetes 可选]
+    end
+
+    student --> vue
+    manager --> vue
+    worker --> vue
+    admin --> vue
+
+    vue --> router
+    vue --> pinia
+    vue --> element
+    vue --> axios
+    axios --> api
+
+    api --> security
+    api --> service
+    service --> mapper
+    service --> job
+    mapper --> mysql
+    service --> redis
+    service --> files
+
+    maven --> BACKEND
+    junit --> BACKEND
+    git --> FRONTEND
+    git --> BACKEND
+    docker --> FRONTEND
+    docker --> BACKEND
+    docker --> DATA
+    k8s -.-> docker
+
+    classDef actor fill:#f5f5f5,stroke:#555,color:#111
+    classDef frontend fill:#e8f4ff,stroke:#39739d,color:#111
+    classDef backend fill:#eaf8ea,stroke:#4f8a4f,color:#111
+    classDef data fill:#fff4db,stroke:#b8860b,color:#111
+    classDef ops fill:#f2eafa,stroke:#7b5ca7,color:#111
+
+    class student,manager,worker,admin actor
+    class vue,router,pinia,element,axios frontend
+    class security,api,service,job,mapper backend
+    class mysql,redis,files data
+    class git,maven,junit,docker,k8s ops

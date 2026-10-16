@@ -1,0 +1,196 @@
+classDiagram
+    direction LR
+
+    class AuthController {
+        +login(LoginRequest) Result~LoginResponse~
+        +changePassword(ChangePasswordRequest) Result
+    }
+
+    class DormController {
+        +queryAccommodation(AccommodationQuery) Result~AccommodationVO~
+        +assignBed(BedAssignRequest) Result
+    }
+
+    class RepairController {
+        +submit(RepairSubmitRequest) Result~RepairOrderVO~
+        +audit(Long orderId, AuditRequest) Result
+        +accept(Long dispatchId) Result
+        +complete(Long orderId, CompleteRequest) Result
+        +confirm(Long orderId) Result
+        +evaluate(Long orderId, EvaluationRequest) Result
+    }
+
+    class StayController {
+        +submit(StaySubmitRequest) Result~StayApplicationVO~
+        +lock(Long applicationId) Result
+        +audit(Long applicationId, ReviewRequest) Result
+        +resubmit(Long applicationId, StaySubmitRequest) Result
+    }
+
+    class NoticeController {
+        +listMessages(MessageQuery) Result~PageResult~
+        +markRead(Long receiptId) Result
+    }
+
+    class SystemController {
+        +createImportTask(ImportRequest) Result
+        +exportData(ExportRequest) Result
+        +backup(BackupRequest) Result
+    }
+
+    class AuthService {
+        +login(LoginRequest) LoginResponse
+        +changePassword(Long userId, String newPassword)
+        +assignRole(Long userId, Long roleId)
+    }
+
+    class DormService {
+        +queryAccommodation(CurrentUser, AccommodationQuery) AccommodationVO
+        +assignBed(BedAssignCommand)
+        +terminateAssignment(Long assignmentId, LocalDate date)
+    }
+
+    class RepairOrderService {
+        +submit(CurrentUser, RepairSubmitCommand) RepairOrderVO
+        +audit(CurrentUser, Long orderId, AuditCommand)
+        +dispatch(CurrentUser, Long orderId, DispatchCommand)
+        +accept(CurrentUser, Long dispatchId)
+        +complete(CurrentUser, Long orderId, CompleteCommand)
+        +confirm(CurrentUser, Long orderId)
+        +evaluate(CurrentUser, Long orderId, EvaluationCommand)
+        +requestRework(CurrentUser, Long orderId, ReworkCommand)
+    }
+
+    class StayApplicationService {
+        +submit(CurrentUser, StaySubmitCommand) StayApplicationVO
+        +lock(CurrentUser, Long applicationId)
+        +audit(CurrentUser, Long applicationId, ReviewCommand)
+        +resubmit(CurrentUser, Long applicationId, StaySubmitCommand)
+        +archive(LocalDate today)
+    }
+
+    class NoticeService {
+        +publish(MessageCommand)
+        +generateReceipts(Long messageId)
+        +markRead(CurrentUser, Long receiptId)
+    }
+
+    class SystemTaskService {
+        +createImportTask(CurrentUser, ImportCommand) Long
+        +executeImport(Long taskId)
+        +executeExport(CurrentUser, ExportCommand) Long
+        +backup(CurrentUser, BackupCommand) Long
+    }
+
+    class RepairOrderMapper {
+        +findById(Long orderId) RepairOrder
+        +insert(RepairOrder order)
+        +updateStatus(Long orderId, RepairOrderStatus status)
+    }
+
+    class AccommodationMapper {
+        +findEffectiveByStudent(Long studentId, LocalDate date) AccommodationAssignment
+        +findAvailableBed(Long roomId) List~Bed~
+        +insert(AccommodationAssignment assignment)
+    }
+
+    class StayApplicationMapper {
+        +findById(Long applicationId) StayApplication
+        +insert(StayApplication application)
+        +updateStatus(Long applicationId, String status)
+    }
+
+    class NoticeMapper {
+        +insert(SiteMessage message)
+        +insertReceipts(List~MessageReceipt~ receipts)
+        +markRead(Long receiptId, LocalDateTime readAt)
+    }
+
+    class FileService {
+        +upload(FileUpload) FileResource
+        +getMetadata(Long fileId) FileResource
+        +delete(Long fileId)
+    }
+
+    class FileStorage {
+        <<interface>>
+        +put(InputStream input, String filename) String
+        +delete(String storageName)
+        +url(String storageName) String
+    }
+
+    class RepairTimeoutJob {
+        +scanAcceptTimeout()
+        +scanRepairTimeout()
+        +scanAutoConfirm()
+    }
+
+    class StayArchiveJob {
+        +lockExpiredApplications()
+        +archiveCompletedBatches()
+    }
+
+    class CurrentUser {
+        +Long userId
+        +Set~String~ roles
+        +Set~String~ permissions
+        +hasPermission(String code) Boolean
+    }
+
+    AuthController --> AuthService : 调用
+    DormController --> DormService : 调用
+    RepairController --> RepairOrderService : 调用
+    StayController --> StayApplicationService : 调用
+    NoticeController --> NoticeService : 调用
+    SystemController --> SystemTaskService : 调用
+
+    AuthService --> CurrentUser : 产生
+    DormService --> CurrentUser : 校验数据范围
+    RepairOrderService --> CurrentUser : 校验角色和楼栋范围
+    StayApplicationService --> CurrentUser : 校验角色和楼栋范围
+    NoticeService --> CurrentUser : 校验接收人
+    SystemTaskService --> CurrentUser : 校验管理员
+
+    RepairOrderService --> RepairOrderMapper : 持久化
+    DormService --> AccommodationMapper : 持久化
+    StayApplicationService --> StayApplicationMapper : 持久化
+    NoticeService --> NoticeMapper : 持久化
+    RepairOrderService --> FileService : 图片与结果文件
+    StayApplicationService --> FileService : 申请附件
+    SystemTaskService --> FileService : 导入导出和备份文件
+    FileService --> FileStorage : 文件适配
+
+    RepairTimeoutJob --> RepairOrderService : 复用状态规则
+    StayArchiveJob --> StayApplicationService : 复用归档规则
+    RepairOrderService --> NoticeService : 发送业务消息
+    StayApplicationService --> NoticeService : 发送业务消息
+    SystemTaskService --> NoticeService : 发送任务结果
+
+    note for RepairOrderService "事务边界：状态、过程记录、文件关联、消息和审计必须按用例要求一致提交"
+    note for RepairTimeoutJob "Job 不直接访问 Mapper；自动处理与人工操作共用 Service 状态机"
+    class StatisticsController {
+        +repairSummary(StatisticsQuery) Result~RepairStatisticsVO~
+        +accommodationSummary(StatisticsQuery) Result~AccommodationStatisticsVO~
+        +staySummary(StatisticsQuery) Result~StayStatisticsVO~
+    }
+    class StatisticsService {
+        +repairSummary(CurrentUser, StatisticsQuery) RepairStatisticsVO
+        +accommodationSummary(CurrentUser, StatisticsQuery) AccommodationStatisticsVO
+        +staySummary(CurrentUser, StatisticsQuery) StayStatisticsVO
+    }
+    StatisticsController --> StatisticsService : 调用
+    StatisticsService --> CurrentUser : 校验数据范围
+    StatisticsService --> RepairStatisticsMapper : 查询报修统计
+    StatisticsService --> DormStatisticsMapper : 查询住宿统计
+    StatisticsService --> StayStatisticsMapper : 查询留宿统计
+    class RepairStatisticsMapper {
+        +summarize(StatisticsQuery) RepairStatisticsVO
+    }
+
+    class DormStatisticsMapper {
+        +summarize(StatisticsQuery) AccommodationStatisticsVO
+    }
+
+    class StayStatisticsMapper {
+        +summarize(StatisticsQuery) StayStatisticsVO
+    }

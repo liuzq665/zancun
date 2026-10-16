@@ -1,0 +1,73 @@
+stateDiagram-v2
+    direction LR
+
+    [*] --> DRAFT : 新建工单
+    [*] --> PENDING_REVIEW : 直接提交或创建关联重修工单
+    state "待编辑" as DRAFT
+    state "待审核" as PENDING_REVIEW
+    state "待修改" as PENDING_EDIT
+    state "待派单" as PENDING_ASSIGN
+    state "待接单" as PENDING_ACCEPT
+    state "已接单" as ACCEPTED
+    state "维修延期" as DELAYED
+    state "已维修" as REPAIRED
+    state "已确认" as CONFIRMED
+    state "待人工处理" as PENDING_MANUAL
+    state "已关闭" as CLOSED
+    state "已撤销" as WITHDRAWN
+    state "已归档" as ARCHIVED
+
+    DRAFT --> PENDING_REVIEW : 学生提交
+    DRAFT --> WITHDRAWN : 放弃已保存草稿，保留记录
+    PENDING_REVIEW --> WITHDRAWN : 学生撤回并保留记录
+    PENDING_REVIEW --> PENDING_ASSIGN : 宿管审核通过
+    PENDING_REVIEW --> PENDING_EDIT : 宿管驳回，记录原因
+    PENDING_EDIT --> PENDING_REVIEW : 学生修改后重新提交
+    PENDING_EDIT --> CLOSED : 超过重新提交期限
+    PENDING_EDIT --> WITHDRAWN : 从未正式派单且学生撤回
+    PENDING_ASSIGN --> WITHDRAWN : 从未正式派单且学生撤回
+    PENDING_MANUAL --> WITHDRAWN : 从未正式派单且学生撤回
+    PENDING_ASSIGN --> PENDING_ACCEPT : 普通工单自动派单
+    PENDING_ASSIGN --> ACCEPTED : 宿管强制派单并自动接单
+    PENDING_ASSIGN --> PENDING_MANUAL : 无可派人员
+    PENDING_ACCEPT --> ACCEPTED : 维修人员接单
+    PENDING_ACCEPT --> PENDING_ASSIGN : 拒单/接单超时且未达异常门槛
+    PENDING_ACCEPT --> PENDING_MANUAL : 达到异常门槛或无新候选人
+    ACCEPTED --> DELAYED : 申请延期
+    ACCEPTED --> REPAIRED : 提交维修结果
+    ACCEPTED --> PENDING_MANUAL : 施工超时，标记异常并解除原负责人
+    DELAYED --> ACCEPTED : 延期驳回且原维修期限未到
+    DELAYED --> PENDING_MANUAL : 延期驳回且原期限已到，标记异常
+    DELAYED --> REPAIRED : 提交维修结果，结束未决延期
+    DELAYED --> PENDING_MANUAL : 延期已通过但新期限到达仍未修好
+    REPAIRED --> CONFIRMED : 学生确认
+    REPAIRED --> CONFIRMED : 系统超时自动确认
+    CONFIRMED --> ARCHIVED : 保存评价或完成归档
+    PENDING_MANUAL --> ACCEPTED : 宿管强制派单
+    PENDING_MANUAL --> PENDING_EDIT : 确认不属于校内维修范围
+    PENDING_MANUAL --> PENDING_ASSIGN : 仅非异常普通工单协调人员后重新进入自动池
+    WITHDRAWN --> DRAFT : 复用原工单
+    WITHDRAWN --> [*] : 不再复用，保留原单历史
+    ARCHIVED --> [*]
+    CLOSED --> ARCHIVED : 自动归档，不产生维修确认或评价
+
+    note right of PENDING_MANUAL
+        异常、紧急、重修仅为业务标签，不是工单主状态。
+        拒单加接单超时>2次，或施工超时≥1次，标记异常工单。
+    end note
+    note right of REPAIRED
+        学生申请重修：原工单保持已维修，新建关联重修工单，
+        重修工单从待审核开始。本版不自动暂停原单超时确认。
+    end note
+    note right of PENDING_EDIT
+        “已驳回”是审核结论，页面主状态为“待修改”。
+    end note
+    note right of WITHDRAWN
+        正式派单后学生不能撤回，即使工单回流待派单。
+        撤回、复用保留历史；新建工单为独立工单。
+    end note
+    note right of DELAYED
+        维修延期状态下，支持多次提交延期申请，状态保持不变。
+        审核期间暂停施工超时判定，审批通过启用新截止时间。
+        延期申请流转参见14号延期申请状态图。
+    end note

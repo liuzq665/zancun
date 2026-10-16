@@ -1,0 +1,103 @@
+sequenceDiagram
+    autonumber
+    actor Student as 学生
+    actor Manager as 宿管
+    actor Admin as 系统管理员
+    participant System as 系统
+
+    opt 管理员修改已发布的连续开放区间
+        Admin->>System: 修改本次假期的开放开始和结束日期
+        System->>System: 核对配置权限、连续区间及日期顺序
+        alt 配置不合法或原配置已变化
+            System-->>Admin: 拒绝修改并说明原因
+        else 修改合法
+            System->>System: 发布新区间，检查尚未归档的受影响申请
+            System-->>Admin: 区间已更新，受影响申请须重新校验或复核
+            System-->>Manager: 通知开放区间已变更及需复核申请
+            System-->>Student: 通知新的开放区间和可能受影响的日期
+            loop 每张受影响的已提交或已通过申请
+                System->>System: 按最新区间重新检查该申请的所有日期段
+                alt 原申请已通过
+                    System->>System: 标记需复核，暂停完成归档，不符合新规则者暂不计入有效留宿人数
+                    Manager->>System: 复核本楼栋申请并提交结论
+                    System->>System: 再核对楼栋权限、当前申请和最新区间
+                    alt 审核依据已变化或没有复核权限
+                        System-->>Manager: 不接受过期或越权复核，保留待复核要求
+                    else 日期符合新区间且复核通过
+                        System->>System: 保存复核历史，仍为已通过并保持锁定
+                        System-->>Manager: 复核通过
+                        System-->>Student: 通知留宿批准继续有效
+                    else 日期不符合或复核不通过，原因和重交期限合法
+                        System->>System: 保存原因和重交期限，解锁并变为待修改
+                        System-->>Manager: 复核结果已保存
+                        System-->>Student: 通知按新区间修改并重新提交
+                    else 退回原因或重交期限缺失
+                        System-->>Manager: 复核未生效，须补充原因和期限
+                    end
+                else 待审核、审核中或待修改申请
+                    System-->>Student: 提醒后续操作须符合新开放区间
+                    System-->>Manager: 提醒后续审核使用最新区间和已提交版本
+                end
+            end
+        end
+    end
+
+    opt 正常截止后出现特殊留宿需求
+        alt 学生提出逾期补录需求
+            Student->>System: 提出临时留宿需求
+            System-->>Manager: 转达本楼栋学生的补录需求
+            Manager->>System: 为指定学生设置例外受理权限、原因和截止时间
+            System->>System: 核对楼栋权限，例外只适用于指定学生，不改全体截止时间
+            alt 例外授权合法
+                System-->>Student: 通知可在指定期限内补录
+                Student->>System: 提交留宿日期段和事由
+            else 无权授权或例外条件不合法
+                System-->>Manager: 拒绝例外授权，不开放本次补录入口
+            end
+        else 宿管人工添加本楼栋学生
+            Manager->>System: 为本楼栋学生录入日期段和留宿事由
+        else 系统管理员人工添加学生
+            Admin->>System: 为全校范围内指定学生录入日期段和留宿事由
+        end
+        opt 学生已获授权并提交，或管理人员已提交人工录入
+            System->>System: 核对实际操作者、有效授权、学生资格、已有申请和最新日期规则
+            alt 授权无效、已有不可编辑申请或日期与内容不合法
+                System->>System: 不建立非法申请，不覆盖原提交内容
+                alt 当前提交者是学生
+                    System-->>Student: 提示补录未受理及原因
+                else 当前提交者是宿管
+                    System-->>Manager: 提示人工添加未受理及原因
+                else 当前提交者是系统管理员
+                    System-->>Admin: 提示人工添加未受理及原因
+                end
+            else 补录或人工添加合法
+                System->>System: 沿用同学生同批次的唯一申请，保存新提交版本及真实录入人
+                System->>System: 记录来源为逾期补录或人工添加，单独锁定，变为审核中
+                System-->>Student: 通知特殊申请已受理并锁定
+                System-->>Manager: 通知本楼栋特殊申请待审核
+                alt 管辖宿管执行审核
+                    Manager->>System: 查看锁定版本并提交审核结论
+                else 系统管理员获明确的特殊申请审核或复核授权
+                    Admin->>System: 查看锁定版本并提交审核或复核结论
+                end
+                System->>System: 核对审核权限、申请来源、锁定内容和最新开放区间
+                alt 越权、依据已变化或审核参数不合法
+                    System->>System: 不应用非法审核结果，保留当前状态
+                else 审核通过
+                    System->>System: 保存审核历史，变为已通过并保持锁定，纳入留宿人数
+                    System-->>Student: 通知特殊留宿申请已通过
+                else 审核不通过且原因和重交期限合法
+                    System->>System: 保存原因和重交期限，解锁，变为待修改
+                    System-->>Student: 通知修改原因和重新提交期限
+                end
+                alt 本次审核者是宿管
+                    System-->>Manager: 返回审核结果或未生效原因
+                else 本次审核者是系统管理员
+                    System-->>Admin: 返回审核复核结果或未生效原因
+                end
+            end
+        end
+    end
+    Note over Manager,System: 系统管理员不自动代替宿管常规楼栋审核；是否双人双审仍待确认
+    Note over Student,System: 正常、补录、人工添加是申请来源而非状态；重交和归档见 04 图，不增加第二张同批次申请
+    Note over Student,System: 留宿人数指获准留宿人数，不表示实际入住，不新增提前离宿或延长留宿流程

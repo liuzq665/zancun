@@ -1,0 +1,35 @@
+stateDiagram-v2
+    direction LR
+
+    [*] --> PENDING : 创建自动派单
+    [*] --> ACCEPTED : 手动强制派单，系统自动确认接单
+    state "待接单" as PENDING
+    state "已接单" as ACCEPTED
+    state "已拒单" as REJECTED
+    state "超时未接" as TIMEOUT
+    state "已作废" as CANCELLED
+
+    PENDING --> ACCEPTED : 维修人员接单
+    PENDING --> REJECTED : 维修人员拒单并填写原因
+    PENDING --> TIMEOUT : 超过接单时限未响应
+    PENDING --> CANCELLED : 合法人工接管、重新派单或流程取消
+    ACCEPTED --> CANCELLED : 完工前施工超时或合法更换负责人
+    REJECTED --> [*]
+    TIMEOUT --> [*]
+    CANCELLED --> [*]
+    ACCEPTED --> [*] : 已提交维修结果，本次派单完成且历史保留
+
+    note right of PENDING
+        同一工单同一时刻最多一条有效派单记录。
+        接单、拒单、超时并发，仅一个条件更新成功。
+        待接单对应旧类图DispatchStatus.WAITING。
+        正式派单后学生不可撤回工单，作废不含学生撤回场景。
+    end note
+    note right of ACCEPTED
+        派单流程结束不会删除接单历史。
+        已维修、已确认未归档工单仍计入原负责人工作量。
+    end note
+    note right of CANCELLED
+        作废记录保留原因；重新派单生成全新派单记录。
+        拒单、接单超时、施工超时属于不同业务场景。
+    end note

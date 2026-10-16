@@ -1,0 +1,46 @@
+stateDiagram-v2
+    direction LR
+
+    [*] --> DRAFT : 新建申请
+    state "待编辑" as DRAFT
+    state "待审核" as PENDING_REVIEW
+    state "审核中" as UNDER_REVIEW
+    state "待修改" as PENDING_EDIT
+    state "已通过" as APPROVED
+    state "已完成" as COMPLETED
+    state "已归档" as ARCHIVED
+
+    DRAFT --> PENDING_REVIEW : 学生提交
+    DRAFT --> [*] : 放弃纯草稿，不计入正式申请统计
+    PENDING_REVIEW --> DRAFT : 学生撤回且尚未锁定
+    PENDING_REVIEW --> UNDER_REVIEW : 宿管提前锁定/截止自动锁定
+    UNDER_REVIEW --> PENDING_REVIEW : 合法取消锁定且未过截止或有个别例外授权
+    UNDER_REVIEW --> APPROVED : 宿管审核通过，保持锁定
+    UNDER_REVIEW --> PENDING_EDIT : 宿管驳回，解除锁定
+    PENDING_EDIT --> UNDER_REVIEW : 学生修改后重新提交并立即锁定
+    PENDING_EDIT --> ARCHIVED : 超过重交截止时间未提交
+    APPROVED --> PENDING_EDIT : 开放区间变更，复核不通过并解除锁定
+    APPROVED --> COMPLETED : 最后一段已通过日期结束次日零点且不待复核
+    COMPLETED --> ARCHIVED : 系统归档历史记录
+    ARCHIVED --> [*]
+
+    note right of PENDING_REVIEW
+        未锁定状态下，学生可编辑、撤回、重新提交申请，
+        在待审核状态内可多次修改重提，保存新版本。
+        宿管仅查看已提交版本，草稿修改不覆盖审核依据。
+    end note
+    note right of UNDER_REVIEW
+        标记锁定；学生无法修改，宿管开展统一审核。
+    end note
+    note right of PENDING_EDIT
+        “驳回”为审核结论，页面展示状态为待修改。
+    end note
+    note right of APPROVED
+        正常申请、逾期补录、人工添加是申请来源，不属于主状态。
+        区间变更复核期间暂停归档；不满足新规则不计入当前人数。
+        已通过状态下，区间变更复核通过，状态保持已通过不变。
+    end note
+    note right of ARCHIVED
+        留宿归档保存完成记录；逾期未重交归档仅记录原因，
+        不生成有效留宿记录。
+    end note

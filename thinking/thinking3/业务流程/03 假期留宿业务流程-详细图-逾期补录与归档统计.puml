@@ -1,0 +1,62 @@
+@startuml
+' 假期留宿业务详细分图：逾期补录、自动归档与统计
+title 假期留宿业务详细流程：逾期补录、自动归档与统计
+
+skinparam shadowing false
+skinparam defaultFontSize 13
+skinparam activityFontSize 13
+skinparam activityMessageFontSize 12
+skinparam activityDiamondFontSize 12
+skinparam ArrowColor #666666
+!pragma useVerticalIf on
+
+|#PaleGreen|学生|
+start
+label L_STU_APPLY
+:在普通申请截止时间后提出留宿申请;
+:填写申请并提交;
+:申请来源标记为“逾期补录”;
+
+|#AntiqueWhite|宿管|
+:使用单独锁定、取消锁定或例外功能处理;
+:宿管仅可添加本楼栋学生;
+:审核逾期临时申请;
+if (审核通过？) then (是)
+  :申请进入“已通过”;
+else (否)
+  :填写不通过原因;
+  :申请进入“待修改”;
+  |#PaleGreen|学生|
+  :修改逾期补录申请并重新提交;
+  ->L_STU_APPLY
+endif
+
+|#LightSteelBlue|系统管理员|
+:系统管理员可添加全校学生;
+:审核或复核“逾期补录”和“管理员人工添加”申请;
+if (人工补录审核通过？) then (是)
+  :申请进入“已通过”;
+else (否)
+  :申请保留审核记录;
+endif
+
+|#LightGray|系统|
+:按状态统计申请;
+note right
+  留宿人员：审核通过的申请。
+  已完成留宿记录：仅已通过申请
+  在留宿结束日期次日0:00归档后产生。
+  待审核、待修改、已驳回和已完成申请
+  可以纳入申请统计，但不产生已完成留宿记录。
+end note
+:到达已通过申请的留宿结束日期次日0:00;
+:申请标记为“已完成”;
+:自动归档并纳入历史统计;
+
+|#AntiqueWhite|宿管|
+:查看本楼栋留宿人员和历史记录;
+
+|#LightSteelBlue|系统管理员|
+:查看全校留宿人员和历史记录;
+stop
+@enduml

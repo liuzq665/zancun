@@ -1,0 +1,29 @@
+stateDiagram-v2
+    direction LR
+
+    [*] --> PLANNED : 创建未来生效且校验通过的分配
+    [*] --> ACTIVE : 创建当天生效且校验通过的分配
+    state "待生效（日期推导）" as PLANNED
+    state "有效" as ACTIVE
+    state "已结束" as ENDED
+    state "已取消" as CANCELLED
+
+    PLANNED --> ACTIVE : 到达生效日期且未取消
+    PLANNED --> CANCELLED : 管理员在生效前撤销
+    ACTIVE --> ENDED : 退宿或调宿生效
+    ENDED --> [*]
+    CANCELLED --> [*]
+
+    note right of ACTIVE
+        有效期内学生、床位、宿舍的绑定关系成立。
+        当前床位占用由有效分配记录推导。
+        区间规则：入住日包含，退出日不包含；退出日空代表长期有效。
+    end note
+    note right of ENDED
+        住宿历史保留不删除；调宿会终止旧记录并新建分配记录。
+    end note
+    note right of PLANNED
+        待生效由日期推导，不需要单独持久化数据库字段。
+        创建时校验完整时间区间，未来分配同样做冲突检测。
+        校验失败不创建分配记录，不存在失败到取消的流转。
+    end note

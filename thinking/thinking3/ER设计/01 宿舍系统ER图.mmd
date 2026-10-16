@@ -1,0 +1,638 @@
+erDiagram
+    %% 范围：V1、V2；仅 ER 源代码，不包含 SQL、程序类或页面。
+    %% || = 恰好一；o| / |o = 零或一；o{ / }o = 零或多；|{ / }| = 一或多。
+    %% 关系两端符号分别表示该端实体的数量；标签中的 1:n 包含零条子记录。
+    %% -- = 标识性联系；.. = 非标识性联系；线型不表示虚实体。
+    %% 虚实体通过中文显示名标注；多对多拆成两条 1:n，不重复画直接联系。
+    %% PK、FK、UK 是 Mermaid 语法；注释分别用中文标注主键、外键、唯一键。
+    %% 组合唯一约束、条件必填和时间区间约束见同目录设计说明。
+
+    %% 1. 账号、角色、权限与人员资料
+    SYS_USER["用户账号"] {
+        bigint user_id PK "主键：用户账号标识"
+        string login_account UK "唯一键：登录账号"
+        string password_hash "密码摘要"
+        string real_name "真实姓名"
+        string phone "联系电话，可选"
+        string email "电子邮箱，可选"
+        string gender "性别，可选"
+        boolean enabled "账号是否启用"
+        datetime created_at "账号创建时间"
+        datetime updated_at "账号资料更新时间"
+    }
+    ROLE["角色"] {
+        bigint role_id PK "主键：角色标识"
+        string role_code UK "唯一键：STUDENT、DORM_MANAGER、REPAIRER、ADMIN"
+        string role_name "角色名称"
+        boolean enabled "角色是否启用"
+        string description "角色说明，可选"
+    }
+    PERMISSION["权限"] {
+        bigint permission_id PK "主键：权限标识"
+        string permission_code UK "唯一键：权限编码"
+        string permission_name "权限名称"
+        string permission_type "菜单权限或操作权限"
+        boolean enabled "权限是否启用"
+    }
+    USER_ROLE["用户角色（虚实体）"] {
+        bigint user_role_id PK "主键：授权关系标识"
+        bigint user_id FK "外键：用户账号"
+        bigint role_id FK "外键：角色"
+        datetime valid_from "授权生效开始时间"
+        datetime valid_to "授权生效结束时间，可选"
+        datetime granted_at "授权操作时间"
+    }
+    ROLE_PERMISSION["角色权限（虚实体）"] {
+        bigint role_id PK, FK "联合主键、外键：角色"
+        bigint permission_id PK, FK "联合主键、外键：权限"
+        datetime granted_at "权限授予时间"
+    }
+    STUDENT_PROFILE["学生资料"] {
+        bigint student_profile_id PK "主键：学生资料标识"
+        bigint user_id FK, UK "外键、唯一键：对应账号"
+        string student_no UK "唯一键：学号"
+        bigint class_id FK "外键：班级，可选"
+        string enrollment_status "学生在籍状态"
+    }
+    DORM_MANAGER_PROFILE["宿管资料"] {
+        bigint manager_profile_id PK "主键：宿管资料标识"
+        bigint user_id FK, UK "外键、唯一键：对应账号"
+        string employee_no UK "唯一键：宿管工号"
+        boolean on_duty "宿管是否在岗"
+        string remark "宿管备注，可选"
+    }
+    REPAIRER_PROFILE["维修人员资料"] {
+        bigint repairer_profile_id PK "主键：维修人员资料标识"
+        bigint user_id FK, UK "外键、唯一键：对应账号"
+        string employee_no UK "唯一键：维修人员工号"
+        boolean on_duty "维修人员是否在岗"
+        bigint max_active_orders "最大在办工单数"
+        string profile_note "维修人员备注，可选"
+    }
+
+    SYS_USER ||..o{ USER_ROLE : "拥有授权 1:n"
+    ROLE ||..o{ USER_ROLE : "被分配 1:n"
+    ROLE ||--o{ ROLE_PERMISSION : "配置权限 1:n"
+    PERMISSION ||--o{ ROLE_PERMISSION : "被授予 1:n"
+    SYS_USER ||..o| STUDENT_PROFILE : "对应学生资料 1:0..1"
+    SYS_USER ||..o| DORM_MANAGER_PROFILE : "对应宿管资料 1:0..1"
+    SYS_USER ||..o| REPAIRER_PROFILE : "对应维修资料 1:0..1"
+    %% 系统管理员只通过 ADMIN 角色表达，不设管理员专有资料实体。
+
+    %% 2. 学籍归属：建议的规范化支撑实体，不增加学院审核业务
+    DEPARTMENT["院系"] {
+        bigint department_id PK "主键：院系标识"
+        string department_code UK "唯一键：院系编码"
+        string department_name "院系名称"
+        boolean enabled "院系是否启用"
+    }
+    MAJOR["专业"] {
+        bigint major_id PK "主键：专业标识"
+        bigint department_id FK "外键：所属院系"
+        string major_code UK "唯一键：校内专业编码"
+        string major_name "专业名称"
+        boolean enabled "专业是否启用"
+    }
+    STUDENT_CLASS["班级"] {
+        bigint class_id PK "主键：班级标识"
+        bigint major_id FK "外键：所属专业"
+        string class_code UK "唯一键：校内班级编码"
+        string class_name "班级名称"
+        bigint enrollment_year "班级入学年份，可选"
+        boolean enabled "班级是否启用"
+    }
+
+    DEPARTMENT ||..o{ MAJOR : "设置专业 1:n"
+    MAJOR ||..o{ STUDENT_CLASS : "设置班级 1:n"
+    STUDENT_CLASS |o..o{ STUDENT_PROFILE : "编入班级 0..1:n"
+
+    %% 3. 住宿资源与历史联系
+    BUILDING["楼栋"] {
+        bigint building_id PK "主键：楼栋标识"
+        string building_code UK "唯一键：楼栋编码"
+        string building_name "楼栋名称"
+        string address "楼栋地址"
+        string gender_limit "住宿性别限制"
+        string usage_status "楼栋使用状态"
+        string description "楼栋说明，可选"
+    }
+    DORM_ROOM["宿舍"] {
+        bigint room_id PK "主键：宿舍标识"
+        bigint building_id FK "外键：所属楼栋"
+        string room_no "宿舍编号，与楼栋组成唯一键"
+        bigint floor_no "所在楼层"
+        bigint design_capacity "设计容纳人数，不是实时床位数"
+        string usage_status "宿舍使用状态"
+        string description "宿舍说明，可选"
+    }
+    BED["床位"] {
+        bigint bed_id PK "主键：床位标识"
+        bigint room_id FK "外键：所属宿舍"
+        string bed_no "床位编号，与宿舍组成唯一键"
+        string management_status "可用、维修或停用，不存占用状态"
+        string description "床位说明，可选"
+    }
+    DORM_MANAGER_BUILDING_SCOPE["宿管楼栋管辖（虚实体）"] {
+        bigint scope_id PK "主键：管辖关系标识"
+        bigint manager_profile_id FK "外键：宿管资料"
+        bigint building_id FK "外键：管辖楼栋"
+        date start_date "管辖开始日期"
+        date end_date "管辖结束日期，可选"
+    }
+    ACCOMMODATION_ASSIGNMENT["住宿分配（虚实体）"] {
+        bigint assignment_id PK "主键：住宿分配标识"
+        bigint student_profile_id FK "外键：学生资料"
+        bigint bed_id FK "外键：床位"
+        date check_in_date "住宿区间开始日期"
+        date check_out_date "住宿区间结束日期，不包含当天，可选"
+        string assignment_type "初次分配或调宿"
+        string adjustment_reason "分配、调宿或退宿原因，可选"
+        bigint assigned_by_user_id FK "外键：建立分配的账号"
+        datetime recorded_at "分配记录建立时间"
+        bigint terminated_by_user_id FK "外键：办理调宿或退宿的账号，可选"
+        bigint cancelled_by_user_id FK "外键：取消未来分配的账号，可选"
+        datetime cancelled_at "未来分配取消时间，可选"
+    }
+
+    BUILDING ||..o{ DORM_ROOM : "包含宿舍 1:n"
+    DORM_ROOM ||..o{ BED : "包含床位 1:n"
+    DORM_MANAGER_PROFILE ||..o{ DORM_MANAGER_BUILDING_SCOPE : "承担管辖 1:n"
+    BUILDING ||..o{ DORM_MANAGER_BUILDING_SCOPE : "被管辖 1:n"
+    STUDENT_PROFILE ||..o{ ACCOMMODATION_ASSIGNMENT : "产生住宿历史 1:n"
+    BED ||..o{ ACCOMMODATION_ASSIGNMENT : "被历史分配 1:n"
+    SYS_USER ||..o{ ACCOMMODATION_ASSIGNMENT : "建立分配 1:n"
+    SYS_USER |o..o{ ACCOMMODATION_ASSIGNMENT : "办理结束 0..1:n"
+    SYS_USER |o..o{ ACCOMMODATION_ASSIGNMENT : "办理取消 0..1:n"
+    %% 学生 m:n 床位，经住宿分配拆解；同一时段双方最多一条有效关系。
+
+    %% 4. 报修配置与维修能力
+    FAULT_CATEGORY["故障分类"] {
+        bigint category_id PK "主键：故障分类标识"
+        string category_code UK "唯一键：故障分类编码"
+        string category_name "故障分类名称"
+        boolean in_campus_scope "是否属于校内维修范围"
+        boolean enabled "故障分类是否启用"
+        string description "故障分类说明，可选"
+    }
+    REPAIR_WORK_TYPE["维修工种"] {
+        bigint work_type_id PK "主键：维修工种标识"
+        string work_type_code UK "唯一键：维修工种编码"
+        string work_type_name "维修工种名称"
+        boolean enabled "维修工种是否启用"
+        string description "维修工种说明，可选"
+    }
+    REPAIR_RULE["报修规则版本"] {
+        bigint rule_id PK "主键：规则版本标识"
+        string rule_code UK "唯一键：本规则版本编码"
+        bigint version_no UK "唯一键：全局报修规则版本序号"
+        string rule_name "本版本规则名称"
+        bigint accept_timeout_minutes "自动派单接单时限，默认120分钟"
+        bigint normal_repair_minutes "普通维修时限，默认1440分钟"
+        bigint urgent_repair_minutes "紧急维修时限，默认360分钟"
+        bigint confirm_timeout_days "完工自动确认时限，默认7天"
+        bigint pending_edit_close_days "待修改关闭时限，默认7天"
+        bigint max_rework_count "重修次数上限，空值表示暂不限制"
+        datetime effective_from "规则生效开始时间"
+        datetime effective_to "规则生效结束时间，可选"
+    }
+    FAULT_WORK_TYPE_CONFIG["故障工种配置（虚实体）"] {
+        bigint config_id PK "主键：故障工种配置标识"
+        bigint category_id FK "外键：故障分类"
+        bigint work_type_id FK "外键：维修工种"
+        datetime valid_from "配置生效开始时间"
+        datetime valid_to "配置生效结束时间，可选"
+    }
+    REPAIRER_WORK_TYPE_QUALIFICATION["维修人员工种资质（虚实体）"] {
+        bigint qualification_id PK "主键：工种资质关系标识"
+        bigint repairer_profile_id FK "外键：维修人员资料"
+        bigint work_type_id FK "外键：维修工种"
+        string qualification_level "资质等级，可选"
+        date valid_from "资质有效开始日期"
+        date valid_to "资质有效结束日期，可选"
+    }
+    REPAIRER_BUILDING_SCOPE["维修人员楼栋范围（虚实体）"] {
+        bigint scope_id PK "主键：维修范围关系标识"
+        bigint repairer_profile_id FK "外键：维修人员资料"
+        bigint building_id FK "外键：负责楼栋"
+        date start_date "负责开始日期"
+        date end_date "负责结束日期，可选"
+    }
+
+    FAULT_CATEGORY ||..o{ FAULT_WORK_TYPE_CONFIG : "匹配工种 1:n"
+    REPAIR_WORK_TYPE ||..o{ FAULT_WORK_TYPE_CONFIG : "适配故障 1:n"
+    REPAIRER_PROFILE ||..o{ REPAIRER_WORK_TYPE_QUALIFICATION : "具备资质 1:n"
+    REPAIR_WORK_TYPE ||..o{ REPAIRER_WORK_TYPE_QUALIFICATION : "对应资质 1:n"
+    REPAIRER_PROFILE ||..o{ REPAIRER_BUILDING_SCOPE : "负责范围 1:n"
+    BUILDING ||..o{ REPAIRER_BUILDING_SCOPE : "被维修覆盖 1:n"
+
+    %% 5. 报修工单、不可变提交内容与审核
+    REPAIR_ORDER["报修工单"] {
+        bigint order_id PK "主键：报修工单标识"
+        string order_no UK "唯一键：工单编号"
+        bigint student_profile_id FK "外键：报修学生"
+        bigint rule_id FK "外键：适用规则版本，草稿可空"
+        bigint parent_order_id FK "外键：直接原工单，普通工单为空"
+        string current_status "工单当前业务状态"
+        boolean urgent "宿管决定的紧急标记"
+        datetime created_at "工单创建时间"
+        datetime archived_at "工单归档时间，可选"
+        string archive_reason "业务完成或待修改超期等归档原因，可选"
+    }
+    REPAIR_SUBMISSION_VERSION["报修工单提交版本"] {
+        bigint version_id PK "主键：报修版本标识"
+        bigint order_id FK "外键：报修工单"
+        bigint version_no "工单内版本序号，与工单组成唯一键"
+        bigint room_id FK "外键：故障所在宿舍，草稿可空"
+        bigint category_id FK "外键：故障分类，草稿可空"
+        bigint work_type_id FK "外键：所需维修工种，草稿可空"
+        string specific_location "宿舍内具体故障位置，可选"
+        string fault_description "本版故障描述，提交时必填"
+        string student_remark "本版学生备注，可选"
+        bigint recorded_by_user_id FK "外键：实际编辑或录入账号"
+        datetime saved_at "本版最近保存时间"
+        datetime submitted_at "本版提交时间，空值表示未提交草稿"
+    }
+    REPAIR_AUDIT_RECORD["报修审核记录"] {
+        bigint audit_id PK "主键：报修审核记录标识"
+        bigint version_id FK "外键：实际审核的提交版本"
+        bigint reviewer_user_id FK "外键：审核账号"
+        string review_stage "初审、重交审核或人工退回"
+        string conclusion "通过或驳回，不是工单状态"
+        string reason "审核原因，驳回时必填"
+        datetime reviewed_at "审核时间"
+        datetime resubmit_deadline "本次退回的重交期限，通过时为空"
+    }
+
+    STUDENT_PROFILE ||..o{ REPAIR_ORDER : "提出报修 1:n"
+    REPAIR_RULE |o..o{ REPAIR_ORDER : "适用规则 0..1:n"
+    REPAIR_ORDER |o..o{ REPAIR_ORDER : "原工单产生重修 0..1:n"
+    REPAIR_ORDER ||..|{ REPAIR_SUBMISSION_VERSION : "保存内容版本 1:n"
+    DORM_ROOM |o..o{ REPAIR_SUBMISSION_VERSION : "记录故障位置 0..1:n"
+    FAULT_CATEGORY |o..o{ REPAIR_SUBMISSION_VERSION : "记录故障分类 0..1:n"
+    REPAIR_WORK_TYPE |o..o{ REPAIR_SUBMISSION_VERSION : "记录所需工种 0..1:n"
+    SYS_USER ||..o{ REPAIR_SUBMISSION_VERSION : "编辑或录入版本 1:n"
+    REPAIR_SUBMISSION_VERSION ||..o{ REPAIR_AUDIT_RECORD : "作为审核依据 1:n"
+    SYS_USER ||..o{ REPAIR_AUDIT_RECORD : "执行报修审核 1:n"
+
+    %% 6. 派单、维修过程、延期、结果、确认与评价
+    DISPATCH_RECORD["派单记录（虚实体）"] {
+        bigint dispatch_id PK "主键：一次派单尝试标识"
+        bigint order_id FK "外键：报修工单"
+        bigint repairer_profile_id FK "外键：接收派单的维修人员"
+        bigint dispatched_by_user_id FK "外键：人工派单账号，自动派单为空"
+        string dispatch_mode "AUTO自动或MANUAL_FORCE强制派单"
+        string dispatch_status "PENDING、ACCEPTED、REJECTED、TIMEOUT、CANCELLED"
+        string reject_reason "拒单原因，仅拒单时填写"
+        datetime dispatched_at "本次派单发出时间"
+        datetime response_at "接单或拒单响应时间，可选"
+        datetime assignment_ended_at "本次负责关系解除或归档结束时间，可选"
+    }
+    REPAIR_WORKER_RECORD["维修人员过程记录"] {
+        bigint worker_record_id PK "主键：维修过程事件标识"
+        bigint dispatch_id FK "外键：对应的派单尝试"
+        string record_type "施工超时REPAIR_TIMEOUT或现场过程说明VISIT_NOTE"
+        string description "本次事件说明"
+        datetime occurred_at "本次事件发生时间"
+    }
+    REPAIR_DELAY_APPLICATION["维修延期申请"] {
+        bigint delay_id PK "主键：延期申请标识"
+        bigint dispatch_id FK "外键：当前负责的派单记录"
+        string delay_reason "延期原因"
+        datetime expected_finish_at "申请的预计修好时间"
+        datetime submitted_at "延期申请提交时间"
+        string delay_status "PENDING_REVIEW、APPROVED、REJECTED或INVALIDATED"
+        bigint reviewer_user_id FK "外键：延期审核账号，未审核可空"
+        string review_reason "延期审核原因，不通过时必填"
+        datetime reviewed_at "延期审核时间，可选"
+    }
+    REPAIR_RESULT["维修结果"] {
+        bigint result_id PK "主键：维修结果标识"
+        bigint order_id FK, UK "外键、唯一键：一张工单最多一份最终结果"
+        bigint submitted_by_repairer_id FK "外键：实际提交完工结果的维修人员"
+        string repair_description "最终维修结果说明"
+        datetime submitted_at "完工结果提交时间"
+    }
+    REPAIR_CONFIRMATION["维修确认记录"] {
+        bigint confirmation_id PK "主键：维修确认标识"
+        bigint result_id FK, UK "外键、唯一键：被确认的维修结果"
+        string confirmation_mode "STUDENT学生确认或SYSTEM系统确认"
+        bigint confirmed_by_user_id FK "外键：学生确认账号，系统确认为空"
+        string opinion "确认意见，可选"
+        datetime confirmed_at "实际确认时间"
+    }
+    REPAIR_EVALUATION["维修评价"] {
+        bigint evaluation_id PK "主键：维修评价标识"
+        bigint confirmation_id FK, UK "外键、唯一键：评价对应的确认事实"
+        bigint score "评分，取值范围在后续业务规则中确定"
+        string content "评价内容，可选"
+        datetime evaluated_at "评价提交时间"
+    }
+    WORK_ORDER_EXCEPTION_RECORD["工单异常与人工处理记录"] {
+        bigint exception_id PK "主键：工单处置事件标识"
+        bigint order_id FK "外键：报修工单"
+        string exception_type "无匹配人员、负荷满、候选耗尽或异常标记等"
+        string description "进入人工处理或形成异常的原因"
+        datetime occurred_at "本次事件发生时间"
+        bigint handled_by_user_id FK "外键：实际处置账号，未处置可空"
+        datetime handled_at "人工协调或处置完成时间，可选"
+        string handling_result "本次处置结果，可选"
+    }
+
+    REPAIR_ORDER ||..o{ DISPATCH_RECORD : "产生派单历史 1:n"
+    REPAIRER_PROFILE ||..o{ DISPATCH_RECORD : "接收派单 1:n"
+    SYS_USER |o..o{ DISPATCH_RECORD : "执行人工派单 0..1:n"
+    DISPATCH_RECORD ||..o{ REPAIR_WORKER_RECORD : "记录维修过程 1:n"
+    DISPATCH_RECORD ||..o{ REPAIR_DELAY_APPLICATION : "申请维修延期 1:n"
+    SYS_USER |o..o{ REPAIR_DELAY_APPLICATION : "审核延期 0..1:n"
+    REPAIR_ORDER ||..o| REPAIR_RESULT : "产生最终维修结果 1:0..1"
+    REPAIRER_PROFILE ||..o{ REPAIR_RESULT : "提交完工结果 1:n"
+    REPAIR_RESULT ||..o| REPAIR_CONFIRMATION : "产生确认事实 1:0..1"
+    SYS_USER |o..o{ REPAIR_CONFIRMATION : "执行学生确认 0..1:n"
+    REPAIR_CONFIRMATION ||..o| REPAIR_EVALUATION : "产生可选评价 1:0..1"
+    REPAIR_ORDER ||..o{ WORK_ORDER_EXCEPTION_RECORD : "保留人工处置历史 1:n"
+    SYS_USER |o..o{ WORK_ORDER_EXCEPTION_RECORD : "协调或处置 0..1:n"
+    %% 拒单、接单超时来自派单记录；施工超时来自维修人员过程记录，避免重复计数。
+    %% 异常标记从上述全部历史事实推导，一旦满足阈值后不会因换人或归档消失。
+    %% 重修是工单自联系；普通工单无原工单，重修工单恰有一张直接原工单。
+
+    %% 7. 假期留宿批次、规则、申请、日期段与多轮审核
+    STAY_BATCH["留宿批次"] {
+        bigint batch_id PK "主键：留宿批次标识"
+        string batch_code UK "唯一键：同一次假期申请周期编码"
+        string batch_name "留宿批次名称"
+        string holiday_type "寒假、暑假或其他假期类型"
+        string batch_status "批次生命周期状态"
+        bigint created_by_user_id FK "外键：创建批次的管理员账号"
+        datetime created_at "批次建立时间"
+    }
+    STAY_BATCH_VERSION["留宿开放区间版本"] {
+        bigint batch_version_id PK "主键：开放区间版本标识"
+        bigint batch_id FK "外键：留宿批次"
+        bigint version_no "批次内版本号，与批次组成唯一键"
+        date open_start_date "本版本连续开放开始日期"
+        date open_end_date "本版本连续开放结束日期"
+        string instructions "本版本留宿说明和要求"
+        bigint published_by_user_id FK "外键：发布配置的管理员账号"
+        datetime published_at "本版本配置发布时间"
+    }
+    STAY_BATCH_BUILDING_RULE["留宿批次楼栋规则（虚实体）"] {
+        bigint building_rule_id PK "主键：批次楼栋规则标识"
+        bigint batch_id FK "外键：留宿批次"
+        bigint building_id FK "外键：适用楼栋，与批次组成唯一键"
+        datetime application_deadline "本楼栋正常申请截止时间"
+        boolean auto_lock "是否启用截止时间自动锁定"
+        string building_instructions "本楼栋申请说明，可选"
+        string rule_status "楼栋申请入口发布状态"
+        bigint configured_by_user_id FK "外键：配置楼栋规则的账号"
+        datetime published_at "楼栋规则发布时间，可选"
+    }
+    STAY_APPLICATION["留宿申请"] {
+        bigint application_id PK "主键：留宿申请主体标识"
+        bigint student_profile_id FK "外键：申请学生"
+        bigint batch_id FK "外键：所属留宿批次"
+        string application_source "NORMAL正常、LATE逾期补录或ADMIN_ADDED人工添加"
+        string current_status "申请当前状态，不以来源或审核结论替代"
+        bigint created_by_user_id FK "外键：真实建立申请的账号"
+        datetime created_at "申请建立时间"
+        datetime completed_at "已通过申请的实际完成时间，可选"
+        datetime archived_at "申请归档时间，可选"
+        string archive_reason "完成归档或未按期重交等原因，可选"
+    }
+    STAY_APPLICATION_SCOPE["留宿申请楼栋范围（虚实体）"] {
+        bigint application_id PK, FK "主键、外键：一张申请主体"
+        bigint building_rule_id FK "外键：该申请初始受理的批次楼栋规则"
+        datetime assigned_at "申请受理楼栋范围确定时间"
+    }
+    STAY_SUBMISSION_VERSION["留宿申请提交版本"] {
+        bigint version_id PK "主键：留宿版本标识"
+        bigint application_id FK "外键：留宿申请主体"
+        bigint version_no "申请内版本号，与申请组成唯一键"
+        string application_reason "本版留宿申请事由，提交时必填"
+        bigint recorded_by_user_id FK "外键：本版实际编辑或人工录入账号"
+        datetime saved_at "本版最近保存时间"
+        datetime submitted_at "本版提交时间，空值表示未提交草稿"
+    }
+    STAY_DATE_RANGE["留宿日期段"] {
+        bigint range_id PK "主键：留宿日期段标识"
+        bigint version_id FK "外键：所属申请版本"
+        date start_date "留宿开始日期，包含当天"
+        date end_date "留宿结束日期，包含当天"
+    }
+    STAY_REVIEW_RECORD["留宿审核与复核记录"] {
+        bigint review_id PK "主键：一次审核或复核标识"
+        bigint version_id FK "外键：实际审核的申请提交版本"
+        bigint batch_version_id FK "外键：本次审核依据的开放区间版本"
+        bigint round_no "本申请内审核轮次"
+        string review_type "初审、重交、区间变更复核或特殊申请复核"
+        string review_status "PENDING、APPROVED、REJECTED或CANCELLED"
+        datetime created_at "本次待审核或待复核记录建立时间"
+        bigint reviewer_user_id FK "外键：实际审核账号，待审核可空"
+        string reason "审核或复核原因，不通过时必填"
+        datetime reviewed_at "实际审核时间，待审核可空"
+        datetime resubmit_deadline "本轮退回后的重交截止时间，可选"
+    }
+    STAY_EXCEPTION_AUTHORIZATION["留宿例外授权（虚实体）"] {
+        bigint authorization_id PK "主键：个别学生例外授权标识"
+        bigint student_profile_id FK "外键：获准例外受理的学生"
+        bigint building_rule_id FK "外键：例外适用的批次楼栋规则"
+        string exception_type "逾期提交或特殊解锁等授权类型"
+        string authorization_reason "例外授权理由"
+        bigint authorized_by_user_id FK "外键：实际授权账号"
+        datetime granted_at "授权操作时间"
+        datetime valid_from "例外权限生效时间"
+        datetime valid_to "例外权限截止时间"
+        bigint revoked_by_user_id FK "外键：提前撤销授权的账号，可选"
+        datetime revoked_at "提前撤销时间，可选"
+    }
+    STAY_VERSION_AUTHORIZATION["留宿版本例外依据（虚实体）"] {
+        bigint version_id PK, FK "联合主键、外键：特殊提交版本"
+        bigint authorization_id PK, FK "联合主键、外键：实际使用的例外授权"
+    }
+
+    SYS_USER ||..o{ STAY_BATCH : "建立留宿批次 1:n"
+    STAY_BATCH ||..o{ STAY_BATCH_VERSION : "发布区间版本 1:n"
+    SYS_USER ||..o{ STAY_BATCH_VERSION : "发布开放配置 1:n"
+    STAY_BATCH ||..o{ STAY_BATCH_BUILDING_RULE : "配置楼栋规则 1:n"
+    BUILDING ||..o{ STAY_BATCH_BUILDING_RULE : "适用留宿批次 1:n"
+    SYS_USER ||..o{ STAY_BATCH_BUILDING_RULE : "配置楼栋申请入口 1:n"
+    STUDENT_PROFILE ||..o{ STAY_APPLICATION : "提出留宿申请 1:n"
+    STAY_BATCH ||..o{ STAY_APPLICATION : "接收学生申请 1:n"
+    STAY_APPLICATION ||--|| STAY_APPLICATION_SCOPE : "确定一个受理楼栋范围 1:1"
+    STAY_BATCH_BUILDING_RULE ||..o{ STAY_APPLICATION_SCOPE : "受理所属申请 1:n"
+    SYS_USER ||..o{ STAY_APPLICATION : "真实建立申请 1:n"
+    STAY_APPLICATION ||..|{ STAY_SUBMISSION_VERSION : "保存申请版本 1:n"
+    SYS_USER ||..o{ STAY_SUBMISSION_VERSION : "编辑或代录申请 1:n"
+    STAY_SUBMISSION_VERSION ||..o{ STAY_DATE_RANGE : "包含留宿日期段 1:n"
+    STAY_SUBMISSION_VERSION ||..o{ STAY_REVIEW_RECORD : "作为审核或复核依据 1:n"
+    STAY_BATCH_VERSION ||..o{ STAY_REVIEW_RECORD : "作为区间规则依据 1:n"
+    SYS_USER |o..o{ STAY_REVIEW_RECORD : "完成审核或复核 0..1:n"
+    STUDENT_PROFILE ||..o{ STAY_EXCEPTION_AUTHORIZATION : "获得个别例外授权 1:n"
+    STAY_BATCH_BUILDING_RULE ||..o{ STAY_EXCEPTION_AUTHORIZATION : "限定例外适用范围 1:n"
+    SYS_USER ||..o{ STAY_EXCEPTION_AUTHORIZATION : "授予例外权限 1:n"
+    SYS_USER |o..o{ STAY_EXCEPTION_AUTHORIZATION : "撤销例外权限 0..1:n"
+    STAY_SUBMISSION_VERSION ||--o{ STAY_VERSION_AUTHORIZATION : "采用例外依据 1:n"
+    STAY_EXCEPTION_AUTHORIZATION ||--o{ STAY_VERSION_AUTHORIZATION : "支持特殊提交 1:n"
+    %% 草稿可没有日期段；提交版本至少一段，且闭区间不能共享任何日期。
+    %% 申请以批次+学生唯一；楼栋受理范围独立保存，避免批次经规则重复依赖。
+    %% 受理范围对应的批次须与申请批次一致，由数据库事务校验；一个批次楼栋规则可服务多名学生。
+    %% 存在区间变更的待复核记录时，不得直接产生留宿完成事实。
+
+    %% 8. 站内消息、选择目标与每人接收事实
+    SITE_MESSAGE["站内消息"] {
+        bigint message_id PK "主键：消息标识"
+        string title "消息标题"
+        string body "消息正文"
+        string message_type "公告或业务状态通知等类型"
+        bigint publisher_user_id FK "外键：人工发布账号，系统通知为空"
+        datetime created_at "消息建立时间"
+        datetime published_at "消息发布时间，可选"
+        string send_status "消息主体发布或发送状态"
+    }
+    MESSAGE_TARGET["消息目标（虚实体）"] {
+        bigint target_id PK "主键：一条消息目标标识"
+        bigint message_id FK "外键：消息主体"
+        string target_type "ALL全体、ROLE角色、BUILDING楼栋或USER指定账号"
+        bigint role_id FK "外键：角色目标，其他类型为空"
+        bigint building_id FK "外键：楼栋目标，其他类型为空"
+        bigint user_id FK "外键：指定账号目标，其他类型为空"
+    }
+    MESSAGE_RECEIPT["消息接收记录（虚实体）"] {
+        bigint message_id PK, FK "联合主键、外键：消息主体"
+        bigint user_id PK, FK "联合主键、外键：接收账号"
+        datetime received_at "该账号实际接收消息的时间"
+        datetime read_at "首次读取时间，空值表示未读"
+    }
+
+    SYS_USER |o..o{ SITE_MESSAGE : "人工发布消息 0..1:n"
+    SITE_MESSAGE ||..o{ MESSAGE_TARGET : "设置接收范围 1:n"
+    ROLE |o..o{ MESSAGE_TARGET : "作为角色目标 0..1:n"
+    BUILDING |o..o{ MESSAGE_TARGET : "作为楼栋目标 0..1:n"
+    SYS_USER |o..o{ MESSAGE_TARGET : "作为指定用户目标 0..1:n"
+    SITE_MESSAGE ||--o{ MESSAGE_RECEIPT : "生成每人接收事实 1:n"
+    SYS_USER ||--o{ MESSAGE_RECEIPT : "接收并独立读取 1:n"
+    %% ALL目标三个对象外键均空；其他类型恰有一个匹配的对象外键。
+    %% 多个目标展开后对账号去重；已读由 read_at 推导，不再存 is_read。
+
+    %% 9. 文件资源与明确的业务附件联系
+    FILE_RESOURCE["文件资源"] {
+        bigint file_id PK "主键：文件资源标识"
+        string original_name "原始文件名"
+        string storage_key UK "唯一键：存储对象定位键"
+        string file_type "文件媒体类型"
+        bigint byte_size "文件大小，字节"
+        string checksum "文件摘要，可选"
+        bigint uploaded_by_user_id FK "外键：人工上传账号，系统生成文件为空"
+        datetime created_at "文件上传或生成时间"
+        string file_status "文件可用、隔离或清理状态"
+    }
+    REPAIR_VERSION_FILE["报修版本附件（虚实体）"] {
+        bigint version_id PK, FK "联合主键、外键：报修版本"
+        bigint file_id PK, FK "联合主键、外键：故障图片文件"
+    }
+    REPAIR_DELAY_FILE["维修延期附件（虚实体）"] {
+        bigint delay_id PK, FK "联合主键、外键：延期申请"
+        bigint file_id PK, FK "联合主键、外键：现场照片文件"
+    }
+    REPAIR_RESULT_FILE["维修结果附件（虚实体）"] {
+        bigint result_id PK, FK "联合主键、外键：维修结果"
+        bigint file_id PK, FK "联合主键、外键：完工照片文件"
+    }
+    MESSAGE_FILE["消息附件（虚实体）"] {
+        bigint message_id PK, FK "联合主键、外键：站内消息"
+        bigint file_id PK, FK "联合主键、外键：消息附件文件"
+    }
+    IMPORT_EXPORT_TASK_FILE["导入导出任务文件（虚实体）"] {
+        bigint task_id PK, FK "联合主键、外键：导入导出任务"
+        bigint file_id PK, FK "联合主键、外键：输入或输出文件"
+        string file_purpose "INPUT输入、OUTPUT输出或ERROR_REPORT错误报告"
+    }
+    BACKUP_TASK_FILE["备份恢复任务文件（虚实体）"] {
+        bigint task_id PK, FK "联合主键、外键：备份或恢复任务"
+        bigint file_id PK, FK "联合主键、外键：备份或恢复输入文件"
+        string file_purpose "BACKUP_OUTPUT备份输出或RESTORE_INPUT恢复输入"
+    }
+
+    SYS_USER |o..o{ FILE_RESOURCE : "上传文件 0..1:n"
+    REPAIR_SUBMISSION_VERSION ||--o{ REPAIR_VERSION_FILE : "使用故障图片 1:n"
+    FILE_RESOURCE ||--o{ REPAIR_VERSION_FILE : "被报修版本引用 1:n"
+    REPAIR_DELAY_APPLICATION ||--o{ REPAIR_DELAY_FILE : "使用现场照片 1:n"
+    FILE_RESOURCE ||--o{ REPAIR_DELAY_FILE : "被延期申请引用 1:n"
+    REPAIR_RESULT ||--o{ REPAIR_RESULT_FILE : "使用完工照片 1:n"
+    FILE_RESOURCE ||--o{ REPAIR_RESULT_FILE : "被完工结果引用 1:n"
+    SITE_MESSAGE ||--o{ MESSAGE_FILE : "附加消息文件 1:n"
+    FILE_RESOURCE ||--o{ MESSAGE_FILE : "被消息引用 1:n"
+    IMPORT_EXPORT_TASK ||--o{ IMPORT_EXPORT_TASK_FILE : "使用输入输出文件 1:n"
+    FILE_RESOURCE ||--o{ IMPORT_EXPORT_TASK_FILE : "被导入导出任务引用 1:n"
+    BACKUP_TASK ||--o{ BACKUP_TASK_FILE : "使用备份恢复文件 1:n"
+    FILE_RESOURCE ||--o{ BACKUP_TASK_FILE : "被备份恢复任务引用 1:n"
+    %% 文件访问地址由 storage_key 和存储服务生成，不在各业务对象重复保存。
+    %% 自动接单截止、维修截止和完工确认截止由规则版本与实际事件时间推导，不存重复期限字段。
+    %% 不使用 owner_type + owner_id 作为业务附件的多态伪外键。
+
+    %% 10. 登录、批处理、备份恢复与操作审计
+    LOGIN_LOG["登录日志"] {
+        bigint login_log_id PK "主键：登录尝试标识"
+        bigint user_id FK "外键：识别到的账号，账号不存在时为空"
+        string attempted_login_account "本次输入的账号文本，历史输入事实"
+        datetime attempted_at "本次登录尝试时间"
+        string login_result "成功或失败"
+        string source_address "登录来源地址，可选"
+        string device_info "登录设备信息，可选"
+        string failure_reason "登录失败原因，可选"
+    }
+    IMPORT_EXPORT_TASK["导入导出任务"] {
+        bigint task_id PK "主键：导入导出任务标识"
+        string task_no UK "唯一键：导入导出任务编号"
+        bigint initiated_by_user_id FK "外键：发起账号"
+        string task_type "IMPORT导入或EXPORT导出"
+        string business_object_type "处理的账号、住宿、报修或留宿等对象类型"
+        string task_status "WAITING、RUNNING、SUCCESS、PARTIAL、FAILED、CANCELLED"
+        datetime created_at "任务受理时间"
+        datetime started_at "实际开始时间，可选"
+        datetime finished_at "实际结束时间，可选"
+        string result_description "执行结果或失败说明，可选"
+    }
+    IMPORT_ERROR_DETAIL["导入错误明细"] {
+        bigint error_detail_id PK "主键：导入错误标识"
+        bigint task_id FK "外键：产生错误的导入任务"
+        bigint row_no "输入文件行号"
+        string field_name "出错字段名称，可选"
+        string raw_value "本次出错的原始值，可选"
+        string error_reason "校验或写入失败原因"
+    }
+    BACKUP_TASK["备份恢复任务"] {
+        bigint task_id PK "主键：备份恢复任务标识"
+        string task_no UK "唯一键：备份恢复任务编号"
+        bigint initiated_by_user_id FK "外键：发起管理员账号"
+        bigint protection_backup_task_id FK "外键：恢复前保护备份任务，可选"
+        string task_type "BACKUP备份或RESTORE恢复"
+        string backup_scope "数据保护或恢复范围"
+        string task_status "WAITING、RUNNING、SUCCESS、FAILED、CANCELLED"
+        datetime created_at "任务受理时间"
+        datetime restore_confirmed_at "恢复二次确认时间，备份任务为空"
+        datetime started_at "实际开始时间，可选"
+        datetime finished_at "实际结束时间，可选"
+        boolean checksum_passed "本次文件校验结果，未校验可空"
+        string failure_reason "任务失败原因，可选"
+        string rollback_result "恢复失败后的回退结果，可选"
+    }
+    OPERATION_LOG["操作日志"] {
+        bigint operation_log_id PK "主键：操作审计标识"
+        bigint operator_user_id FK "外键：人工操作者，系统处理为空"
+        string actor_type "USER人工或SYSTEM自动处理"
+        datetime operated_at "操作时间"
+        string module_name "操作业务模块"
+        string operation_type "提交、审核、派单、撤回、锁定、解锁等动作"
+        string object_type "审计对象类型，可选"
+        bigint object_id "审计对象标识，不冒充业务外键，可选"
+        string operation_result "实际成功、拒绝或失败等结果"
+        string description "操作说明或必要的变更事实，可选"
+        string source_address "操作来源地址，可选"
+    }
+
+    SYS_USER |o..o{ LOGIN_LOG : "关联登录尝试 0..1:n"
+    SYS_USER ||..o{ IMPORT_EXPORT_TASK : "发起导入导出 1:n"
+    IMPORT_EXPORT_TASK ||..o{ IMPORT_ERROR_DETAIL : "产生逐行错误 1:n"
+    SYS_USER ||..o{ BACKUP_TASK : "发起备份恢复 1:n"
+    BACKUP_TASK |o..o{ BACKUP_TASK : "保护备份支撑恢复 0..1:n"
+    SYS_USER |o..o{ OPERATION_LOG : "留下人工操作审计 0..1:n"

@@ -1,0 +1,20 @@
+stateDiagram-v2
+    direction LR
+
+    state "未读" as UNREAD
+    state "已读" as READ
+
+    [*] --> UNREAD : 为单个接收用户生成 MessageReceipt
+    UNREAD --> READ : 用户打开消息，原子保存 readAt
+
+    note right of UNREAD
+        此状态是【消息-接收人】的接收记录，
+        不是消息主体SiteMessage的发送状态。
+        同一条消息对同一个用户只会生成一条接收记录。
+    end note
+    note right of READ
+        状态一旦变为已读，不会自动变回未读。
+        重复打开消息不会修改首次读取时间。
+        其他用户无法修改本条接收记录。
+        当前用例不支持撤销已读、删除消息，故不设计删除/终止状态。
+    end note

@@ -1,0 +1,51 @@
+flowchart TB
+    subgraph DEV[本地开发环境]
+        devFront[Vite 前端开发服务]
+        devBack[Spring Boot 本地服务]
+        devMysql[(本地 / Docker MySQL)]
+        devFile[(本地上传目录)]
+    end
+
+    subgraph COMPOSE[Docker Compose 测试环境]
+        nginx[Nginx 前端容器]
+        backend[Spring Boot 后端容器]
+        mysql[(MySQL 容器)]
+        redis[(Redis 容器 可选)]
+        minio[(MinIO 容器 可选)]
+    end
+
+    subgraph K8S[Kubernetes 可选展示环境]
+        ingress[Ingress]
+        svcFront[Service frontend]
+        svcBack[Service backend]
+        depFront[Deployment frontend]
+        depBack[Deployment backend]
+        config[ConfigMap / Secret]
+        pvc[PersistentVolumeClaim]
+        db[(MySQL / 外部数据库)]
+    end
+
+    devFront --> devBack
+    devBack --> devMysql
+    devBack --> devFile
+
+    nginx --> backend
+    backend --> mysql
+    backend -.-> redis
+    backend -.-> minio
+
+    ingress --> svcFront
+    ingress --> svcBack
+    svcFront --> depFront
+    svcBack --> depBack
+    depBack --> config
+    depBack --> db
+    depBack --> pvc
+
+    classDef dev fill:#e8f4ff,stroke:#39739d,color:#111
+    classDef compose fill:#eaf8ea,stroke:#4f8a4f,color:#111
+    classDef k8s fill:#f2eafa,stroke:#7b5ca7,color:#111
+
+    class devFront,devBack,devMysql,devFile dev
+    class nginx,backend,mysql,redis,minio compose
+    class ingress,svcFront,svcBack,depFront,depBack,config,pvc,db k8s

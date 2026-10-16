@@ -1,0 +1,129 @@
+sequenceDiagram
+    autonumber
+    actor Student as 学生
+    actor Manager as 宿管
+    actor Admin as 系统管理员
+    actor Worker as 维修人员
+    participant System as 系统
+
+    Note over Manager,System: 普通工单自动派单；紧急、重修和异常工单只进手动池
+    opt 普通工单已审核通过并处于自动派单池
+        loop 每次工单进入待派单且仍具备自动派单资格时
+            System->>System: 核对待派单状态，按资质、范围、在岗和负荷选择未尝试人员
+            alt 有合格的新候选人员
+                System->>System: 建立一次自动派单，工单变为待接单，开始接单计时
+                System-->>Worker: 发送自动派单通知和接单截止时间
+                alt 维修人员在接单期限内响应
+                    Worker->>System: 查看工单并选择接单或填写原因拒单
+                    System->>System: 核对本人、当前派单有效性和响应期限
+                    alt 无权操作、派单失效或已超时
+                        System-->>Worker: 不接受响应，提示当前派单已不可处理
+                    else 接单
+                        System->>System: 派单记录变为已接单，工单变为已接单，开始维修计时
+                        System-->>Worker: 接单成功，告知维修截止时间
+                        System-->>Student: 通知已接单及维修安排
+                    else 拒单且原因合法
+                        System->>System: 派单记录变为已拒单，保存原因，记录一次拒单
+                        System-->>Worker: 拒单结果已保存
+                    else 拒单原因缺失
+                        System-->>Worker: 拒单未生效，须填写原因，原接单期限仍有效
+                    end
+                else 接单期限到达
+                    System->>System: 再检查当前派单仍待接单且确实未响应
+                    alt 仍未响应
+                        System->>System: 派单记录变为超时未接，记录一次接单超时
+                    else 已接单、已拒单或已作废
+                        System->>System: 不重复记录接单超时
+                    end
+                end
+                opt 本次派单最终已拒单或超时未接
+                    System->>System: 汇总拒单次数与接单超时次数
+                    alt 合计不超过 2 且还有合格的新候选人员
+                        System->>System: 工单回到待派单，重新进入自动派单池
+                    else 合计超过 2 或候选人员耗尽
+                        System->>System: 工单变为待人工处理；合计超过 2 时标记异常
+                        System-->>Manager: 通知人工协调或强制派单
+                    end
+                end
+            else 无匹配人员、负荷已满或没有新候选人员
+                System->>System: 工单变为待人工处理，记录无法派单原因
+                System-->>Manager: 通知协调合格人员
+                Note over Manager,System: 无候选人员本身不等于达到异常次数门槛
+            end
+        end
+    end
+
+    opt 紧急、重修、异常或待人工处理工单需要手动派单
+        alt 管辖宿管处理
+            Manager->>System: 查看工单和合格人员，指定维修人员强制派单
+        else 系统管理员具有对应全局处理授权
+            Admin->>System: 查看工单和合格人员，指定维修人员强制派单
+        end
+        System->>System: 核对操作者权限、工单状态、维修资质和负责范围
+        alt 校验通过
+            System->>System: 作废尚未完成的旧派单，保留历史，建立新的强制派单
+            System->>System: 自动确认接单，工单变为已接单，开始维修计时
+            System-->>Worker: 通知强制派单及维修期限，无需再次确认接单
+            System-->>Student: 通知维修安排
+        else 不允许派单或没有合格人员
+            System->>System: 保持当前状态，记录无法派单原因
+        end
+        alt 本次操作者为宿管
+            System-->>Manager: 返回手动派单结果及原因
+        else 本次操作者为系统管理员
+            System-->>Admin: 返回手动派单结果及原因
+        end
+    end
+
+    opt 工单仍为待人工处理，管理人员进一步协调
+        alt 宿管发起协调
+            Manager->>System: 提交人员协调结果，或确认不属于校内维修范围
+        else 系统管理员获授权处理
+            Admin->>System: 提交全局协调结果，或提交获授权的退回处理
+        end
+        System->>System: 核对处理权限、当前工单、协调依据或退回原因与期限
+        alt 校验不通过
+            System->>System: 不应用处理结果，保留当前状态并记录原因
+        else 确认不属于校内维修范围
+            System->>System: 记录退回原因与重交期限，工单变为待修改
+            System-->>Student: 通知按原因修改工单，重交和逾期处理按 02 图
+        else 非异常普通工单已协调到合格的新候选人员
+            System->>System: 工单回到待派单，重新进入自动派单池
+        else 紧急、重修、异常工单，或仍无法派单
+            System->>System: 保持待人工处理，紧急、重修和异常工单仍只允许手动派单
+        end
+        alt 本次处理者是宿管
+            System-->>Manager: 返回协调结果或未生效原因
+        else 本次处理者是系统管理员
+            System-->>Admin: 返回协调结果或未生效原因
+        end
+    end
+
+    opt 当前负责人需要延期
+        Note over Worker,System: 申请与审核见 12 维修延期审核时序图
+    end
+
+    opt 工单为已接单或维修延期，当前负责人完成维修
+        Worker->>System: 提交维修结果和完工照片
+        System->>System: 核对当前负责人、工单状态、维修结果和照片
+        alt 负责人已变更、状态失效或内容不合格
+            System-->>Worker: 不接受完工提交并说明原因
+        else 完工提交有效
+            System->>System: 保存维修结果，结束未决延期，工单变为已维修，开始确认计时
+            System-->>Worker: 完工提交成功，等待学生确认
+            System-->>Student: 通知查看维修结果和完工照片并确认
+        end
+    end
+
+    opt 维修截止时间到达
+        System->>System: 再检查当前负责人、维修状态和有效期限
+        alt 已完工、负责人已变更或延期正在审核
+            System->>System: 不记录施工超时；延期审核中暂停判定
+        else 已接单或延期已批准但仍未完工
+            System->>System: 记录一次施工超时，作废当前派单，解除原负责人
+            System->>System: 标记异常，工单变为待人工处理，只进手动派单池
+            System-->>Manager: 通知施工超时，需手动重新派单
+            System-->>Worker: 通知原派单失效，不再是当前负责人
+        end
+    end
+    Note over Student,System: 正式派单后不能撤回，即使工单再次回流待派单；确认、评价和重修见 17 图

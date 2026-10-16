@@ -1,0 +1,69 @@
+sequenceDiagram
+    autonumber
+    actor Student as 学生
+    actor Manager as 宿管
+    actor Admin as 系统管理员
+    actor Worker as 维修人员
+    participant System as 系统
+
+    alt 系统管理员发布通知
+        Admin->>System: 填写标题、正文，选择全校、角色、楼栋或指定用户范围
+    else 宿管发布楼栋通知
+        Manager->>System: 填写标题、正文，选择本人负责楼栋内的接收范围
+    else 报修、留宿等业务状态变化
+        System->>System: 按业务结果自动生成通知及对应接收范围
+    end
+    System->>System: 核对内容完整性、发布权限及每个目标的有效范围
+    alt 内容或接收范围不合法
+        System->>System: 不发布，不生成越权接收记录
+        alt 本次发布者是系统管理员
+            System-->>Admin: 提示发布失败及原因
+        else 本次发布者是宿管
+            System-->>Manager: 提示发布失败及原因
+        else 本次为自动业务通知
+            System->>System: 记录通知失败，保证业务结果与通知一致或后续可靠补发
+        end
+    else 通知合法
+        System->>System: 保存通知，解析全体、角色、楼栋和指定用户目标
+        System->>System: 合并并去重接收用户，为每人建立独立的未读接收记录
+        alt 本次发布者是系统管理员
+            System-->>Admin: 返回发布成功及接收人数
+        else 本次发布者是宿管
+            System-->>Manager: 返回发布成功及接收人数
+        else 本次为自动业务通知
+            System->>System: 记录通知已生成
+        end
+        opt 学生属于本条通知的接收范围
+            System-->>Student: 提示有新消息
+        end
+        opt 宿管属于本条通知的接收范围
+            System-->>Manager: 提示有新消息
+        end
+        opt 系统管理员属于本条通知的接收范围
+            System-->>Admin: 提示有新消息
+        end
+        opt 维修人员属于本条通知的接收范围
+            System-->>Worker: 提示有新消息
+        end
+    end
+
+    Note over Student,System: 下列分支只表示当前查看者，不能把他人的消息或已读状态一起返回
+    alt 学生查看本人消息
+        Student->>System: 查看本人消息列表并请求打开一条消息
+        System->>System: 核对接收归属，仅本人记录由未读改为已读
+        System-->>Student: 返回本人消息详情和已读结果；越权时拒绝
+    else 宿管查看本人消息
+        Manager->>System: 查看本人消息列表并请求打开一条消息
+        System->>System: 核对接收归属，仅本人记录由未读改为已读
+        System-->>Manager: 返回本人消息详情和已读结果；越权时拒绝
+    else 系统管理员查看本人消息
+        Admin->>System: 查看本人消息列表并请求打开一条消息
+        System->>System: 核对接收归属，仅本人记录由未读改为已读
+        System-->>Admin: 返回本人消息详情和已读结果；越权时拒绝
+    else 维修人员查看本人消息
+        Worker->>System: 查看本人消息列表并请求打开一条消息
+        System->>System: 核对接收归属，仅本人记录由未读改为已读
+        System-->>Worker: 返回本人消息详情和已读结果；越权时拒绝
+    end
+    Note over Student,System: 消息不属于查看者时拒绝读取和修改；每个用户的已读状态相互独立
+    Note over Manager,System: 同消息同用户只生成一条接收记录；重复打开保留首次已读时间，补发不重复生成记录

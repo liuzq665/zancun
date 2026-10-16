@@ -1,0 +1,317 @@
+<mxfile host="app.diagrams.net" agent="Claude">
+  <diagram name="宿舍管理系统-用户故事地图" id="dorm-management">
+    <mxGraphModel dx="1067" dy="671" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="4000" pageHeight="3000" math="0" shadow="0">
+      <root>
+        <mxCell id="1" />
+        <mxCell id="v1_header" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#C6EFCE;strokeColor=#97D7A4;fontSize=14;fontStyle=1;fontColor=#006100;align=center;container=0;" value="🟢 V1 MVP基础版本（必须实现）" vertex="1">
+          <mxGeometry height="40" width="590" x="30" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_role_student" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DDEBF7;strokeColor=#8EA9C1;fontSize=12;fontStyle=1;fontColor=#1F4E79;align=center;" value="学生角色" vertex="1">
+          <mxGeometry height="30" width="150" x="40" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_role_dorm" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E2EFDA;strokeColor=#A9D18E;fontSize=12;fontStyle=1;fontColor=#375623;align=center;" value="宿管角色" vertex="1">
+          <mxGeometry height="30" width="150" x="190" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_role_admin" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#F4B183;fontSize=12;fontStyle=1;fontColor=#843C0C;align=center;" value="系统管理员" vertex="1">
+          <mxGeometry height="30" width="150" x="340" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_header_checkin" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#BDD7EE;strokeColor=#2F75B6;fontSize=11;fontStyle=1;fontColor=#1F4E79;align=center;" value="入宿管理" vertex="1">
+          <mxGeometry height="100" width="120" x="500" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_checkin_student" parent="1" style="text;html=1;strokeColor=#8EA9C1;fillColor=#EBF3FB;fontSize=10;align=left;verticalAlign=top;" value="✅ 查看分配的宿舍、床位信息&lt;br&gt;✅ 查看宿友&lt;br&gt;✅ 申请退宿&lt;br&gt;&lt;br&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="150" x="40" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_checkin_dorm" parent="1" style="text;html=1;strokeColor=#A9D18E;fillColor=#F2F9EE;fontSize=10;align=left;verticalAlign=top;" value="✅ 查看学生的宿舍、床位信息&lt;br&gt;✅ 查看管辖楼栋宿舍床位&lt;br&gt;✅ 办理退宿登记" vertex="1">
+          <mxGeometry height="100" width="150" x="190" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_checkin_admin" parent="1" style="text;html=1;strokeColor=#F4B183;fillColor=#FEF5F0;fontSize=10;align=left;verticalAlign=top;" value="✅ 查看管理楼栋、宿舍、床位&lt;div&gt;✅ 分配学生的宿舍、床位信息&lt;br&gt;✅ 查询退宿记录&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="150" x="340" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_header_repair" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#BDD7EE;strokeColor=#2F75B6;fontSize=11;fontStyle=1;fontColor=#1F4E79;align=center;" value="报修管理" vertex="1">
+          <mxGeometry height="100" width="120" x="500" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_repair_student" parent="1" style="text;html=1;strokeColor=#8EA9C1;fillColor=#EBF3FB;fontSize=10;align=left;verticalAlign=top;" value="✅ 提交/撤销报修单、&lt;span style=&quot;color: rgb(128, 128, 128); font-style: italic;&quot;&gt;上传图片&lt;/span&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="150" x="40" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_repair_dorm" parent="1" style="text;html=1;strokeColor=#A9D18E;fillColor=#F2F9EE;fontSize=10;align=left;verticalAlign=top;" value="✅ 接收报修工单&lt;br&gt;&lt;span style=&quot;color: rgb(128, 128, 128); font-style: italic;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal;&quot;&gt;✅&lt;/span&gt;分配维修人员&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;✅ 查看管辖楼全部报修工单&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="150" x="190" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_repair_admin" parent="1" style="text;html=1;strokeColor=#F4B183;fillColor=#FEF5F0;fontSize=10;align=left;verticalAlign=top;" value="✅ 查看全部报修工单" vertex="1">
+          <mxGeometry height="100" width="150" x="340" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_header_vacation" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#BDD7EE;strokeColor=#2F75B6;fontSize=11;fontStyle=1;fontColor=#1F4E79;align=center;" value="假期留宿" vertex="1">
+          <mxGeometry height="100" width="120" x="500" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_vacation_student" parent="1" style="text;html=1;strokeColor=#8EA9C1;fillColor=#EBF3FB;fontSize=10;align=left;verticalAlign=top;" value="" vertex="1">
+          <mxGeometry height="100" width="150" x="40" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_vacation_dorm" parent="1" style="text;html=1;strokeColor=#A9D18E;fillColor=#F2F9EE;fontSize=10;align=left;verticalAlign=top;" value="" vertex="1">
+          <mxGeometry height="100" width="150" x="190" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_vacation_admin" parent="1" style="text;html=1;strokeColor=#F4B183;fillColor=#FEF5F0;fontSize=10;align=left;verticalAlign=top;" value="" vertex="1">
+          <mxGeometry height="100" width="150" x="340" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_header_water" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#BDD7EE;strokeColor=#2F75B6;fontSize=11;fontStyle=1;fontColor=#1F4E79;align=center;" value="水电管理" vertex="1">
+          <mxGeometry height="100" width="120" x="500" y="1120" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_water_student" parent="1" style="text;html=1;strokeColor=#8EA9C1;fillColor=#EBF3FB;fontSize=10;align=left;verticalAlign=top;" value="✅ 查看水电用量、剩余额度" vertex="1">
+          <mxGeometry height="100" width="150" x="40" y="1120" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_water_dorm" parent="1" style="text;html=1;strokeColor=#A9D18E;fillColor=#F2F9EE;fontSize=10;align=left;verticalAlign=top;" value="✅ 登记水电抄表数据&#xa;✅ 查看管辖宿舍水电数据" vertex="1">
+          <mxGeometry height="100" width="150" x="190" y="1120" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_water_admin" parent="1" style="text;html=1;strokeColor=#F4B183;fillColor=#FEF5F0;fontSize=9;align=left;verticalAlign=top;fontColor=#808080;fontStyle=2;" value="⏸️ V2再做：收费标准、抄表导入、账单统计、导出" vertex="1">
+          <mxGeometry height="100" width="150" x="340" y="1120" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_header_violation" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#BDD7EE;strokeColor=#2F75B6;fontSize=11;fontStyle=1;fontColor=#1F4E79;align=center;" value="违纪管理" vertex="1">
+          <mxGeometry height="100" width="120" x="500" y="1230" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_violation_student" parent="1" style="text;html=1;strokeColor=#8EA9C1;fillColor=#EBF3FB;fontSize=10;align=left;verticalAlign=top;" value="✅ 查看本人违纪记录" vertex="1">
+          <mxGeometry height="100" width="150" x="40" y="1230" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_violation_dorm" parent="1" style="text;html=1;strokeColor=#A9D18E;fillColor=#F2F9EE;fontSize=10;align=left;verticalAlign=top;" value="✅ 新增违纪记录&#xa;✅ 查询管辖学生违纪列表" vertex="1">
+          <mxGeometry height="100" width="150" x="190" y="1230" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_violation_admin" parent="1" style="text;html=1;strokeColor=#F4B183;fillColor=#FEF5F0;fontSize=10;align=left;verticalAlign=top;" value="✅ 查询全校违纪记录" vertex="1">
+          <mxGeometry height="100" width="150" x="340" y="1230" as="geometry" />
+        </mxCell>
+        <mxCell id="v1_note" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#C6EFCE;strokeColor=#97D7A4;fontSize=11;fontStyle=2;fontColor=#006100;align=center;" value="V1验收：整套核心业务跑通，可以投入试用" vertex="1">
+          <mxGeometry height="30" width="450" x="40" y="1030" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_role_student" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DDEBF7;strokeColor=#8EA9C1;fontSize=12;fontStyle=1;fontColor=#1F4E79;align=center;" value="学生角色" vertex="1">
+          <mxGeometry height="30" width="150" x="660" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_role_dorm" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E2EFDA;strokeColor=#A9D18E;fontSize=12;fontStyle=1;fontColor=#375623;align=center;" value="宿管角色" vertex="1">
+          <mxGeometry height="30" width="150" x="810" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_role_admin" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#F4B183;fontSize=12;fontStyle=1;fontColor=#843C0C;align=center;" value="系统管理员" vertex="1">
+          <mxGeometry height="30" width="150" x="960" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_header_checkin" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFE699;strokeColor=#FFBF00;fontSize=11;fontStyle=1;fontColor=#806000;align=center;" value="入宿管理" vertex="1">
+          <mxGeometry height="100" width="120" x="1120" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_checkin_student" parent="1" style="text;html=1;strokeColor=#8EA9C1;fillColor=#EBF3FB;fontSize=10;align=left;verticalAlign=top;fontColor=#808080;fontStyle=2;" value="&lt;div&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal;&quot;&gt;✅ 查看入住历史记录&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="150" x="660" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_checkin_dorm" parent="1" style="text;html=1;strokeColor=#A9D18E;fillColor=#F2F9EE;fontSize=10;align=left;verticalAlign=top;fontColor=#808080;fontStyle=2;" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal;&quot;&gt;✅&lt;/span&gt;&amp;nbsp;批量导出管辖楼入住信息" vertex="1">
+          <mxGeometry height="100" width="150" x="810" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_checkin_admin" parent="1" style="text;html=1;strokeColor=#F4B183;fillColor=#FEF5F0;fontSize=10;align=left;verticalAlign=top;fontColor=#808080;fontStyle=2;" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal;&quot;&gt;✅&lt;/span&gt;&amp;nbsp;批量学生宿舍分配&lt;br&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal;&quot;&gt;✅&lt;/span&gt;&amp;nbsp;批量导出入住信息&lt;br&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal;&quot;&gt;✅&lt;/span&gt;&amp;nbsp;全校入宿统计" vertex="1">
+          <mxGeometry height="100" width="150" x="960" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_header_repair" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFE699;strokeColor=#FFBF00;fontSize=11;fontStyle=1;fontColor=#806000;align=center;" value="报修管理" vertex="1">
+          <mxGeometry height="100" width="120" x="1120" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_repair_student" parent="1" style="text;html=1;strokeColor=#8EA9C1;fillColor=#EBF3FB;fontSize=10;align=left;verticalAlign=top;fontColor=#808080;fontStyle=2;" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal;&quot;&gt;✅&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;维修后确认评价&lt;br&gt;&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal;&quot;&gt;✅ 查看工单状态&lt;br&gt;✅ 查询历史报修记录&lt;/span&gt;" vertex="1">
+          <mxGeometry height="100" width="150" x="660" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_repair_dorm" parent="1" style="text;html=1;strokeColor=#A9D18E;fillColor=#F2F9EE;fontSize=10;align=left;verticalAlign=top;fontColor=#808080;fontStyle=2;" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal;&quot;&gt;✅&lt;/span&gt;&amp;nbsp;管辖楼报修情况统计&lt;br&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal;&quot;&gt;✅ 更新工单状态&lt;/span&gt;" vertex="1">
+          <mxGeometry height="100" width="150" x="810" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_repair_admin" parent="1" style="text;html=1;strokeColor=#F4B183;fillColor=#FEF5F0;fontSize=10;align=left;verticalAlign=top;fontColor=#808080;fontStyle=2;" value="&lt;div&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; background-color: transparent;&quot;&gt;✅&lt;/span&gt;&amp;nbsp;全部报修情况统计&lt;br&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal;&quot;&gt;✅&lt;/span&gt;&amp;nbsp;导出报修报表&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="150" x="960" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_header_vacation" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFE699;strokeColor=#FFBF00;fontSize=11;fontStyle=1;fontColor=#806000;align=center;" value="假期留宿" vertex="1">
+          <mxGeometry height="100" width="120" x="1120" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_vacation_student" parent="1" style="text;html=1;strokeColor=#8EA9C1;fillColor=#EBF3FB;fontSize=10;align=left;verticalAlign=top;" value="✅ 提交/撤销假期留宿申请&lt;br&gt;✅ 查看审批状态、结果&lt;br&gt;✅ 查看历史留宿记录" vertex="1">
+          <mxGeometry height="100" width="150" x="660" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_vacation_dorm" parent="1" style="text;html=1;strokeColor=#A9D18E;fillColor=#F2F9EE;fontSize=10;align=left;verticalAlign=top;fontColor=#808080;fontStyle=2;" value="&lt;div&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal;&quot;&gt;✅ 审核学生留宿申请&lt;/span&gt;&lt;br style=&quot;color: rgb(0, 0, 0); font-style: normal;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal;&quot;&gt;✅ 查看留宿人员名单&lt;/span&gt;&lt;/div&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal;&quot;&gt;✅&lt;/span&gt;&amp;nbsp;统计管辖楼留宿人数" vertex="1">
+          <mxGeometry height="100" width="150" x="810" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_vacation_admin" parent="1" style="text;html=1;strokeColor=#F4B183;fillColor=#FEF5F0;fontSize=10;align=left;verticalAlign=top;fontColor=#808080;fontStyle=2;" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal;&quot;&gt;✅ 查看全校留宿申请&lt;br&gt;&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; background-color: transparent;&quot;&gt;✅&lt;/span&gt;&amp;nbsp;导入留宿开放时间段&lt;br&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal;&quot;&gt;✅&lt;/span&gt;&amp;nbsp;导出留宿名单&lt;br&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal; background-color: transparent;&quot;&gt;✅&lt;/span&gt;&amp;nbsp;统计全部留宿人数&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="150" x="960" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_header_water" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFE699;strokeColor=#FFBF00;fontSize=11;fontStyle=1;fontColor=#806000;align=center;" value="水电管理" vertex="1">
+          <mxGeometry height="100" width="120" x="1120" y="1120" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_water_student" parent="1" style="text;html=1;strokeColor=#8EA9C1;fillColor=#EBF3FB;fontSize=10;align=left;verticalAlign=top;fontColor=#808080;fontStyle=2;" value="⏸️ 查看缴费记录、账单&#xa;⏸️ 余额不足提醒" vertex="1">
+          <mxGeometry height="100" width="150" x="660" y="1120" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_water_dorm" parent="1" style="text;html=1;strokeColor=#A9D18E;fillColor=#F2F9EE;fontSize=10;align=left;verticalAlign=top;fontColor=#808080;fontStyle=2;" value="⏸️ 查看欠费宿舍清单&#xa;⏸️ 下发欠费提醒" vertex="1">
+          <mxGeometry height="100" width="150" x="810" y="1120" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_water_admin" parent="1" style="text;html=1;strokeColor=#F4B183;fillColor=#FEF5F0;fontSize=9;align=left;verticalAlign=top;fontColor=#808080;fontStyle=2;" value="⏸️ 设置水电收费标准&#xa;⏸️ 批量导入抄表数据&#xa;⏸️ 账单及欠费统计&#xa;⏸️ 水电报表导出" vertex="1">
+          <mxGeometry height="100" width="150" x="960" y="1120" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_header_violation" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFE699;strokeColor=#FFBF00;fontSize=11;fontStyle=1;fontColor=#806000;align=center;" value="违纪管理" vertex="1">
+          <mxGeometry height="100" width="120" x="1120" y="1230" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_violation_student" parent="1" style="text;html=1;strokeColor=#8EA9C1;fillColor=#EBF3FB;fontSize=10;align=left;verticalAlign=top;fontColor=#808080;fontStyle=2;" value="⏸️ 查看违纪通知" vertex="1">
+          <mxGeometry height="100" width="150" x="660" y="1230" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_violation_dorm" parent="1" style="text;html=1;strokeColor=#A9D18E;fillColor=#F2F9EE;fontSize=10;align=left;verticalAlign=top;fontColor=#808080;fontStyle=2;" value="⏸️ 修改/撤销违纪记录&#xa;⏸️ 发布违纪通知" vertex="1">
+          <mxGeometry height="100" width="150" x="810" y="1230" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_violation_admin" parent="1" style="text;html=1;strokeColor=#F4B183;fillColor=#FEF5F0;fontSize=10;align=left;verticalAlign=top;fontColor=#808080;fontStyle=2;" value="⏸️ 维护违纪/处罚类型字典&#xa;⏸️ 违纪统计、导出报表" vertex="1">
+          <mxGeometry height="100" width="150" x="960" y="1230" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_header_common" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFE699;strokeColor=#FFBF00;fontSize=11;fontStyle=1;fontColor=#806000;align=center;" value="系统通用" vertex="1">
+          <mxGeometry height="100" width="120" x="1120" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_common_student" parent="1" style="text;html=1;strokeColor=#8EA9C1;fillColor=#EBF3FB;fontSize=10;align=left;verticalAlign=top;" value="" vertex="1">
+          <mxGeometry height="100" width="150" x="660" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_common_dorm" parent="1" style="text;html=1;strokeColor=#A9D18E;fillColor=#F2F9EE;fontSize=10;align=left;verticalAlign=top;" value="" vertex="1">
+          <mxGeometry height="100" width="150" x="810" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_common_admin" parent="1" style="text;html=1;strokeColor=#F4B183;fillColor=#FEF5F0;fontSize=10;align=left;verticalAlign=top;fontColor=#808080;fontStyle=2;" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal;&quot;&gt;✅&lt;/span&gt;&amp;nbsp;操作日志查看&lt;div&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-style: normal;&quot;&gt;✅ 数据备份&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="150" x="960" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="v2_note" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFEB9C;strokeColor=#FFBF00;fontSize=11;fontStyle=2;fontColor=#806000;align=center;" value="V2验收：完整覆盖需求文档，满足日常管理需求" vertex="1">
+          <mxGeometry height="30" width="450" x="660" y="1030" as="geometry" />
+        </mxCell>
+        <mxCell id="v3_header" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D9E1F2;strokeColor=#9DC3E6;fontSize=14;fontStyle=1;fontColor=#2F5597;align=center;" value="🔵 V3 进阶迭代（可选增值优化）" vertex="1">
+          <mxGeometry height="40" width="420" x="1280" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="v3_header_category" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#C5D5E8;strokeColor=#9DC3E6;fontSize=12;fontStyle=1;fontColor=#2F5597;align=center;" value="功能类别" vertex="1">
+          <mxGeometry height="30" width="120" x="1280" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="v3_role_all" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EDEDED;strokeColor=#BFBFBF;fontSize=12;fontStyle=1;fontColor=#666666;align=center;" value="所有角色" vertex="1">
+          <mxGeometry height="30" width="300" x="1400" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="v3_header_msg" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#C5D5E8;strokeColor=#9DC3E6;fontSize=11;fontStyle=1;fontColor=#2F5597;align=center;" value="消息升级" vertex="1">
+          <mxGeometry height="60" width="120" x="1280" y="1280" as="geometry" />
+        </mxCell>
+        <mxCell id="v3_msg_content" parent="1" style="text;html=1;strokeColor=#9DC3E6;fillColor=#EDF2F8;fontSize=10;align=left;verticalAlign=top;fontColor=#666699;fontStyle=2;" value="🔷 短信消息推送&#xa;🔷 公众号消息推送&#xa;（审批提醒、报修通知、欠费提醒）" vertex="1">
+          <mxGeometry height="60" width="300" x="1400" y="1280" as="geometry" />
+        </mxCell>
+        <mxCell id="v3_header_viz" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#C5D5E8;strokeColor=#9DC3E6;fontSize=11;fontStyle=1;fontColor=#2F5597;align=center;" value="可视化" vertex="1">
+          <mxGeometry height="60" width="120" x="1280" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="v3_viz_content" parent="1" style="text;html=1;strokeColor=#9DC3E6;fillColor=#EDF2F8;fontSize=10;align=left;verticalAlign=top;fontColor=#666699;fontStyle=2;" value="🔷 数据大屏展示&lt;br&gt;（入住率、换宿/报修//留宿统计）" vertex="1">
+          <mxGeometry height="60" width="300" x="1400" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="v3_header_auto" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#C5D5E8;strokeColor=#9DC3E6;fontSize=11;fontStyle=1;fontColor=#2F5597;align=center;" value="自动化业务" vertex="1">
+          <mxGeometry height="100" width="120" x="1280" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="v3_auto_content" parent="1" style="text;html=1;strokeColor=#9DC3E6;fillColor=#EDF2F8;fontSize=10;align=left;verticalAlign=top;fontColor=#666699;fontStyle=2;" value="🔷 假期留宿超时自动失效&lt;br&gt;🔷 自动给维修工派单&lt;div&gt;🔷 学生端智能客服&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="300" x="1400" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="v3_header_repair" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#C5D5E8;strokeColor=#9DC3E6;fontSize=11;fontStyle=1;fontColor=#2F5597;align=center;" value="报修拓展" vertex="1">
+          <mxGeometry height="60" width="120" x="1280" y="1100" as="geometry" />
+        </mxCell>
+        <mxCell id="v3_repair_content" parent="1" style="text;html=1;strokeColor=#9DC3E6;fillColor=#EDF2F8;fontSize=10;align=left;verticalAlign=top;fontColor=#666699;fontStyle=2;" value="🔷 维修人员独立账号&#xa;（维修人员登录接单、修改进度）" vertex="1">
+          <mxGeometry height="60" width="300" x="1400" y="1100" as="geometry" />
+        </mxCell>
+        <mxCell id="v3_header_violation" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#C5D5E8;strokeColor=#9DC3E6;fontSize=11;fontStyle=1;fontColor=#2F5597;align=center;" value="违纪拓展" vertex="1">
+          <mxGeometry height="80" width="120" x="1280" y="1360" as="geometry" />
+        </mxCell>
+        <mxCell id="v3_violation_content" parent="1" style="text;html=1;strokeColor=#9DC3E6;fillColor=#EDF2F8;fontSize=10;align=left;verticalAlign=top;fontColor=#666699;fontStyle=2;" value="🔷 违纪预警&#xa;（多次违纪学生标记提醒）&#xa;🔷 违纪处分流程流转" vertex="1">
+          <mxGeometry height="80" width="300" x="1400" y="1360" as="geometry" />
+        </mxCell>
+        <mxCell id="v3_header_mobile" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#C5D5E8;strokeColor=#9DC3E6;fontSize=11;fontStyle=1;fontColor=#2F5597;align=center;" value="移动端" vertex="1">
+          <mxGeometry height="60" width="120" x="1280" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="v3_mobile_content" parent="1" style="text;html=1;strokeColor=#9DC3E6;fillColor=#EDF2F8;fontSize=10;align=left;verticalAlign=top;fontColor=#666699;fontStyle=2;" value="🔷 小程序/H5开发&#xa;（学生、宿管手机端操作系统）" vertex="1">
+          <mxGeometry height="60" width="300" x="1400" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="v3_note" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D9E1F2;strokeColor=#9DC3E6;fontSize=11;fontStyle=2;fontColor=#2F5597;align=center;" value="V3验收：根据学校经费和需求选择实施" vertex="1">
+          <mxGeometry height="30" width="420" x="1280" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#BFBFBF;fontSize=12;fontStyle=1;fontColor=#333333;align=center;" value="图例" vertex="1">
+          <mxGeometry height="30" width="80" x="40" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_v1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#C6EFCE;strokeColor=#97D7A4;fontSize=10;fontColor=#006100;align=center;" value="✅ V1实现" vertex="1">
+          <mxGeometry height="30" width="100" x="130" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_v2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFEB9C;strokeColor=#FFBF00;fontSize=10;fontColor=#806000;align=center;" value="⏸️ V2待做" vertex="1">
+          <mxGeometry height="30" width="100" x="240" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_v3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D9E1F2;strokeColor=#9DC3E6;fontSize=10;fontColor=#2F5597;align=center;" value="🔷 V3可选" vertex="1">
+          <mxGeometry height="30" width="100" x="350" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_student" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DDEBF7;strokeColor=#8EA9C1;fontSize=10;fontColor=#1F4E79;align=center;" value="学生" vertex="1">
+          <mxGeometry height="30" width="80" x="460" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_dorm" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E2EFDA;strokeColor=#A9D18E;fontSize=10;fontColor=#375623;align=center;" value="宿管" vertex="1">
+          <mxGeometry height="30" width="80" x="550" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_admin" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#F4B183;fontSize=10;fontColor=#843C0C;align=center;" value="管理员" vertex="1">
+          <mxGeometry height="30" width="80" x="640" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="6QGbhFCBwlBXZkTN_xvw-2" parent="1" style="text;whiteSpace=wrap;html=1;" value="&lt;span style=&quot;color: rgb(68, 114, 196); font-family: Helvetica; font-size: 20px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 700; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(236, 236, 236); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;&quot;&gt;宿舍管理系统 - 用户故事地图&lt;/span&gt;" vertex="1">
+          <mxGeometry height="35.55555555555555" width="148.8495575221239" x="730.003185840708" y="29.99555555555557" as="geometry" />
+        </mxCell>
+        <mxCell id="6QGbhFCBwlBXZkTN_xvw-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#C6EFCE;strokeColor=#97D7A4;fontSize=14;fontStyle=1;fontColor=#006100;align=center;" value="🟢&amp;nbsp;&lt;span style=&quot;color: rgb(128, 96, 0);&quot;&gt;&amp;nbsp;V2 迭代完善（V1稳定后开发）&lt;/span&gt;" vertex="1">
+          <mxGeometry height="40" width="580" x="660" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="6QGbhFCBwlBXZkTN_xvw-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#C5D5E8;strokeColor=#9DC3E6;fontSize=11;fontStyle=1;fontColor=#2F5597;align=center;" value="水电拓展" vertex="1">
+          <mxGeometry height="80" width="120" x="1280" y="1180" as="geometry" />
+        </mxCell>
+        <mxCell id="6QGbhFCBwlBXZkTN_xvw-4" parent="1" style="text;html=1;strokeColor=#9DC3E6;fillColor=#EDF2F8;fontSize=10;align=left;verticalAlign=top;fontColor=#666699;fontStyle=2;" value="🔷 对接智能水电表&#xa;（自动采集读数，无需手动抄表）&#xa;🔷 线上缴费对接" vertex="1">
+          <mxGeometry height="80" width="300" x="1400" y="1180" as="geometry" />
+        </mxCell>
+        <mxCell id="6QGbhFCBwlBXZkTN_xvw-6" parent="1" style="text;html=1;strokeColor=#8EA9C1;fillColor=#EBF3FB;fontSize=11;align=left;verticalAlign=top;" value="&lt;div&gt;✅ 登录&lt;/div&gt;✅ 修改个人密码&lt;br&gt;✅ 查看个人信息" vertex="1">
+          <mxGeometry height="100" width="160" x="40" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="6QGbhFCBwlBXZkTN_xvw-7" parent="1" style="text;html=1;strokeColor=#A9D18E;fillColor=#F2F9EE;fontSize=11;align=left;verticalAlign=top;" value="&lt;div&gt;✅登录&lt;/div&gt;✅ 修改密码&lt;br&gt;✅ 查看管辖学生信息" vertex="1">
+          <mxGeometry height="100" width="148.85" x="191.14999999999998" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="6QGbhFCBwlBXZkTN_xvw-8" parent="1" style="text;html=1;strokeColor=#F4B183;fillColor=#FEF5F0;fontSize=10;align=left;verticalAlign=top;" value="&lt;div&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;✅登录&lt;/span&gt;&lt;/div&gt;✅ 添加/编辑/删除学生宿管账号&lt;br&gt;✅ 分配宿管负责楼栋&lt;br&gt;✅ 重置密码&lt;br&gt;✅ 启用/禁用账号" vertex="1">
+          <mxGeometry height="100" width="148.85" x="340" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="6QGbhFCBwlBXZkTN_xvw-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#BDD7EE;strokeColor=#2F75B6;fontSize=12;fontStyle=1;fontColor=#1F4E79;align=center;" value="账号管理" vertex="1">
+          <mxGeometry height="100" width="120" x="500" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="6QGbhFCBwlBXZkTN_xvw-10" parent="1" style="text;html=1;strokeColor=#8EA9C1;fillColor=#EBF3FB;fontSize=11;align=left;verticalAlign=top;" value="✅ 接收站内系统消息" vertex="1">
+          <mxGeometry height="100" width="148.85" x="40" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="6QGbhFCBwlBXZkTN_xvw-11" parent="1" style="text;html=1;strokeColor=#A9D18E;fillColor=#F2F9EE;fontSize=11;align=left;verticalAlign=top;" value="✅ 接收系统通知&lt;div&gt;✅ 管辖楼消息发送&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="148.85" x="190" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="6QGbhFCBwlBXZkTN_xvw-12" parent="1" style="text;html=1;strokeColor=#F4B183;fillColor=#FEF5F0;fontSize=11;align=left;verticalAlign=top;" value="✅ 系统消息发送学生/宿管" vertex="1">
+          <mxGeometry height="100" width="148.85" x="340" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="6QGbhFCBwlBXZkTN_xvw-9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#BDD7EE;strokeColor=#2F75B6;fontSize=12;fontStyle=1;fontColor=#1F4E79;align=center;" value="消息通知" vertex="1">
+          <mxGeometry height="100" width="120" x="500" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="6QGbhFCBwlBXZkTN_xvw-26" edge="1" parent="1" source="v3_header_msg" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1440" y="1230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6QGbhFCBwlBXZkTN_xvw-105" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#BDD7EE;strokeColor=#2F75B6;fontSize=11;fontStyle=1;fontColor=#1F4E79;align=center;" value="换宿管理" vertex="1">
+          <mxGeometry height="100" width="120" x="500" y="1340" as="geometry" />
+        </mxCell>
+        <mxCell id="6QGbhFCBwlBXZkTN_xvw-106" parent="1" style="text;html=1;strokeColor=#8EA9C1;fillColor=#EBF3FB;fontSize=10;align=left;verticalAlign=top;" value="✅ 发起换宿申请&#xa;✅ 查看换宿审批进度&#xa;✅ 接收审批结果通知&#xa;✅ 查看历史换宿记录" vertex="1">
+          <mxGeometry height="100" width="150" x="40" y="1340" as="geometry" />
+        </mxCell>
+        <mxCell id="6QGbhFCBwlBXZkTN_xvw-107" parent="1" style="text;html=1;strokeColor=#A9D18E;fillColor=#F2F9EE;fontSize=10;align=left;verticalAlign=top;" value="✅ 接收换宿申请、初审&#xa;✅ 查看空余床位&#xa;✅ 审批/驳回换宿&#xa;✅ 通过后更新床位信息" vertex="1">
+          <mxGeometry height="100" width="150" x="190" y="1340" as="geometry" />
+        </mxCell>
+        <mxCell id="6QGbhFCBwlBXZkTN_xvw-108" parent="1" style="text;html=1;strokeColor=#F4B183;fillColor=#FEF5F0;fontSize=10;align=left;verticalAlign=top;" value="✅ 查看全部换宿申请" vertex="1">
+          <mxGeometry height="100" width="150" x="340" y="1340" as="geometry" />
+        </mxCell>
+        <mxCell id="6QGbhFCBwlBXZkTN_xvw-109" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFE699;strokeColor=#FFBF00;fontSize=11;fontStyle=1;fontColor=#806000;align=center;" value="换宿管理" vertex="1">
+          <mxGeometry height="100" width="120" x="1120" y="1340" as="geometry" />
+        </mxCell>
+        <mxCell id="6QGbhFCBwlBXZkTN_xvw-110" parent="1" style="text;html=1;strokeColor=#8EA9C1;fillColor=#EBF3FB;fontSize=10;align=left;verticalAlign=top;" value="" vertex="1">
+          <mxGeometry height="100" width="150" x="660" y="1340" as="geometry" />
+        </mxCell>
+        <mxCell id="6QGbhFCBwlBXZkTN_xvw-111" parent="1" style="text;html=1;strokeColor=#A9D18E;fillColor=#F2F9EE;fontSize=10;align=left;verticalAlign=top;" value="" vertex="1">
+          <mxGeometry height="100" width="150" x="810" y="1340" as="geometry" />
+        </mxCell>
+        <mxCell id="6QGbhFCBwlBXZkTN_xvw-112" parent="1" style="text;html=1;strokeColor=#F4B183;fillColor=#FEF5F0;fontSize=10;align=left;verticalAlign=top;fontColor=#808080;fontStyle=2;" value="⏸️ 管理员终审流程&#xa;⏸️ 导出换宿数据" vertex="1">
+          <mxGeometry height="100" width="150" x="960" y="1340" as="geometry" />
+        </mxCell>
+        <mxCell id="I4tngJP1OEPjmt3ulv3U-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#BDD7EE;strokeColor=#2F75B6;fontSize=12;fontStyle=1;fontColor=#1F4E79;align=center;" value="消息通知" vertex="1">
+          <mxGeometry height="100" width="120" x="1120" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="I4tngJP1OEPjmt3ulv3U-6" parent="1" style="text;html=1;strokeColor=#8EA9C1;fillColor=#EBF3FB;fontSize=11;align=left;verticalAlign=top;" value="" vertex="1">
+          <mxGeometry height="100" width="148.85" x="660" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="I4tngJP1OEPjmt3ulv3U-7" parent="1" style="text;html=1;strokeColor=#A9D18E;fillColor=#F2F9EE;fontSize=11;align=left;verticalAlign=top;" value="&lt;span style=&quot;font-size: 10px;&quot;&gt;✅ 定时发送通知&lt;/span&gt;" vertex="1">
+          <mxGeometry height="100" width="148.85" x="810" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="I4tngJP1OEPjmt3ulv3U-8" parent="1" style="text;html=1;strokeColor=#F4B183;fillColor=#FEF5F0;fontSize=11;align=left;verticalAlign=top;" value="&lt;div&gt;&lt;span style=&quot;font-size: 10px;&quot;&gt;✅ 定时发送通知&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="148.85" x="960" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="I4tngJP1OEPjmt3ulv3U-71" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=#F4B183;fillColor=#FEF5F0;align=left;verticalAlign=top;rounded=0;fontFamily=Helvetica;fontSize=11;fontColor=default;gradientColor=none;" value="Text" vertex="1">
+          <mxGeometry height="30" width="60" x="1920" y="890" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

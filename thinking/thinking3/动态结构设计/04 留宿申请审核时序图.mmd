@@ -1,0 +1,135 @@
+sequenceDiagram
+    autonumber
+    actor Student as 学生
+    actor Manager as 宿管
+    actor Admin as 系统管理员
+    participant System as 系统
+
+    Admin->>System: 设置假期留宿的连续开放区间和全校说明
+    System->>System: 核对管理员权限、日期顺序和连续区间
+    alt 配置合法
+        System->>System: 保存并发布留宿批次
+        System-->>Admin: 配置发布成功
+        System-->>Manager: 通知留宿批次已发布
+        System-->>Student: 发布全校留宿说明
+    else 配置不合法
+        System-->>Admin: 拒绝发布并提示原因，修正成功后才能继续
+    end
+
+    opt 有效批次已发布，宿管设置本楼栋规则
+        Manager->>System: 设置申请截止时间、自动锁定规则并发布楼栋通知
+        System->>System: 核对楼栋管辖范围、批次有效性和截止时间
+        alt 规则合法
+            System->>System: 保存本楼栋申请规则，向符合条件的学生开放申请
+            System-->>Manager: 楼栋规则已发布
+            System-->>Student: 通知申请要求和截止时间
+        else 规则不合法
+            System-->>Manager: 拒绝发布并提示原因
+        end
+    end
+
+    opt 批次及楼栋申请入口已开放
+        Student->>System: 填写留宿日期段和事由，选择保存或提交
+        System->>System: 核对本人、在籍资格、截止时间、申请状态和锁定情况
+        System->>System: 核对日期在最新开放区间内且各段不重叠，首尾日均包含
+        alt 不符合资格、已锁定、越界、重叠或超过允许操作期限
+            System-->>Student: 不接受操作，提示原因
+        else 保存未提交编辑
+            System->>System: 保存草稿，首次为待编辑，已有申请保持原状态和期限
+            System-->>Student: 编辑已保存，不作为新的审核依据
+        else 正常提交或尚未锁定时重交
+            System->>System: 沿用同学生同批次的唯一申请，保存新提交版本，变为待审核
+            System-->>Student: 提交成功，尚未锁定时可按期限修改或撤回
+            System-->>Manager: 通知有新的已提交留宿申请
+        end
+    end
+
+    opt 学生申请撤回已提交但尚未锁定的申请
+        Student->>System: 撤回留宿申请
+        System->>System: 再检查仍为待审核、尚未锁定且未超过操作期限
+        alt 允许撤回
+            System->>System: 回到待编辑，保留已提交历史
+            System-->>Student: 撤回成功
+        else 已锁定或不在允许期限内
+            System-->>Student: 不允许撤回
+        end
+    end
+
+    opt 已提交申请仍为待审核
+        alt 宿管在截止前提前锁定
+            Manager->>System: 单独或批量锁定本楼栋申请
+        else 到达申请截止时间且启用自动锁定
+            System->>System: 自动检查需锁定的已提交申请
+        end
+        System->>System: 再检查申请状态及最新已提交内容
+        alt 仍允许锁定
+            System->>System: 锁定已提交版本，申请变为审核中
+            System-->>Manager: 通知可审核锁定版本
+            System-->>Student: 通知已锁定，不能继续修改
+        else 已撤回、已锁定或不满足条件
+            System->>System: 不重复锁定或覆盖其他操作
+        end
+    end
+
+    opt 尚为审核中，宿管申请合法取消锁定
+        Manager->>System: 为指定申请取消锁定并说明原因
+        System->>System: 核对楼栋权限、当前审核中状态、申请截止和例外授权
+        alt 未过截止，或具有该学生的个别例外授权
+            System->>System: 解除锁定，申请回到待审核，保留锁定历史
+            System-->>Manager: 取消锁定成功
+            System-->>Student: 通知可在允许期限内修改或撤回
+        else 无授权、已过截止或状态变化
+            System-->>Manager: 拒绝解锁，不绕过全体申请截止
+        end
+    end
+
+    loop 从首次审核到通过或逾期终止的审核轮次
+        opt 申请为审核中，复审时已到达该轮统一审核时间
+            Manager->>System: 查看锁定的提交版本并提交审核结论
+            System->>System: 核对楼栋权限、锁定版本、当前区间和审核参数
+            alt 越权、内容已变化或退回原因与重交期限缺失
+                System-->>Manager: 审核未生效并提示原因
+            else 审核通过
+                System->>System: 保存本轮审核历史，申请变为已通过，保持锁定
+                System-->>Manager: 审核通过
+                System-->>Student: 通知留宿已通过
+            else 审核不通过
+                System->>System: 保存原因及本轮重交期限，解锁并变为待修改
+                System-->>Manager: 审核结果已保存
+                System-->>Student: 通知修改原因和重新提交期限
+            end
+        end
+        opt 申请为待修改
+            alt 学生在本轮期限内重交
+                Student->>System: 修改原申请并重新提交
+                System->>System: 再检查本人、待修改状态、期限和最新日期规则
+                alt 重交合法
+                    System->>System: 保存新提交版本，立即锁定，申请变为审核中
+                    System-->>Student: 重交成功，不能再编辑
+                    System-->>Manager: 通知新版本已锁定，待本轮重交截止后统一复审
+                else 内容不合法、期限已过或状态变化
+                    System-->>Student: 拒绝重交并提示原因
+                end
+            else 本轮截止已到且仍未重交
+                System->>System: 再检查仍为待修改且确实逾期
+                alt 状态未变化且仍未按期重交
+                    System->>System: 归档并记录未按期重交原因，不生成已完成事实
+                    System-->>Student: 通知逾期未重交已归档
+                else 已合法重交或状态已变化
+                    System->>System: 不执行逾期归档
+                end
+            end
+        end
+    end
+
+    opt 已通过申请的最后日期段结束次日零点
+        System->>System: 再检查仍已通过、已到结束时间且没有未决区间复核
+        alt 满足完成条件
+            System->>System: 标记已完成，再归档，保留留宿历史
+            System-->>Student: 通知留宿已完成并归档
+        else 状态已变化、尚未结束或仍待复核
+            System->>System: 不执行完成归档
+        end
+    end
+    Note over Manager,System: 宿管仅审核已提交版本；保存未提交编辑不重置重交期限
+    Note over Student,System: 区间变更和逾期补录见 13 图；本流程不处理实际入住或提前离宿

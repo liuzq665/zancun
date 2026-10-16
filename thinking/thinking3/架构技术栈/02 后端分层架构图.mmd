@@ -1,0 +1,92 @@
+flowchart TB
+    request[HTTP 请求]
+
+    subgraph WEB[Web 接入层]
+        filter[认证过滤器 / 权限拦截器]
+        controller[Controller]
+        exception[全局异常处理]
+    end
+
+    subgraph DTO[数据传输层]
+        dto[Request DTO]
+        vo[Response VO]
+        result[统一响应 Result]
+    end
+
+    subgraph BIZ[业务服务层]
+        authService[账号权限 Service]
+        dormService[入宿基础 Service]
+        noticeService[消息通知 Service]
+        repairService[报修 Service]
+        stayService[假期留宿 Service]
+        statService[统计 Service]
+    end
+
+    subgraph DOMAIN[领域模型层]
+        entity[Entity 实体]
+        enums[状态枚举 / 角色枚举]
+        rule[业务规则对象]
+    end
+
+    subgraph PERSIST[持久化层]
+        mapper[Mapper 接口]
+        xml[SQL XML / 注解 SQL]
+    end
+
+    subgraph INFRA[基础设施层]
+        mysql[(MySQL)]
+        redis[(Redis 可选)]
+        fileStore[(文件存储)]
+        job[定时任务]
+        config[系统配置]
+    end
+
+    request --> filter
+    filter --> controller
+    controller --> dto
+    controller --> authService
+    controller --> dormService
+    controller --> noticeService
+    controller --> repairService
+    controller --> stayService
+    controller --> statService
+    authService --> entity
+    dormService --> entity
+    noticeService --> entity
+    repairService --> entity
+    stayService --> entity
+    statService --> entity
+    entity --> enums
+    repairService --> rule
+    stayService --> rule
+    authService --> mapper
+    dormService --> mapper
+    noticeService --> mapper
+    repairService --> mapper
+    stayService --> mapper
+    statService --> mapper
+    mapper --> xml
+    xml --> mysql
+    repairService --> fileStore
+    stayService --> fileStore
+    job --> repairService
+    job --> stayService
+    config --> authService
+    config --> repairService
+    config --> stayService
+    redis -.-> authService
+    controller --> vo
+    vo --> result
+    exception --> result
+
+    classDef web fill:#e8f4ff,stroke:#39739d,color:#111
+    classDef biz fill:#eaf8ea,stroke:#4f8a4f,color:#111
+    classDef domain fill:#fff4db,stroke:#b8860b,color:#111
+    classDef persist fill:#fce8e8,stroke:#b85450,color:#111
+    classDef infra fill:#f2eafa,stroke:#7b5ca7,color:#111
+
+    class filter,controller,exception web
+    class authService,dormService,noticeService,repairService,stayService,statService biz
+    class entity,enums,rule domain
+    class mapper,xml persist
+    class mysql,redis,fileStore,job,config infra

@@ -1,0 +1,376 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="用户故事地图" id="Ye1OeXt5DBgYnE7uZGEb">
+    <mxGraphModel dx="1691" dy="1929" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-1" parent="1" style="text;html=1;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;fontColor=#1F4E79;" value="宿舍管理系统·用户故事地图" vertex="1">
+          <mxGeometry height="32" width="2472" x="140" y="16" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-2" parent="1" style="rounded=0;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=14;fontStyle=1;verticalAlign=middle;align=center;" value="学生角色" vertex="1">
+          <mxGeometry height="30" width="632" x="140" y="56" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-3" parent="1" style="rounded=0;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;fontStyle=1;verticalAlign=middle;align=center;" value="账号管理" vertex="1">
+          <mxGeometry height="26" width="120" x="140" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-4" parent="1" style="rounded=0;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;fontStyle=1;verticalAlign=middle;align=center;" value="消息通知" vertex="1">
+          <mxGeometry height="26" width="120" x="268" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-5" parent="1" style="rounded=0;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;fontStyle=1;verticalAlign=middle;align=center;" value="入宿管理" vertex="1">
+          <mxGeometry height="26" width="120" x="396" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-6" parent="1" style="rounded=0;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;fontStyle=1;verticalAlign=middle;align=center;" value="报修管理" vertex="1">
+          <mxGeometry height="26" width="120" x="524" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-7" parent="1" style="rounded=0;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;fontStyle=1;verticalAlign=middle;align=center;" value="假期留宿" vertex="1">
+          <mxGeometry height="26" width="120" x="652" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-8" parent="1" style="rounded=0;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=14;fontStyle=1;verticalAlign=middle;align=center;" value="宿管角色" vertex="1">
+          <mxGeometry height="30" width="632" x="796" y="56" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-9" parent="1" style="rounded=0;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;fontStyle=1;verticalAlign=middle;align=center;" value="账号管理" vertex="1">
+          <mxGeometry height="26" width="120" x="796" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-10" parent="1" style="rounded=0;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;fontStyle=1;verticalAlign=middle;align=center;" value="消息通知" vertex="1">
+          <mxGeometry height="26" width="120" x="924" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-11" parent="1" style="rounded=0;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;fontStyle=1;verticalAlign=middle;align=center;" value="入宿管理" vertex="1">
+          <mxGeometry height="26" width="120" x="1052" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-12" parent="1" style="rounded=0;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;fontStyle=1;verticalAlign=middle;align=center;" value="报修管理" vertex="1">
+          <mxGeometry height="26" width="120" x="1180" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-13" parent="1" style="rounded=0;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;fontStyle=1;verticalAlign=middle;align=center;" value="假期留宿" vertex="1">
+          <mxGeometry height="26" width="120" x="1308" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-14" parent="1" style="rounded=0;html=1;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=14;fontStyle=1;verticalAlign=middle;align=center;" value="维修工角色" vertex="1">
+          <mxGeometry height="30" width="376" x="1452" y="56" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-15" parent="1" style="rounded=0;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;fontStyle=1;verticalAlign=middle;align=center;" value="账号管理" vertex="1">
+          <mxGeometry height="26" width="120" x="1452" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-16" parent="1" style="rounded=0;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;fontStyle=1;verticalAlign=middle;align=center;" value="消息通知" vertex="1">
+          <mxGeometry height="26" width="120" x="1580" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-17" parent="1" style="rounded=0;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;fontStyle=1;verticalAlign=middle;align=center;" value="维修工单" vertex="1">
+          <mxGeometry height="26" width="120" x="1708" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-18" parent="1" style="rounded=0;html=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=14;fontStyle=1;verticalAlign=middle;align=center;" value="系统管理员" vertex="1">
+          <mxGeometry height="30" width="760" x="1852" y="56" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-19" parent="1" style="rounded=0;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;fontStyle=1;verticalAlign=middle;align=center;" value="账号管理" vertex="1">
+          <mxGeometry height="26" width="120" x="1852" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-20" parent="1" style="rounded=0;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;fontStyle=1;verticalAlign=middle;align=center;" value="消息通知" vertex="1">
+          <mxGeometry height="26" width="120" x="1980" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-21" parent="1" style="rounded=0;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;fontStyle=1;verticalAlign=middle;align=center;" value="入宿管理" vertex="1">
+          <mxGeometry height="26" width="120" x="2108" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-22" parent="1" style="rounded=0;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;fontStyle=1;verticalAlign=middle;align=center;" value="报修管理" vertex="1">
+          <mxGeometry height="26" width="120" x="2236" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-23" parent="1" style="rounded=0;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;fontStyle=1;verticalAlign=middle;align=center;" value="假期留宿" vertex="1">
+          <mxGeometry height="26" width="120" x="2364" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-24" parent="1" style="rounded=0;html=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=12;fontStyle=1;verticalAlign=middle;align=center;" value="系统通用" vertex="1">
+          <mxGeometry height="26" width="120" x="2492" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-25" parent="1" style="rounded=0;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=12;fontStyle=1;whiteSpace=wrap;verticalAlign=middle;align=center;" value="V1&lt;br&gt;MVP基础版本&lt;br&gt;（必须实现）" vertex="1">
+          <mxGeometry height="207" width="100" x="20" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-26" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="登录" vertex="1">
+          <mxGeometry height="28" width="120" x="140" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-27" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="修改个人密码" vertex="1">
+          <mxGeometry height="28" width="120" x="140" y="172" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-28" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="查看个人信息，修改个人联系方式等基础信息" vertex="1">
+          <mxGeometry height="48" width="120" x="140" y="208" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-29" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="接收站内系统消息" vertex="1">
+          <mxGeometry height="28" width="120" x="268" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-30" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="接收待再次维修/维修完成通知" vertex="1">
+          <mxGeometry height="43" width="120" x="268" y="172" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-31" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="查看分配的宿舍、床位信息" vertex="1">
+          <mxGeometry height="43" width="120" x="396" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-32" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="查看宿友" vertex="1">
+          <mxGeometry height="28" width="120" x="396" y="187" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-33" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="登录" vertex="1">
+          <mxGeometry height="28" width="120" x="796" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-34" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="修改密码" vertex="1">
+          <mxGeometry height="28" width="120" x="796" y="172" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-35" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="查看管辖学生信息" vertex="1">
+          <mxGeometry height="28" width="120" x="796" y="208" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-36" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="接收系统通知" vertex="1">
+          <mxGeometry height="28" width="120" x="924" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-37" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="管辖楼栋消息发送" vertex="1">
+          <mxGeometry height="28" width="120" x="924" y="172" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-38" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="查看学生的宿舍、床位信息" vertex="1">
+          <mxGeometry height="43" width="120" x="1052" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-39" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="查看管辖楼栋宿舍床位" vertex="1">
+          <mxGeometry height="43" width="120" x="1052" y="187" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-40" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="登录" vertex="1">
+          <mxGeometry height="28" width="120" x="1452" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-41" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="修改密码" vertex="1">
+          <mxGeometry height="28" width="120" x="1452" y="172" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-42" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="查看个人信息" vertex="1">
+          <mxGeometry height="28" width="120" x="1452" y="208" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-43" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="登录" vertex="1">
+          <mxGeometry height="28" width="120" x="1852" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-44" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="添加/编辑/删除/查看学生、宿管、维修工账号" vertex="1">
+          <mxGeometry height="58" width="120" x="1852" y="172" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-45" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="分配宿管负责楼栋" vertex="1">
+          <mxGeometry height="28" width="120" x="1852" y="238" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-46" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="重置密码" vertex="1">
+          <mxGeometry height="28" width="120" x="1852" y="274" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-47" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="启用/禁用账号" vertex="1">
+          <mxGeometry height="28" width="120" x="1852" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-48" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="系统消息发送学生/宿管/维修工" vertex="1">
+          <mxGeometry height="43" width="120" x="1980" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-49" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="查看/管理维护楼栋、宿舍、床位" vertex="1">
+          <mxGeometry height="43" width="120" x="2108" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-50" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="分配学生的宿舍、床位信息" vertex="1">
+          <mxGeometry height="43" width="120" x="2108" y="187" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-51" parent="1" style="rounded=0;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=12;fontStyle=1;whiteSpace=wrap;verticalAlign=middle;align=center;" value="V2&lt;br&gt;迭代完善&lt;br&gt;（V1稳定后开发）" vertex="1">
+          <mxGeometry height="156" width="100" x="20" y="564" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-53" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="截止时间锁定前，可保存修改/提交/撤销假期留宿申请，提交后申请状态未待审核" vertex="1">
+          <mxGeometry height="48" width="120" x="652" y="574" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-54" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="查看申请状态：待审核、审核通过、已驳回" vertex="1">
+          <mxGeometry height="43" width="120" x="652" y="631" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-55" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="查看个人全部留宿记录" vertex="1">
+          <mxGeometry height="28" width="120" x="652" y="686" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-56" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="定时发送通知" vertex="1">
+          <mxGeometry height="28" width="120" x="924" y="574" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-57" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#999999" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;统计管辖楼入宿人数、床位等相关数据报表&lt;/span&gt;" vertex="1">
+          <mxGeometry height="48" width="120" x="1052" y="574" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-58" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="查看已提交的学生留宿申请" vertex="1">
+          <mxGeometry height="28" width="120" x="1308" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-59" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="查看管辖楼全部留宿人员名单" vertex="1">
+          <mxGeometry height="28" width="120" x="1308" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-60" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#999999" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;统计管辖楼留宿人数相关数据报表&lt;/span&gt;" vertex="1">
+          <mxGeometry height="28" width="120" x="1308" y="837" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-61" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="定时发送通知" vertex="1">
+          <mxGeometry height="28" width="120" x="1980" y="574" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-62" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="统计全校入宿人数、床位等相关数据报表" vertex="1">
+          <mxGeometry height="43" width="120" x="2108" y="575" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-63" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="查看全校全部留宿申请" vertex="1">
+          <mxGeometry height="28" width="120" x="2361" y="646" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-64" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#999999" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;设置留宿开放时间段&lt;/span&gt;" vertex="1">
+          <mxGeometry height="28" width="120" x="2361" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-65" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#999999" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;查看全校全部留宿名单&lt;/span&gt;" vertex="1">
+          <mxGeometry height="28" width="120" x="2361" y="682" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-66" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="统计全校留宿人数等相关数据报表" vertex="1">
+          <mxGeometry height="28" width="120" x="2361" y="718" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-67" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="操作日志查看" vertex="1">
+          <mxGeometry height="28" width="120" x="2492" y="574" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-68" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="数据备份" vertex="1">
+          <mxGeometry height="28" width="120" x="2492" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-69" parent="1" style="rounded=0;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=12;fontStyle=1;whiteSpace=wrap;verticalAlign=middle;align=center;" value="V3&lt;br&gt;进阶迭代&lt;br&gt;（可选增值优化）" vertex="1">
+          <mxGeometry height="121" width="100" x="20" y="968" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-70" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=10;verticalAlign=middle;fillColor=#EAF2FB;strokeColor=#6C8EBF;fontColor=#1F4E79;" value="◆&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 12px; font-weight: 700; text-align: center; white-space: nowrap;&quot;&gt;可视化&lt;/span&gt;&amp;nbsp;数据大屏展示&lt;br&gt;（入住率、换宿/报修/留宿统计）" vertex="1">
+          <mxGeometry height="48" width="376" x="2108" y="971" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-71" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=10;verticalAlign=middle;fillColor=#EAF2FB;strokeColor=#6C8EBF;fontColor=#1F4E79;" value="◆&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 12px; font-weight: 700; text-align: center; white-space: nowrap;&quot;&gt;移动端&lt;/span&gt;&amp;nbsp;小程序/H5开发&lt;br&gt;（学生、宿管、维修工手机端操作系统）" vertex="1">
+          <mxGeometry height="48" width="2472" x="140" y="1041" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-72" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#999999;strokeWidth=1;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="16" y="556" as="sourcePoint" />
+            <mxPoint x="2612" y="556" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-73" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#999999;strokeWidth=1;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="16" y="960" as="sourcePoint" />
+            <mxPoint x="2612" y="960" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-74" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#999999;strokeWidth=1;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="128" y="126" as="sourcePoint" />
+            <mxPoint x="128" y="773" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-75" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=10;verticalAlign=middle;fillColor=#EAF2FB;strokeColor=#6C8EBF;fontColor=#1F4E79;" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(31, 78, 121), rgb(142, 182, 219));&quot;&gt;◆&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 12px; font-weight: 700; white-space: nowrap; background-color: transparent;&quot;&gt;自动化业务&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(31, 78, 121), rgb(142, 182, 219));&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(31, 78, 121), rgb(142, 182, 219)); white-space: nowrap; font-size: 12px;&quot;&gt;&lt;font&gt;学生端智能客服&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="48" width="632" x="140" y="971" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-76" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=10;verticalAlign=middle;fillColor=#EAF2FB;strokeColor=#6C8EBF;fontColor=#1F4E79;" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(31, 78, 121), rgb(142, 182, 219));&quot;&gt;◆&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 12px; font-weight: 700; white-space: nowrap; background-color: transparent;&quot;&gt;自动化业务&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(31, 78, 121), rgb(142, 182, 219));&quot;&gt;&amp;nbsp;&lt;br&gt;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(31, 78, 121), rgb(142, 182, 219)); white-space: nowrap; font-size: 12px;&quot;&gt;&lt;font&gt;自动给维修工派单&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="43" width="120" x="1180" y="968" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-77" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="查看全校全部报修工单" vertex="1">
+          <mxGeometry height="28" width="120" x="2236" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-78" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="查看全校全部维修人员工单记录" vertex="1">
+          <mxGeometry height="28" width="120" x="2236" y="282" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-80" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="&lt;span style=&quot;font-size: 12px; text-align: center;&quot;&gt;填写报修工单，学生可保存修改、提交、撤销申请（进入审核后不可撤销），提交后工单状态为待审核&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="120" x="524" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-81" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="查看工单状态（待审核、待派单、已接单、维修延期、已维修、已驳回）" vertex="1">
+          <mxGeometry height="48" width="120" x="524" y="225.5" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-82" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="维修完成后，查看并确认维修结果（超时自动确认）" vertex="1">
+          <mxGeometry height="48" width="120" x="524" y="285" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-83" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="维修完成后，支持未修复则申请复修" vertex="1">
+          <mxGeometry height="43" width="120" x="524" y="397" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-84" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="对已确认的工单进行评分评价" vertex="1">
+          <mxGeometry height="43" width="120" x="524" y="344" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-87" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="接收并审核报修工单；&lt;br&gt;审核通过的工单可选择标记为紧急工单，工单状态为待派单；&lt;br&gt;审核不通过填写驳回原因，工单状态为已驳回" vertex="1">
+          <mxGeometry height="100" width="120" x="1181" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-88" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#999999" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;分配维修人员&lt;/span&gt;" vertex="1">
+          <mxGeometry height="28" width="120" x="1181" y="241" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-89" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="查看管辖楼栋全部报修工单（待审核、待派单、已接单、已维修、维修延时、已驳回）" vertex="1">
+          <mxGeometry height="70" width="120" x="1180" y="274" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-90" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="查看管辖楼栋全部工单评价" vertex="1">
+          <mxGeometry height="43" width="120" x="1181" y="351" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-91" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="统计管辖楼维修工单和评价相关数据报表" vertex="1">
+          <mxGeometry height="32" width="120" x="1180" y="574" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-92" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="接收新工单派单、超时未接工单、超时未处理工单、工单复修通知" vertex="1">
+          <mxGeometry height="58" width="120" x="1580" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-93" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="接收用户评价通知" vertex="1">
+          <mxGeometry height="28" width="120" x="1580" y="207" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-94" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="查看维修工单信息，接单/拒单（填写拒单原因）" vertex="1">
+          <mxGeometry height="43" width="120" x="1708" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-95" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="无法一次完成，工单状态变为维修延期，填写原因/预计时间" vertex="1">
+          <mxGeometry height="58" width="120" x="1708" y="186" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-96" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="维修完成后，上传维修结果、现场照片，工单状态变为已维修（转待学生确认）" vertex="1">
+          <mxGeometry height="48" width="120" x="1708" y="252" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-100" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="设置工单核心规则如超时工单判定标准等规则" vertex="1">
+          <mxGeometry height="43" width="120" x="2236" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-101" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="管理维护故障分类、维修工种、维修人员负责范围等系统基础数据" vertex="1">
+          <mxGeometry height="58" width="120" x="2236" y="187.5" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-102" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="统计全校全部报修工单和评价相关数据报表" vertex="1">
+          <mxGeometry height="48" width="120" x="2236" y="574" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-103" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="统计个人报修工单和评价相关数据报表" vertex="1">
+          <mxGeometry height="28" width="120" x="1708" y="574" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-104" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="设置留宿申请截止时间" vertex="1">
+          <mxGeometry height="28" width="120" x="1308" y="574" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-105" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="截止时间到后，可锁定学生留宿申请，锁定后学生无法修改编辑申请" vertex="1">
+          <mxGeometry height="58" width="120" x="1308" y="646" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-106" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="审核留宿申请；&lt;br&gt;审核通过，申请状态为审核通过；&lt;br&gt;审核未通过，填写驳回原因，申请状态为已驳回" vertex="1">
+          <mxGeometry height="80" width="120" x="1308" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-107" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#999999" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;设置留宿申请相关规范&lt;/span&gt;" vertex="1">
+          <mxGeometry height="28" width="120" x="2361" y="574" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-108" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="批量导入全校学生、宿管、维修人员账号" vertex="1">
+          <mxGeometry height="28" width="120" x="1852" y="574" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-109" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="批量导入全校楼栋、宿舍、床位信息" vertex="1">
+          <mxGeometry height="28" width="120" x="2108" y="661" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-110" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#999999" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;批量导出管辖楼入宿学生名单及学生宿舍床位信息&lt;/span&gt;" vertex="1">
+          <mxGeometry height="48" width="120" x="1052" y="628.5" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-111" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#999999" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;批量导出管辖楼留宿人员名单&lt;/span&gt;" vertex="1">
+          <mxGeometry height="28" width="120" x="1308" y="870" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-112" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#999999" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;批量导出全校留宿人员名单&lt;/span&gt;" vertex="1">
+          <mxGeometry height="28" width="120" x="2361" y="754" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-113" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="批量分配全校学生的宿舍、床位信息" vertex="1">
+          <mxGeometry height="28" width="120" x="2108" y="625" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-114" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#999999" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;批量导出全校入宿学生名单及学生宿舍床位信息&lt;/span&gt;" vertex="1">
+          <mxGeometry height="48" width="120" x="2108" y="698" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-115" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#999999" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;批量导出全校报修工单、评价、工单记录&lt;/span&gt;" vertex="1">
+          <mxGeometry height="32" width="120" x="2236" y="629" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-116" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#999999" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;批量导出管辖楼报修工单、评价、工单记录&lt;br&gt;&lt;/span&gt;" vertex="1">
+          <mxGeometry height="48" width="120" x="1180" y="615" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-117" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000" value="批量导出全校学生、宿管、维修人员账号" vertex="1">
+          <mxGeometry height="28" width="120" x="1852" y="615" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-118" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#999999" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;批量导出全校&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;楼栋、宿舍、床位信息&lt;/span&gt;" vertex="1">
+          <mxGeometry height="30" width="120" x="2108" y="753" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-119" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#999999" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;批量导出管辖楼&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;楼栋、宿舍、床位信息&lt;/span&gt;" vertex="1">
+          <mxGeometry height="30" width="120" x="1052" y="686" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-120" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="查看入住历史记录" vertex="1">
+          <mxGeometry height="28" width="120" x="396" y="225.5" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-122" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="查询个人全部报修工单" vertex="1">
+          <mxGeometry height="32" width="120" x="524" y="446" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-123" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="查询个人全部评价记录" vertex="1">
+          <mxGeometry height="30" width="120" x="524" y="489" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-124" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="查看个人全部工单" vertex="1">
+          <mxGeometry height="28" width="120" x="1708" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-125" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="查看个人全部工单记录（拒单记录、超时未接工单记录、超时未处理工单记录、重修工单记录）" vertex="1">
+          <mxGeometry height="70" width="120" x="1708" y="341" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-126" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="查看个人全部工单评价" vertex="1">
+          <mxGeometry height="28" width="120" x="1708" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="IWR9IRaGzxO6SuNUfRV9-127" parent="1" style="rounded=1;arcSize=14;whiteSpace=wrap;html=1;fontSize=11;align=left;spacingLeft=6;spacingRight=4;verticalAlign=middle;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#000000" value="查看全校全部工单评价" vertex="1">
+          <mxGeometry height="28" width="120" x="2236" y="320" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
