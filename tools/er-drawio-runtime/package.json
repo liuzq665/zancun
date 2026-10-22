@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "@viz-js/viz": "^3.31.0",
-    "mxgraph": "^4.2.2",
-    "playwright-core": "^1.64.0"
-  }
-}
